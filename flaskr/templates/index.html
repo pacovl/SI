@@ -8,15 +8,105 @@
 
     <body>
         <div class="Cabecera">
-            <iframe src="flaskr/templates/componentes/header.html"></iframe>
+          <div class="header">
+              <a href="{{url_for('index')}}">
+                  <img src="static/imgs/logo.jpg" alt ="Logo de Big Lemon" width=300 height=90>
+              </a>
+          </div>
+
+          <div class="cartpic">
+              <a href="{{url_for('index')}}">
+                  <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+              </a>
+          </div>
+
+          <div class="login_warning">
+              <p>¿Aún no te has registrado? <a href="register.html">Haz click aquí</a></p>
+          </div>
         </div>
 
         <div class="Centro">
                 <div class="Izquierda">
-                    <iframe src="flaskr/templates/componentes/side_menu.html"></iframe>
+                  <div class="side_menu">
+                      <!--Clase para la búsqueda-->
+                      <form action="/" method="POST">
+                        <input name="buscar" type="text" placeholder="Busca..">
+                        <input name="boton" type="submit" value="Buscar">
+                      </form>
+
+                      <!--Clase con la lista desplegable de categorías-->
+                      <div class="categories">
+                          <p>¡Busca tu categoría favorita!</p>
+                          <div class="lista_desplegable">
+                              <select>
+                                  <option value="Aventuras">Aventuras</option>
+                                  <option value="Comedia">Comedia</option>
+                                  <option value="Romántica">Romántica</option>
+                                  <option value="Acción">Acción</option>
+                              </select>
+                          </div>
+                      </div>
+
+                      <!--Clase para el botón de login-->
+                      <div class="login_button">
+                              <p>¡Inicie sesión para comprar!</p>
+                              <p>Nombre de usuario:</p>
+                              <input type="text" placeholder="username">
+                              <p>Contraseña:</p>
+                              <input type="text" placeholder="****">
+                              <p></p>
+                              <form style="display: inline" action="../index_logged.html" method="get" target="_parent">
+                      <button>Login</button>
+                    </form>
+
+                      </div>
+                  </div>
                 </div>
                 <div class="Derecha">
-                    <iframe src="flaskr/templates/componentes/main_page_unlog.html"></iframe>
+                  <!--Catalogo de peliculas-->
+                  <div class="catalogue">
+                    {% if seleccion[0] %}
+                      <div class="film1">
+                          <a href="{{url_for('detalle', pelicula=seleccion[0].titulo)}}" target="_parent">
+                              <img src="static/{{seleccion[0].poster}}" alt="img1" style="width:150px;height:200px;">
+                          </a>
+                          <p>{{seleccion[0].desc}}</p>
+                      </div>
+                      {% else %}
+                      <p>Error: No se han encontrado partidas</p>
+                      {% endif %}
+
+                      {%if seleccion[1] %}
+                      <div class="film2">
+                          <a href="{{url_for('detalle', pelicula=seleccion[1].titulo)}}" target="_parent">
+                              <img src="static/{{seleccion[1].poster}}" alt="img2" style="width:150px;height:200px;">
+                          </a>
+                          <p>{{seleccion[1].desc}}</p>
+                      </div>
+                      {% endif %}
+
+                      {% if seleccion[2] %}
+                      <div class="film3">
+                          <a href="{{url_for('detalle', pelicula=seleccion[2].titulo)}}" target="_parent">
+                              <img src="static/{{seleccion[2].poster}}" alt="img3" style="width:150px;height:200px;">
+                          </a>
+                          <p>{{seleccion[2].desc}}</p>
+                      </div>
+                      {% endif %}
+                  </div>
+
+                  <!--Flechas catalogo-->
+                  <div class = "sidescroll">
+                      <div class = "leftscroll">
+                          <a class="arrow">Anterior</a>
+                      </div>
+
+                      <div class = "rightscroll">
+                          <a class="arrow">Siguiente</a>
+                      </div>
+                  </div>
+
+              </div>
                  </div>
             </div>
 

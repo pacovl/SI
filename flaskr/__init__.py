@@ -34,27 +34,24 @@ def create_app(test_config=None):
         catalogo = json.load(f)
 
     #Definimos index.html
-    @app.route('/')
+    @app.route('/', methods=['POST', 'GET'])
     def index():
+        #Identificamos solicitudes post tras busqueda
+        if request.method == 'POST':
+            search = request.form['buscar']
+            #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
 
+            lista_filtrada = []
+            for pelicula in catalogo['peliculas']:
+                if pelicula["titulo"].find(search) != -1:
+                    lista_filtrada.append(pelicula)
+
+            if len(lista_filtrada) < 1:
+                return render_template('index.html', seleccion = catalogo["peliculas"][:3])
+            else:
+                return render_template('index.html', seleccion = lista_filtrada[:3])
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('layout.html', seleccion = catalogo["peliculas"][:5])
-
-    @app.route('/buscar/', methods=['POST'])
-    def busqueda():
-        search = request.form['buscar']
-
-        #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
-
-        lista_filtrada = []
-        for pelicula in catalogo['peliculas']:
-            if pelicula["titulo"].find(search) != -1:
-                lista_filtrada.append(pelicula)
-
-        if len(lista_filtrada) < 1:
-            return render_template('layout.html', seleccion = catalogo["peliculas"][:5])
-        else:
-            return render_template('layout.html', seleccion = lista_filtrada[:5])
+        return render_template('index.html', seleccion = catalogo["peliculas"][:3])
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
