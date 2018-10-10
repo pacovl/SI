@@ -10,11 +10,9 @@
     <div class="container">
       <ul>
         {% for pelicula in seleccion %}
-        <li><form action="/detalle/" method="POST">
-          <input name="pelicula" type="hidden" value="{{pelicula['id']}}">
-          <p>{{pelicula.titulo}}</p>
-          <input type="submit" value="✓">
-        </form></li>
+        <li>
+          <a href="{{ url_for('detalle', pelicula=pelicula.titulo) }}">{{pelicula.titulo}}</a>
+      </li>
         {% endfor %}
       </ul>
     </div>

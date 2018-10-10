@@ -26,7 +26,7 @@
         {
             "id": 1,
             "titulo": "Up",
-            "poster": "imgs/.jpg",
+            "poster": "imgs/up.jpg",
             "director": "Pete Docter",
             "precio": 10,
             "eitquetas": [
@@ -72,7 +72,7 @@
         {
             "id": 3,
             "titulo": "Interstellar",
-            "poster": "imgs/.jpg",
+            "poster": "imgs/interstellar.jpg",
             "director": "Christopher Nolan",
             "precio": 10,
             "eitquetas": [

@@ -56,22 +56,14 @@ def create_app(test_config=None):
         else:
             return render_template('layout.html', seleccion = lista_filtrada[:5])
 
-    @app.route('/detalle/', methods=['POST'])
+    @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
-
-        try:
-            if request.method == 'POST':
-                print("ESTOY AQUI")
-                id = request.form
-                print(id)
-                peli = catalogo["peliculas"][int(id)]
-                print(peli)
-
+        pelicula = request.args.get('pelicula')
+        for peli in catalogo["peliculas"]:
+            if peli['titulo'] == pelicula:
                 return render_template('componentes/new_details.html', seleccion=peli)
-        except:
-            #En caso de no encontrar (no deberia pasar nunca)
-            return url_for('index')
-        return url_for('index')
+
+        return "No se ha encontrado la pelicula"
 
 
 
