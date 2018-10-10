@@ -61,7 +61,7 @@ def create_app(test_config=None):
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('componentes/new_details.html', seleccion=peli)
+                return render_template('componentes/new_details.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5])
 
         return "No se ha encontrado la pelicula"
 
