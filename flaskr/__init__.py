@@ -46,16 +46,16 @@ def create_app(test_config=None):
                 if pelicula["titulo"].lower().find(search.lower()) != -1:
                     lista_filtrada.append(pelicula)
 
-            return render_template('index.html', seleccion = lista_filtrada[:3])
+            return render_template('new_index.html', seleccion = lista_filtrada[:3])
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('index.html', seleccion = catalogo["peliculas"][:3])
+        return render_template('new_index.html', seleccion = catalogo["peliculas"][:3])
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('componentes/new_details.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5])
+                return render_template('new_detalles.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5])
 
         return "No se ha encontrado la pelicula"
 

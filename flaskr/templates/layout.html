@@ -1,31 +1,34 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <title>MyFlaskApp</title>
-  </head>
-  <body>
-    <h1> TEST </h1>
-    {% if seleccion %}
-    <div class="container">
-      <ul>
-        {% for pelicula in seleccion %}
-        <li>
-          <a href="{{ url_for('detalle', pelicula=pelicula.titulo) }}">{{pelicula.titulo}}</a>
-      </li>
-        {% endfor %}
-      </ul>
-    </div>
-    {%else%}
-    <p> ERROR </p>
-    {% endif %}
+    <head>
+        <meta charset="UTF-8">
+        <title>THE BIG LEMON</title>
+        <link rel="stylesheet" href="static/estilos.css">
+    </head>
 
+    <body>
+        <div class="Cabecera">
+          {% block header %}
+          {% endblock %}
+        </div>
 
-    <form action="/" method="POST">
-      <input name="buscar" type="text" placeholder="Busca..">
-      <input name="boton" type="submit" value="Buscar">
-    </form>
+        <div class="Centro">
+                <div class="Izquierda">
+                  {% block izquierda %}
+                   {% endblock %}
+                </div>
+                <div class="Derecha">
+                  {% block derecha %}
+                  {% endblock %}
 
+              </div>
+                 </div>
+            </div>
 
-  </body>
+        <div class="Pie">
+                  {% block footer %}
+                  {% endblock %}
+        </div>
+
+    </body>
 </html>
