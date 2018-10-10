@@ -30,7 +30,7 @@ def create_app(test_config=None):
         pass
 
     #Aqui obtenemos el catalogo
-    with open('flaskr/catalogo.json') as f:
+    with open('catalogo.json') as f:
         catalogo = json.load(f)
 
     #Definimos index.html
@@ -61,22 +61,26 @@ def create_app(test_config=None):
 
         try:
             if request.method == 'POST':
-                peli = request.form['pelicula']
+                print("ESTOY AQUI")
+                id = request.form
+                print(id)
+                peli = catalogo["peliculas"][int(id)]
+                print(peli)
 
                 return render_template('componentes/new_details.html', seleccion=peli)
         except:
             #En caso de no encontrar (no deberia pasar nunca)
-            return url_for(index)
-        return url_for(index)
-                    
+            return url_for('index')
+        return url_for('index')
 
-        
+
+
     # #Definimos index_logged.html
     # @app.route('/index_logged.html')
     # def index_logged():
     #     #Pasamos la lista de peliculas para obtener los datos en seleccion
     #     return render_template('index_logged.html',  seleccion=catalogo["peliculas"])
-        
+
     # @app.route('/details_logged')
     # def details_logged(filmname):
     #     #Tratamos de encontrar la pelicula en la lista de peliculas
@@ -85,7 +89,7 @@ def create_app(test_config=None):
     #         return render_template('index_logged.html', seleccion=catalogo["peliculas"])
     #     else:
     #         return render_template('details_logged.html', pelicula = pelis[0])
-            
+
     # @app.route('/details_unlogged')
     # def details_unlogged(request):
     #     #Tratamos de encontrar la pelicula en la lista de peliculas
@@ -96,4 +100,7 @@ def create_app(test_config=None):
     #         return render_template('details_unlogged.html', pelicula = pelis[0])
 
     return app
-        
+
+if __name__ == '__main__':
+    app = create_app()
+    app.run()

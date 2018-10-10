@@ -1,6 +1,7 @@
 {
     "peliculas": [
         {
+            "id": 0,
             "titulo": "Avatar",
             "poster": "imgs/avatar.jpg",
             "director": "James Cameron",
@@ -23,6 +24,7 @@
             ]
         },
         {
+            "id": 1,
             "titulo": "Up",
             "poster": "imgs/.jpg",
             "director": "Pete Docter",
@@ -45,6 +47,7 @@
             ]
         },
         {
+            "id": 2,
             "titulo": "Infiltrados",
             "poster": "imgs/infiltrados.jpg",
             "director": "Martin Scorsese",
@@ -67,6 +70,7 @@
             ]
         },
         {
+            "id": 3,
             "titulo": "Interstellar",
             "poster": "imgs/.jpg",
             "director": "Christopher Nolan",
@@ -90,6 +94,7 @@
             ]
         },
         {
+            "id": 4,
             "titulo": "Cadena perpetua",
             "poster": "imgs/cadena_perpetua.jpg",
             "director": "Frank Darabont",
@@ -111,6 +116,7 @@
             ]
         },
         {
+            "id": 5,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -133,6 +139,7 @@
             ]
         },
         {
+            "id": 6,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -155,6 +162,7 @@
             ]
         },
         {
+            "id": 7,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -177,6 +185,7 @@
             ]
         },
         {
+            "id": 8,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -199,6 +208,7 @@
             ]
         },
         {
+            "id": 9,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -221,6 +231,7 @@
             ]
         },
         {
+            "id": 10,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -243,6 +254,7 @@
             ]
         },
         {
+            "id": 11,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -265,6 +277,7 @@
             ]
         },
         {
+            "id": 12,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -287,6 +300,7 @@
             ]
         },
         {
+            "id": 13,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -309,6 +323,7 @@
             ]
         },
         {
+            "id": 14,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -331,28 +346,7 @@
             ]
         },
         {
-            "titulo": "",
-            "poster": "imgs/.jpg",
-            "director": "",
-            "precio": 10,
-            "eitquetas": [
-                "",
-                ""
-            ],
-            "anno": 20, 
-            "desc": "",
-            "actores": [
-                {
-                    "nombre": "",
-                    "personaje": ""
-                },
-                {
-                    "nombre": "",
-                    "personaje": ""
-                }
-            ]
-        },
-        {
+            "id": 15,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -375,6 +369,7 @@
             ]
         },
         {
+            "id": 16,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",
@@ -397,6 +392,30 @@
             ]
         },
         {
+            "id": 17,
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "id": 18,
             "titulo": "",
             "poster": "imgs/.jpg",
             "director": "",

@@ -11,9 +11,9 @@
       <ul>
         {% for pelicula in seleccion %}
         <li><form action="/detalle/" method="POST">
-          <input name="pelicula" type="hidden" value="{{pelicula}}">
+          <input name="pelicula" type="hidden" value="{{pelicula['id']}}">
           <p>{{pelicula.titulo}}</p>
-          <input type="submit" value="✓" />
+          <input type="submit" value="✓">
         </form></li>
         {% endfor %}
       </ul>
