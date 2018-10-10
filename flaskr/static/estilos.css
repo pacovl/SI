@@ -8,16 +8,6 @@
     font-size: 15px;
 }
 
-/*.header_content {
-    position: absolute;
-    background-color: rgb(133, 133, 133);
-    color: gold;
-    text-align: center;
-    width: 100%;
-    height: 100%;
-    font-size: 10px;
-}*/
-
 .header_img {
     background-color: rgb(133, 133, 133);
     margin: auto;
@@ -57,7 +47,7 @@
 }
 
 /* Seccion para el pie de pagina */
-.Pie{
+.Pie {
     position: fixed;
     bottom: 0px;
     left: 0px;
@@ -108,7 +98,8 @@
 .sidescroll {
     position: absolute;
     padding: 1rem;
-    width: 90%;
+    margin: 10px;
+    width: 100%;
     height: 20%;
     bottom: 60px;
     left: 0;
@@ -156,7 +147,7 @@
     display: block;
 }
 
-.search{
+.search {
     padding: 10px;
     margin: auto;
     margin-bottom: 50px;
@@ -164,15 +155,15 @@
     display: block;
 }
 
-.login_button{
-    padding: 10px;
+.login_button {
+    /* padding: 10px;
     margin-right: auto;
     margin-left: auto;
     margin-bottom: 80px;
     width: 60%;
-    display: block;
+    display: block; */
 }
-.history_button{
+.history_button {
     padding: 1rem;
     margin: auto;
     margin-bottom: 50px;
@@ -180,12 +171,13 @@
     display: block;
 }
 
-.categories{
-    margin: auto;
+.categories {
+    /* margin: auto;
     margin-bottom: 50px;
     padding: 1rem;
     width: 90%;
-    display: block;
+    display: block; */
+    font-size: 12px;
 }
 
 /*Consideraciones generales */
@@ -200,7 +192,7 @@ html {
     color: #CCC;
   }
 
-body{
+body {
     font-family: helvetica;
     background: rgb(205, 230, 230);
     color: rgb(0, 0, 0);
@@ -239,7 +231,7 @@ body{
 
 /*A PARTIR DE AQU� ES LO DE LOS IFRAMES*/
 
-iframe{
+iframe {
     width: 100%;
     height: 100%;
     border:none;
@@ -249,7 +241,7 @@ iframe{
 
 /*Estilo para iframes de la web*/
 
-.Cabecera{
+.Cabecera {
     position: fixed;
     width: 100%;
     height: 100px;
@@ -260,7 +252,7 @@ iframe{
 }
 
 
-.Registro{
+.Registro {
     margin: auto;
     color: gold;
     background-color: rgb(133, 133, 133);
@@ -269,7 +261,7 @@ iframe{
     height: 90%;
 }
 
-.Centro{
+.Centro {
     position: absolute;
     top: 100px;
     bottom: 40px;
@@ -278,7 +270,7 @@ iframe{
     overflow: hidden;
 }
 
-.Izquierda{
+.Izquierda {
     position: absolute;
     width: 25%;
     height: 100%;
@@ -286,12 +278,13 @@ iframe{
     overflow: hidden;
 }
 
-.Derecha{
+.Derecha {
     position: absolute;
+    background-color: rgb(219, 235, 240);
     width: 75%;
     height: 100%;
     right: 0px;
-    overflow: hidden;
+    overflow: auto;
 }
 
 /* Para la pagina de Detalles */

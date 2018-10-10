@@ -1,34 +1,33 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>THE BIG LEMON</title>
-        <link rel="stylesheet" href="static/estilos.css">
-    </head>
 
-    <body>
-        <div class="Cabecera">
-          {% block header %}
-          {% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <title>THE BIG LEMON</title>
+    <link rel="stylesheet" href="static/estilos.css">
+</head>
+
+<body>
+    <div class="Cabecera">
+        {% block header %}
+        {% endblock %}
+    </div>
+
+    <div class="Centro">
+        <div class="Izquierda">
+            {% block izquierda %}
+            {% endblock %}
         </div>
-
-        <div class="Centro">
-                <div class="Izquierda">
-                  {% block izquierda %}
-                   {% endblock %}
-                </div>
-                <div class="Derecha">
-                  {% block derecha %}
-                  {% endblock %}
-
-              </div>
-                 </div>
-            </div>
-
-        <div class="Pie">
-                  {% block footer %}
-                  {% endblock %}
+        <div class="Derecha">
+            {% block derecha %}
+            {% endblock %}
         </div>
+    </div>
 
-    </body>
+    <div class="Pie">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</body>
+
 </html>
