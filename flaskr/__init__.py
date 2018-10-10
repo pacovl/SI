@@ -43,13 +43,10 @@ def create_app(test_config=None):
 
             lista_filtrada = []
             for pelicula in catalogo['peliculas']:
-                if pelicula["titulo"].find(search) != -1:
+                if pelicula["titulo"].lower().find(search.lower()) != -1:
                     lista_filtrada.append(pelicula)
 
-            if len(lista_filtrada) < 1:
-                return render_template('index.html', seleccion = catalogo["peliculas"][:3])
-            else:
-                return render_template('index.html', seleccion = lista_filtrada[:3])
+            return render_template('index.html', seleccion = lista_filtrada[:3])
         #Pasamos la lista de peliculas para obtener los datos en seleccion
         return render_template('index.html', seleccion = catalogo["peliculas"][:3])
 
