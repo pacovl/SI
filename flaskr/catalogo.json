@@ -1,0 +1,422 @@
+{
+    "peliculas": [
+        {
+            "titulo": "Avatar",
+            "poster": "imgs/avatar.jpg",
+            "director": "James Cameron",
+            "precio": 10,
+            "anno": 2009,
+            "desc": "Un señor militar se vuelve azul y alucina con un mundo alienígena",
+            "etiquetas": [
+                    "ciencia ficcion",
+                    "espacio"
+            ],
+            "actores": [
+                {
+                    "nombre": "Zoe Saldana",
+                    "personaje": "Neytiri"
+                },
+                {
+                    "nombre": "Sam Worthington",
+                    "personaje": "Jake Sully"
+                }
+            ]
+        },
+        {
+            "titulo": "Up",
+            "poster": "imgs/.jpg",
+            "director": "Pete Docter",
+            "precio": 10,
+            "eitquetas": [
+                "animacion",
+                "infantil"
+            ],
+            "anno": 2009,
+            "desc": "A veces para superar estar viejo y amargado necesitas un niño buscador de gamusinos",
+            "actores": [
+                {
+                    "nombre": "Edward Asner",
+                    "personaje": "Carl Fredricksen"
+                },
+                {
+                    "nombre": "Christopher Plummer",
+                    "personaje": "Charles Muntz"
+                }
+            ]
+        },
+        {
+            "titulo": "Infiltrados",
+            "poster": "imgs/infiltrados.jpg",
+            "director": "Martin Scorsese",
+            "precio": 10,
+            "eitquetas": [
+                "policiaca",
+                "premiada"
+            ],
+            "anno": 2006,
+            "desc": "Una de polis y ladrones en la que nadie sabe qué está pasando y todos mueren",
+            "actores": [
+                {
+                    "nombre": " Leonardo DiCaprio",
+                    "personaje": "Billy"
+                },
+                {
+                    "nombre": "Matt Damon",
+                    "personaje": "Colin Sullivan"
+                }
+            ]
+        },
+        {
+            "titulo": "Interstellar",
+            "poster": "imgs/.jpg",
+            "director": "Christopher Nolan",
+            "precio": 10,
+            "eitquetas": [
+                "espacio",
+                "drama",
+                "aventura"
+            ],
+            "anno": 2014,
+            "desc": "Un grupo de exploradores hacen uso de un orificio recién descubierto para superar las limitaciones de los viajes espaciales humanos y conquistar las vastas distancias relacionadas con los viajes interestelares.",
+            "actores": [
+                {
+                    "nombre": "Ellen Burstyn",
+                    "personaje": "Murph (mayor)"
+                },
+                {
+                    "nombre": "Matthew McConaughe",
+                    "personaje": "Cooper"
+                }
+            ]
+        },
+        {
+            "titulo": "Cadena perpetua",
+            "poster": "imgs/cadena_perpetua.jpg",
+            "director": "Frank Darabont",
+            "precio": 10,
+            "eitquetas": [
+                "drama"
+            ],
+            "anno": 1994,
+            "desc": "Un hombre inocente es enviado a una corrupta penitenciaria de Maine en 1947 y sentenciado a dos cadenas perpetuas por un doble asesinato.",
+            "actores": [
+                {
+                    "nombre": "Tim Robbins",
+                    "personaje": "Andy Dufresne"
+                },
+                {
+                    "nombre": "Morgan Freeman",
+                    "personaje": "Ellis Boyd 'Red' Redding"
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20, 
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        },
+        {
+            "titulo": "",
+            "poster": "imgs/.jpg",
+            "director": "",
+            "precio": 10,
+            "eitquetas": [
+                "",
+                ""
+            ],
+            "anno": 20,
+            "desc": "",
+            "actores": [
+                {
+                    "nombre": "",
+                    "personaje": ""
+                },
+                {
+                    "nombre": "",
+                    "personaje": ""
+                }
+            ]
+        }
+    ]
+}

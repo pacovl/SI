@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>side_menu.html</title>
+        <link rel="stylesheet" href="../style/estilos.css">
+    </head>
+
+    <body>
+        <div class="side_menu">
+            <!--Clase para la búsqueda-->
+            <div class="search">
+                    <p>¡Busque sus películas favoritas!</p>
+                    <input type="text" placeholder="Search..">
+            </div>
+
+            <!--Clase con la lista desplegable de categorías-->
+            <div class="categories">
+                <p>¡Busca tu categoría favorita!</p>
+                <div class="lista_desplegable">
+                    <select>
+                        <option value="Aventuras">Aventuras</option>
+                        <option value="Comedia">Comedia</option>
+                        <option value="Romántica">Romántica</option>
+                        <option value="Acción">Acción</option>
+                    </select>
+                </div>
+            </div>
+
+            <!--Clase para el botón de login-->
+            <div class="login_button">
+                    <p>¡Inicie sesión para comprar!</p>
+                    <p>Nombre de usuario:</p>
+                    <input type="text" placeholder="username">
+                    <p>Contraseña:</p>
+                    <input type="text" placeholder="****">
+                    <p></p>
+                    <form style="display: inline" action="../details_logged.html" method="get" target="_parent">
+						<button>Login</button>
+					</form>
+
+            </div>
+        </div>
+    </body>
+</html>
