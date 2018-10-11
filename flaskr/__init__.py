@@ -29,9 +29,15 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    #Aqui obtenemos el catalogo
+    #Aqui obtenemos el catalogo y las categorias
     with open('catalogo.json') as f:
         catalogo = json.load(f)
+        categorias = []
+        for peli in catalogo["peliculas"]:
+            for cat in peli["etiquetas"]:
+                if(cat and (cat not in categorias)):
+                    categorias.append(cat)
+        print(categorias)
 
     #Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
