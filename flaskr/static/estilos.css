@@ -330,7 +330,10 @@ iframe {
 .flex-container-wrap {
     display: flex;
     flex-flow: row wrap;
-    text-align: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 50px;
+    top: 0;
 }
 .flex-container-wrap > div {
     margin: 10px;
@@ -400,4 +403,49 @@ iframe {
 
 .film {
     width: 250px;
+    text-align: center;
+}
+
+.portada {
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+.portada:hover {
+    background-color: rgba(77, 155, 125, 0.575);
+}
+
+.portada:hover .overlay {
+    opacity: 0.8;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(133, 133, 133);
+}
+
+.descPortada {
+    color: gold;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.botonesIndex {
+    position: absolute;
+    bottom: 0;
+    height: 25px;
 }

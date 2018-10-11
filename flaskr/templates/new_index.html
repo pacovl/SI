@@ -82,15 +82,26 @@
   <div class="flex-container-wrap">
     {% for peli in seleccion %}
     <div class=film>
-      <h2>{{peli.titulo}}</h2>
-      <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
-        <img src="static/{{peli.poster}}" alt="img1" style="width:150px;height:200px;">
-      </a>
-      {% if peli.desc|length < 128 %}
+      {% if peli.titulo|length < 20 %}
+        <h2>{{peli.titulo}}</h2>
+      {% else %}
+      <div title="{{peli.titulo}}">
+        <h2>{{peli.titulo[:18] + '...'}}</h2>
+      </div>
+      {% endif %}
+      <div class="portada">
+        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+          <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px"">
+          <div class="overlay">
+              <div class="descPortada"><b>{{peli.desc}}</b></div>
+          </div>
+        </a>
+      </div>
+      <!--{% if peli.desc|length < 128 %}
         <p>{{peli.desc}}</p>
       {% else %}
         <p>{{peli.desc[:128] + '...'}}</p>
-      {% endif %}
+      {% endif %}-->
     </div>
     {% endfor %}
 
@@ -131,7 +142,7 @@
 {% endif %}
 
 <!--Flechas catalogo-->
-<!-- <div class="sidescroll">
+<div class="botonesIndex">
   <div class="leftscroll">
     <a class="arrow">Anterior</a>
   </div>
@@ -139,7 +150,7 @@
   <div class="rightscroll">
     <a class="arrow">Siguiente</a>
   </div>
-</div> -->
+</div> 
 {% else %}
 <p class="centre">No se han encontrado peliculas </p>
 {% endif %}
