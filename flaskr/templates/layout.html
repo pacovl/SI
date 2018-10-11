@@ -1,19 +1,12 @@
 <!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <title>THE BIG LEMON</title>
-    <link rel="stylesheet" href="static/estilos.css">
-</head>
+{% extends 'base.html' %}
 
-<body>
-    <div class="Cabecera">
-        {% block header %}
-        {% endblock %}
-    </div>
+    {% block title %}
+    BigLemon
+    {% endblock %}
 
-    <div class="Centro">
+    {% block centro %}
         <div class="Izquierda">
             {% block izquierda %}
             {% endblock %}
@@ -22,12 +15,4 @@
             {% block derecha %}
             {% endblock %}
         </div>
-    </div>
-
-    <div class="Pie">
-        {% block footer %}
-        {% endblock %}
-    </div>
-</body>
-
-</html>
+    {% endblock %}

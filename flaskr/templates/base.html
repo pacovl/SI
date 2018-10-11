@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="static/estilos.css">
+</head>
+
+<body>
+  <div class="Cabecera">
+      {% block header %}
+      {% endblock %}
+  </div>
+
+    <div class="Centro">
+      {% block centro %}
+      {% endblock %}
+    </div>
+
+    <div class="Pie">
+        {% block footer %}
+        {% endblock %}
+    </div>
+</body>
+
+</html>

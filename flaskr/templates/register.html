@@ -1,45 +1,45 @@
 <!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Registration</title>
-        <link rel="stylesheet" href="style/estilos.css">
-    </head>
 
-    <body>
-        <div class="Cabecera">
-            <iframe src="componentes/header.html"></iframe>
-        </div>
+{% extends 'base.html' %}
 
-        <div class="Centro">
+{% block title %}
+  Registro - BigLemon
+{% endblock %}
 
-            <div class="Registro">
-                <h2>¡Regístrese para disfrutar al máximo de The Big Lemon!</h2>
-                <p>Nombre de usuario:</p>
-                <input type="text" placeholder="username">
-                <p>Contraseña:</p>
-                <input type="text" placeholder="****">
-                <p>Tarjeta de Crédito</p>
-                <input type="text" placeholder="ABCD-EFGH...">
-                <p>Sexo:</p>
-                <select>
-                        <option value="M">M</option>
-                        <option value="F">F</option>
-                        <option value="NB">NB</option>
-                        <option value="Otro">Otro</option>
-                </select>
-                <p></p>
-                <form style="display: inline" action="index_logged.html" method="get" target="_parent">
-					<button>¡Registrar!</button>
-                </form>
-            </div>
-        </div>
+{% block header %}
+<div class="header">
+  <a href="{{url_for('index')}}">
+    <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+  </a>
+</div>
+{% endblock %}
 
-        <div class="Pie">
-            <p class="Pie_texto">
-                Óscar Pinto Santamaría & Francisco de Vicente Lana
-            </p>
-        </div>
+{% block centro %}
 
-    </body>
-</html>
+  <div class="Registro">
+    <h2>¡Regístrese para disfrutar al máximo de The Big Lemon!</h2>
+    <p>Nombre de usuario:</p>
+    <input type="text" placeholder="username">
+    <p>Contraseña:</p>
+    <input type="text" placeholder="****">
+    <p>Tarjeta de Crédito</p>
+    <input type="text" placeholder="ABCD-EFGH...">
+    <p>Sexo:</p>
+    <select>
+      <option value="M">M</option>
+      <option value="F">F</option>
+      <option value="NB">NB</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <p></p>
+    <form style="display: inline" action="index_logged.html" method="get" target="_parent">
+		    <button>¡Registrar!</button>
+    </form>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  <p class="Pie_texto">
+    Óscar Pinto Santamaría y Francisco de Vicente Lana
+  </p>
+{% endblock %}

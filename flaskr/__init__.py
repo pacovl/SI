@@ -29,63 +29,65 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    #Aqui obtenemos el catalogo
+    #Aqui obtenemos el catalogo y las categorias
     with open('catalogo.json') as f:
         catalogo = json.load(f)
+        categorias = ["--"]
+        for peli in catalogo["peliculas"]:
+            for cat in peli["etiquetas"]:
+                if(cat and (cat not in categorias)):
+                    categorias.append(cat)
 
     #Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
     def index():
         #Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
-            search = request.form['buscar']
-            #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
-            #category = request.form['categoria']
-            #print(category)
+            type = request.form.keys()[0]
 
-            lista_filtrada = []
-            for pelicula in catalogo['peliculas']:
-                if pelicula["titulo"].lower().find(search.lower()) != -1:
-                    lista_filtrada.append(pelicula)
+            if type == "seleccion":
+                search = request.form['seleccion']
+                #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
+                #category = request.form['categoria']
+                #print(category)
 
-            return render_template('new_index.html', seleccion = lista_filtrada[:9])
+                lista_filtrada = []
+                for pelicula in catalogo['peliculas']:
+                    if search in pelicula["etiquetas"]:
+                        lista_filtrada.append(pelicula)
+
+                indice = int(categorias.index(search))
+
+                return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
+
+            if type == "buscar":
+                search = request.form['buscar']
+                #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
+                #category = request.form['categoria']
+                #print(category)
+
+                lista_filtrada = []
+                for pelicula in catalogo['peliculas']:
+                    if pelicula["titulo"].lower().find(search.lower()) != -1:
+                        lista_filtrada.append(pelicula)
+
+                return render_template('new_index.html', seleccion = lista_filtrada[:9], categorias = categorias)
+
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('new_index.html', seleccion = catalogo["peliculas"][:9])
+        return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('new_detalles.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5])
+                return render_template('new_detalles.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias)
 
         return "No se ha encontrado la pelicula"
 
-
-
-    # #Definimos index_logged.html
-    # @app.route('/index_logged.html')
-    # def index_logged():
-    #     #Pasamos la lista de peliculas para obtener los datos en seleccion
-    #     return render_template('index_logged.html',  seleccion=catalogo["peliculas"])
-
-    # @app.route('/details_logged')
-    # def details_logged(filmname):
-    #     #Tratamos de encontrar la pelicula en la lista de peliculas
-    #     pelis = catalogo["peliculas"].filter(lambda x: x["titulo"]== filmname)
-    #     if pelis.len()<1:
-    #         return render_template('index_logged.html', seleccion=catalogo["peliculas"])
-    #     else:
-    #         return render_template('details_logged.html', pelicula = pelis[0])
-
-    # @app.route('/details_unlogged')
-    # def details_unlogged(request):
-    #     #Tratamos de encontrar la pelicula en la lista de peliculas
-    #     pelis = catalogo["peliculas"].filter(lambda x: x["titulo"]== filmname)
-    #     if pelis.len()<1:
-    #         return render_template('index.html', seleccion=catalogo["peliculas"])
-    #     else:
-    #         return render_template('details_unlogged.html', pelicula = pelis[0])
+    @app.route('/registro', methods=['POST', 'GET'])
+    def registro():
+        return render_template('register.html')
 
     return app
 
