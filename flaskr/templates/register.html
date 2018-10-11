@@ -16,24 +16,28 @@
 
 {% block centro %}
 
+	<script type="text/javascript" src="scripts/validacion.js"></script>
+
   <div class="Registro">
-    <h2>¡Regístrese para disfrutar al máximo de The Big Lemon!</h2>
-    <p>Nombre de usuario:</p>
-    <input type="text" placeholder="username">
-    <p>Contraseña:</p>
-    <input type="text" placeholder="****">
-    <p>Tarjeta de Crédito</p>
-    <input type="text" placeholder="ABCD-EFGH...">
-    <p>Sexo:</p>
-    <select>
-      <option value="M">M</option>
-      <option value="F">F</option>
-      <option value="NB">NB</option>
-      <option value="Otro">Otro</option>
-    </select>
-    <p></p>
-    <form style="display: inline" action="index_logged.html" method="get" target="_parent">
-		    <button>¡Registrar!</button>
+    <h3>¡Regístrese para disfrutar al máximo de The Big Lemon!</h3>
+    <form action="/" method="POST" onsubmit="return validar(this)">
+      <label for="nombre">Nombre de usuario:</label>
+      <input type="text" name="fnombre" id="nombre" /><br>
+      <label for="pass">Contraseña:</label>
+      <input type="password" name="fpass" id="pass" /><br>
+      <label for="correo">E-mail:</label>
+      <input type="text" name="femail" id="correo" /><br>
+      <label for="card">Número de tarjeta:</label>
+      <input type="text" name="fcard" id="card" /><br>
+      <label for="sex">Sexo:</label>
+      <select name="fsex" id ="sex">
+        <option value="--">--</option>
+        <option value="M">M</option>
+        <option value="F">F</option>
+        <option value="NB">NB</option>
+        <option value="Otro">Otro</option>
+      </select><br><br>
+      <input type="submit" value="Enviar formulario" />
     </form>
   </div>
 {% endblock %}

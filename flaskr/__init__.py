@@ -44,6 +44,8 @@ def create_app(test_config=None):
         #Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
             type = request.form.keys()
+            print(type)
+            print(request.form["fsex"])
 
             if "seleccion" in type:
                 search = request.form['seleccion']
