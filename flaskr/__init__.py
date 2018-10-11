@@ -43,9 +43,9 @@ def create_app(test_config=None):
     def index():
         #Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
-            type = request.form.keys()[0]
+            type = request.form.keys()
 
-            if type == "seleccion":
+            if "seleccion" in type:
                 search = request.form['seleccion']
                 #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
                 #category = request.form['categoria']
@@ -60,7 +60,7 @@ def create_app(test_config=None):
 
                 return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
 
-            if type == "buscar":
+            if "buscar" in type:
                 search = request.form['buscar']
                 #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
                 #category = request.form['categoria']
@@ -71,7 +71,7 @@ def create_app(test_config=None):
                     if pelicula["titulo"].lower().find(search.lower()) != -1:
                         lista_filtrada.append(pelicula)
 
-                return render_template('new_index.html', seleccion = lista_filtrada[:9], categorias = categorias)
+                return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
 
         #Pasamos la lista de peliculas para obtener los datos en seleccion
         return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
