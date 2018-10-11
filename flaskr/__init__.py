@@ -85,31 +85,9 @@ def create_app(test_config=None):
 
         return "No se ha encontrado la pelicula"
 
-
-
-    # #Definimos index_logged.html
-    # @app.route('/index_logged.html')
-    # def index_logged():
-    #     #Pasamos la lista de peliculas para obtener los datos en seleccion
-    #     return render_template('index_logged.html',  seleccion=catalogo["peliculas"])
-
-    # @app.route('/details_logged')
-    # def details_logged(filmname):
-    #     #Tratamos de encontrar la pelicula en la lista de peliculas
-    #     pelis = catalogo["peliculas"].filter(lambda x: x["titulo"]== filmname)
-    #     if pelis.len()<1:
-    #         return render_template('index_logged.html', seleccion=catalogo["peliculas"])
-    #     else:
-    #         return render_template('details_logged.html', pelicula = pelis[0])
-
-    # @app.route('/details_unlogged')
-    # def details_unlogged(request):
-    #     #Tratamos de encontrar la pelicula en la lista de peliculas
-    #     pelis = catalogo["peliculas"].filter(lambda x: x["titulo"]== filmname)
-    #     if pelis.len()<1:
-    #         return render_template('index.html', seleccion=catalogo["peliculas"])
-    #     else:
-    #         return render_template('details_unlogged.html', pelicula = pelis[0])
+    @app.route('/registro', methods=['POST', 'GET'])
+    def registro():
+        return render_template('register.html')
 
     return app
 
