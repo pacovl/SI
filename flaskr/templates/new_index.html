@@ -33,28 +33,20 @@
     </div>
 
     <!--Clase con la lista desplegable de categorías-->
+    {% if cats %}
     <div class="categories">
       <p>¡Busca tu categoría favorita!</p>
       <div class="lista_desplegable">
-        <select name="seleccion" id="seleccion">
-          <option value="drama">Todos</option>
-          <option value="drama">Drama</option>
-          <option value="animacion">Animación</option>
-          <option value="policiaca">Policíaca</option>
-          <option value="espacio">Espacio</option>
-          <option value="ciencia ficcion">Ciencia ficción</option>
-          <option value="infantil">Infantil</option>
-          <option value="aventura">Aventura</option>
-        </select>
+        <form action="/" method="POST">
+          <select name="seleccion" id="seleccion" onchange="this.form.submit()">
+            {% for cat in cats %}
+            <option value="{{cat}}">{{cat}}</option>
+            {% endfor %}
+          </select>
+        </form>
       </div>
-      <!-- <form action="/" method="POST">
-        <input name="todos" type="radio" value="todos">Todos<br>
-        <input name="drama" type="radio" value="drama">drama<br>
-        <input name="animacion" type="radio" value="animacion">animacion<br>
-        <input name="policiaca" type="radio" value="policiaca">policiaca<br>
-        <input name="espacio" type="radio" value="espacio">espacio<br>
-      </form> -->
     </div>
+    {% endif %}
 
     <!--Clase para el botón de login-->
     <div class="login_button">
@@ -96,50 +88,8 @@
 
   </div>
 
-  <!-- {% if seleccion[0] %}
-  <div class="film1">
-    <h2>{{seleccion[0].titulo}}</h2>
-    <a href="{{url_for('detalle', pelicula=seleccion[0].titulo)}}" target="_parent">
-      <img src="static/{{seleccion[0].poster}}" alt="img1" style="width:150px;height:200px;">
-    </a>
-    <p>{{seleccion[0].desc}}</p>
-  </div>
-  {% else %}
-  <p>Error: No se han encontrado partidas</p>
-  {% endif %}
-
-  {%if seleccion[1] %}
-  <div class="film2">
-    <h2>{{seleccion[1].titulo}}</h2>
-    <a href="{{url_for('detalle', pelicula=seleccion[1].titulo)}}" target="_parent">
-      <img src="static/{{seleccion[1].poster}}" alt="img2" style="width:150px;height:200px;">
-    </a>
-    <p>{{seleccion[1].desc}}</p>
-  </div>
-  {% endif %}
-
-  {% if seleccion[2] %}
-  <div class="film3">
-    <h2>{{seleccion[2].titulo}}</h2>
-    <a href="{{url_for('detalle', pelicula=seleccion[2].titulo)}}" target="_parent">
-      <img src="static/{{seleccion[2].poster}}" alt="img3" style="width:150px;height:200px;">
-    </a>
-    <p>{{seleccion[2].desc}}</p>
-  </div>
-  {% endif %} -->
-<!-- </div> -->
 {% endif %}
 
-<!--Flechas catalogo-->
-<!-- <div class="sidescroll">
-  <div class="leftscroll">
-    <a class="arrow">Anterior</a>
-  </div>
-
-  <div class="rightscroll">
-    <a class="arrow">Siguiente</a>
-  </div>
-</div> -->
 {% else %}
 <p class="centre">No se han encontrado peliculas </p>
 {% endif %}
