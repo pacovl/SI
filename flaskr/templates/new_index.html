@@ -78,7 +78,20 @@
 {% if seleccion %}
 <div class="catalogue">
 
-  {% if seleccion[0] %}
+  <div class="flex-container">
+    {% for peli in seleccion %}
+    <div class=film>
+        <h2>{{peli.titulo}}</h2>
+        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+          <img src="static/{{peli.poster}}" alt="img1" style="width:150px;height:200px;">
+        </a>
+        <p>{{peli.desc}}</p>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- {% if seleccion[0] %}
   <div class="film1">
     <h2>{{seleccion[0].titulo}}</h2>
     <a href="{{url_for('detalle', pelicula=seleccion[0].titulo)}}" target="_parent">
@@ -108,7 +121,7 @@
     </a>
     <p>{{seleccion[2].desc}}</p>
   </div>
-  {% endif %}
+  {% endif %} -->
 
 </div>
 

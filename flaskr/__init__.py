@@ -50,7 +50,7 @@ def create_app(test_config=None):
 
             return render_template('new_index.html', seleccion = lista_filtrada[:3])
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('new_index.html', seleccion = catalogo["peliculas"][:3])
+        return render_template('new_index.html', seleccion = catalogo["peliculas"])
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
