@@ -63,29 +63,48 @@ def create_app(test_config=None):
 
                 return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
 
+            if "username" in type:
+
+                #Recibimos los campos de registro
+                nombre = request.form['username']
+                password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
+
+                #Comprobamos si existe una carpeta con el mismo nombre
+                dir_name = CUR_DIR + '/usuarios/' + nombre
+                if (not os.path.isdir(dir_name)):
+                    return "No existe ese usuario"
+
+                with open(dir_name + '/datos.json', 'r') as outfile:
+                    datos_usuario = json.load(outfile)
+
+                if password != datos_usuario["password"]:
+                    return "Contrasenia incorrecta"
+
+                #TODO Hacer el login
+                print("LOGIN EXITOSOOOOOOOO")
+                return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
             if "fnombre" in type:
 
                 #Recibimos los campos de registro
                 nombre = request.form['fnombre']
                 password = hashlib.md5(request.form['fpass'].encode('utf8')).hexdigest()
-                print(password)
                 email = request.form['femail']
                 card = request.form['fcard']
                 sex = request.form['fsex']
                 saldo = randint(0, 100)
 
                 #Creamos un dict con los campos de registro
-                dict = {'nombre': nombre, 'password': password, 'email': email, 'card': card, 'sex': sex}
+                dict = {'nombre': nombre, 'password': password, 'email': email, 'card': card, 'sex': sex, 'saldo': saldo}
 
                 #Comprobamos si existe una carpeta con el mismo nombre
-                #TODO Faltaria ver que pasa si se registra con el mismo nombre
                 dir_name = CUR_DIR + '/usuarios/' + nombre
-                print(dir_name)
                 if (not os.path.isdir(dir_name)):
                     os.makedirs(dir_name)
                     #Escribimos un archivo json con el usuario
                     with open(dir_name + '/datos.json', 'w+') as outfile:
                         json.dump(dict, outfile)
+                else:
+                    return "El usuario ya existe"
 
                 return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
 

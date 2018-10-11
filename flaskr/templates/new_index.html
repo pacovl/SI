@@ -54,14 +54,15 @@ Home - BigLemon
     <!--Clase para el botón de login-->
     <div class="login_button">
       <p>¡Inicie sesión para comprar!</p>
+    <form style="display: inline" action="/" method="POST">
       <!-- <p>Nombre de usuario:</p> -->
-      <input type="text" placeholder="Nombre de usuario">
+      <input name="username" type="text" placeholder="Nombre de usuario">
       <!-- <p>Contraseña:</p> -->
-      <input type="text" placeholder="Contraseña">
+      <input name="password" type="password" placeholder="Contraseña">
       <p></p>
-      <form style="display: inline" action="../index_logged.html" method="get" target="_parent">
-        <button>Login</button>
-      </form>
+
+      <input type="submit" value="LOGIN">
+    </form>
 
     </div>
   </div>
@@ -75,7 +76,7 @@ Home - BigLemon
 <div class="flex-container-wrap">
   {% for peli in seleccion %}
   <div class=film>
-    {% if peli.titulo|length < 20 %} 
+    {% if peli.titulo|length < 20 %}
       <h2>{{peli.titulo}}</h2>
     {% else %}
       <div title="{{peli.titulo}}">
@@ -95,7 +96,7 @@ Home - BigLemon
           </div>
         </div>
       </a>
-    </div>  
+    </div>
   </div>
   {% endfor %}
 </div>
