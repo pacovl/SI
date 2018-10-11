@@ -1,14 +1,17 @@
 import os
-
+import hashlib
 import json
 import functools
 from flask import Flask
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
+from random import randint
 
 
 def create_app(test_config=None):
+    CUR_DIR = os.getcwd()
+    print(CUR_DIR)
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
@@ -44,8 +47,6 @@ def create_app(test_config=None):
         #Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
             type = request.form.keys()
-            print(type)
-            print(request.form["fsex"])
 
             if "seleccion" in type:
                 search = request.form['seleccion']
@@ -61,6 +62,32 @@ def create_app(test_config=None):
                 indice = int(categorias.index(search))
 
                 return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
+
+            if "fnombre" in type:
+
+                #Recibimos los campos de registro
+                nombre = request.form['fnombre']
+                password = hashlib.md5(request.form['fpass'].encode('utf8')).hexdigest()
+                print(password)
+                email = request.form['femail']
+                card = request.form['fcard']
+                sex = request.form['fsex']
+                saldo = randint(0, 100)
+
+                #Creamos un dict con los campos de registro
+                dict = {'nombre': nombre, 'password': password, 'email': email, 'card': card, 'sex': sex}
+
+                #Comprobamos si existe una carpeta con el mismo nombre
+                #TODO Faltaria ver que pasa si se registra con el mismo nombre
+                dir_name = CUR_DIR + '/usuarios/' + nombre
+                print(dir_name)
+                if (not os.path.isdir(dir_name)):
+                    os.makedirs(dir_name)
+                    #Escribimos un archivo json con el usuario
+                    with open(dir_name + '/datos.json', 'w+') as outfile:
+                        json.dump(dict, outfile)
+
+                return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
 
             if "buscar" in type:
                 search = request.form['buscar']

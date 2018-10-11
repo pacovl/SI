@@ -16,11 +16,11 @@
 
 {% block centro %}
 
-	<script type="text/javascript" src="scripts/validacion.js"></script>
+	<script type="text/javascript" src="static/validacion.js"></script>
 
   <div class="Registro">
     <h3>¡Regístrese para disfrutar al máximo de The Big Lemon!</h3>
-    <form action="/" method="POST" onsubmit="return validar(this)">
+    <form id="registro" action="/" method="POST">
       <label for="nombre">Nombre de usuario:</label>
       <input type="text" name="fnombre" id="nombre" /><br>
       <label for="pass">Contraseña:</label>
@@ -37,7 +37,7 @@
         <option value="NB">NB</option>
         <option value="Otro">Otro</option>
       </select><br><br>
-      <input type="submit" value="Enviar formulario" />
+      <input type="button" value="Enviar formulario" onclick="return validacion(document.getElementById('registro'))" />
     </form>
   </div>
 {% endblock %}
