@@ -36,7 +36,8 @@
     <div class="categories">
       <p>¡Busca tu categoría favorita!</p>
       <div class="lista_desplegable">
-        <select>
+        <select name="seleccion" id="seleccion">
+          <option value="drama">Todos</option>
           <option value="drama">Drama</option>
           <option value="animacion">Animación</option>
           <option value="policiaca">Policíaca</option>
@@ -46,6 +47,13 @@
           <option value="aventura">Aventura</option>
         </select>
       </div>
+      <!-- <form action="/" method="POST">
+        <input name="todos" type="radio" value="todos">Todos<br>
+        <input name="drama" type="radio" value="drama">drama<br>
+        <input name="animacion" type="radio" value="animacion">animacion<br>
+        <input name="policiaca" type="radio" value="policiaca">policiaca<br>
+        <input name="espacio" type="radio" value="espacio">espacio<br>
+      </form> -->
     </div>
 
     <!--Clase para el botón de login-->

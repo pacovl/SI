@@ -40,6 +40,8 @@ def create_app(test_config=None):
         if request.method == 'POST':
             search = request.form['buscar']
             #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
+            category = request.form['categoria']
+            print(category)
 
             lista_filtrada = []
             for pelicula in catalogo['peliculas']:
