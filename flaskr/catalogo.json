@@ -7,7 +7,7 @@
             "director": "James Cameron",
             "precio": 10,
             "anno": 2009,
-            "desc": "Un señor militar se vuelve azul y alucina con un mundo alienígena",
+            "desc": "Un señor militar se vuelve azul y alucina con un mundo alienígena.",
             "etiquetas": [
                     "ciencia ficcion",
                     "espacio"
@@ -29,12 +29,12 @@
             "poster": "imgs/up.jpg",
             "director": "Pete Docter",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "animacion",
                 "infantil"
             ],
             "anno": 2009,
-            "desc": "A veces para superar estar viejo y amargado necesitas un niño buscador de gamusinos",
+            "desc": "A veces para superar estar viejo y amargado necesitas un niño buscador de gamusinos.",
             "actores": [
                 {
                     "nombre": "Edward Asner",
@@ -52,12 +52,12 @@
             "poster": "imgs/infiltrados.jpg",
             "director": "Martin Scorsese",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "policiaca",
                 "premiada"
             ],
             "anno": 2006,
-            "desc": "Una de polis y ladrones en la que nadie sabe qué está pasando y todos mueren",
+            "desc": "Una de polis y ladrones en la que nadie sabe qué está pasando y todos mueren.",
             "actores": [
                 {
                     "nombre": " Leonardo DiCaprio",
@@ -75,7 +75,7 @@
             "poster": "imgs/interstellar.jpg",
             "director": "Christopher Nolan",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "espacio",
                 "drama",
                 "aventura"
@@ -99,7 +99,7 @@
             "poster": "imgs/cadena_perpetua.jpg",
             "director": "Frank Darabont",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "drama"
             ],
             "anno": 1994,
@@ -121,7 +121,7 @@
             "poster": "imgs/padrino.jpg",
             "director": "Francis Ford Coppola",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "drama",
                 "crimen"
             ],
@@ -144,7 +144,7 @@
             "poster": "imgs/caballeroOscuro.jpg",
             "director": "Christopher Nolan",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "accion",
                 "drama",
                 "crimen"
@@ -168,7 +168,7 @@
             "poster": "imgs/senorAnillosRetornoRey.jpg",
             "director": "Peter Jackson",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "accion",
                 "drama",
                 "aventura"
@@ -192,7 +192,7 @@
             "poster": "imgs/clubLucha.jpg",
             "director": "David Fincher",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "drama"
             ],
             "anno": 1999,
@@ -214,7 +214,7 @@
             "poster": "imgs/.jpg",
             "director": "",
             "precio": 10,
-            "eitquetas": [
+            "etiquetas": [
                 "",
                 ""
             ],
