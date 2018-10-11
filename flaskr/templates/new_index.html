@@ -86,7 +86,11 @@
       <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
         <img src="static/{{peli.poster}}" alt="img1" style="width:150px;height:200px;">
       </a>
-      <p>{{peli.desc}}</p>
+      {% if peli.desc|length < 128 %}
+        <p>{{peli.desc}}</p>
+      {% else %}
+        <p>{{peli.desc[:128] + '...'}}</p>
+      {% endif %}
     </div>
     {% endfor %}
 
