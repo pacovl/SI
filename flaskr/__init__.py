@@ -48,9 +48,9 @@ def create_app(test_config=None):
                 if pelicula["titulo"].lower().find(search.lower()) != -1:
                     lista_filtrada.append(pelicula)
 
-            return render_template('new_index.html', seleccion = lista_filtrada[:6])
+            return render_template('new_index.html', seleccion = lista_filtrada[:9])
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('new_index.html', seleccion = catalogo["peliculas"][:6])
+        return render_template('new_index.html', seleccion = catalogo["peliculas"][:9])
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
