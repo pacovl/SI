@@ -275,7 +275,7 @@ iframe {
     width: 25%;
     height: 100%;
     left: 0px;
-    overflow: hidden;
+    overflow: auto;
 }
 
 .Derecha {
@@ -321,9 +321,18 @@ iframe {
     background-color: rgba(255, 255, 255, 0);
     justify-content: center;
 }
-
 .flex-container > div {
     background-color: rgba(255, 255, 255, 0);
+    margin: 10px;
+    padding: 10px;
+}
+
+.flex-container-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+}
+.flex-container-wrap > div {
     margin: 10px;
     padding: 10px;
 }
@@ -387,4 +396,8 @@ iframe {
     font-size: 16px;
     cursor: pointer;
     transition-duration: 0.4s;
+}
+
+.film {
+    width: 250px;
 }

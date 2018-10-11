@@ -40,15 +40,15 @@ def create_app(test_config=None):
         if request.method == 'POST':
             search = request.form['buscar']
             #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
-            category = request.form['categoria']
-            print(category)
+            #category = request.form['categoria']
+            #print(category)
 
             lista_filtrada = []
             for pelicula in catalogo['peliculas']:
                 if pelicula["titulo"].lower().find(search.lower()) != -1:
                     lista_filtrada.append(pelicula)
 
-            return render_template('new_index.html', seleccion = lista_filtrada[:3])
+            return render_template('new_index.html', seleccion = lista_filtrada)
         #Pasamos la lista de peliculas para obtener los datos en seleccion
         return render_template('new_index.html', seleccion = catalogo["peliculas"])
 
