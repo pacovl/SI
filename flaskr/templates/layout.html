@@ -2,17 +2,17 @@
 
 {% extends 'base.html' %}
 
-    {% block title %}
-    BigLemon
-    {% endblock %}
+{% block title %}
+BigLemon
+{% endblock %}
 
-    {% block centro %}
-        <div class="Izquierda">
-            {% block izquierda %}
-            {% endblock %}
-        </div>
-        <div class="Derecha">
-            {% block derecha %}
-            {% endblock %}
-        </div>
+{% block centro %}
+<div class="Izquierda">
+    {% block izquierda %}
     {% endblock %}
+</div>
+<div class="Derecha">
+    {% block derecha %}
+    {% endblock %}
+</div>
+{% endblock %}

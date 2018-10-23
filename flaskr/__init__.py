@@ -61,7 +61,7 @@ def create_app(test_config=None):
 
                 indice = int(categorias.index(search))
 
-                return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias)
 
             if "username" in type:
 
@@ -82,7 +82,7 @@ def create_app(test_config=None):
 
                 #TODO Hacer el login
                 print("LOGIN EXITOSOOOOOOOO")
-                return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
             if "fnombre" in type:
 
                 #Recibimos los campos de registro
@@ -106,7 +106,7 @@ def create_app(test_config=None):
                 else:
                     return "El usuario ya existe"
 
-                return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
 
             if "buscar" in type:
                 search = request.form['buscar']
@@ -119,23 +119,27 @@ def create_app(test_config=None):
                     if pelicula["titulo"].lower().find(search.lower()) != -1:
                         lista_filtrada.append(pelicula)
 
-                return render_template('new_index.html', seleccion = lista_filtrada[:9], cats = categorias)
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias)
 
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('new_index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+        return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('new_detalles.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias)
+                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias)
 
         return "No se ha encontrado la pelicula"
 
     @app.route('/registro', methods=['POST', 'GET'])
     def registro():
         return render_template('register.html')
+
+    @app.route('/carrito', methods=['POST', 'GET'])
+    def carrito():
+        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4])
 
     return app
 

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+{% extends 'layout.html' %}
+
+{% block title %}
+  Detalle - BigLemon
+{% endblock %}
+
+{% block header %}
+<div class="header">
+    <a href="{{url_for('index')}}">
+        <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+    </a>
+</div>
+
+<div class="cartpic">
+    <a href="{{url_for('index')}}">
+        <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+    </a>
+</div>
+
+<div class="login_warning">
+    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+</div>
+{% endblock %}
+
+{% block izquierda %}
+<div class="side_menu">
+    <div class="flex-container-vertical">
+        <!--Clase para la búsqueda-->
+        <div>
+            <form action="/" method="POST">
+                <input name="buscar" type="text" placeholder="Busca..">
+                <input name="boton" type="submit" value="Buscar">
+            </form>
+        </div>
+
+        <!--Clase con la lista desplegable de categorías-->
+        <div class="categories">
+            <p>¡Busca tu categoría favorita!</p>
+            <div class="lista_desplegable">
+                <select>
+                    <option value="drama">Drama</option>
+                    <option value="animacion">Animación</option>
+                    <option value="policiaca">Policíaca</option>
+                    <option value="espacio">Espacio</option>
+                    <option value="ciencia ficcion">Ciencia ficción</option>
+                    <option value="infantil">Infantil</option>
+                    <option value="aventura">Aventura</option>
+                </select>
+            </div>
+        </div>
+
+        <!--Clase para el botón de login-->
+        <div class="login_button">
+            <p>¡Inicie sesión para comprar!</p>
+            <!-- <p>Nombre de usuario:</p> -->
+            <input type="text" placeholder="Nombre de usuario">
+            <!-- <p>Contraseña:</p> -->
+            <input type="text" placeholder="Contraseña">
+            <p></p>
+            <form style="display: inline" action="../index_logged.html" method="get" target="_parent">
+                <button>Login</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block derecha %}
+<div class="flex-container">
+
+    <div class="Vertical">
+        <div class="Titulo_peli">
+            <p>{{ seleccion.titulo }}</p>
+        </div>
+        <div class="Miniatura">
+            <!-- <a href="../details_logged.html" target="_parent"> -->
+            <img src=../static/{{seleccion.poster}} alt="Imagen de {{seleccion.titulo}}" width=250 height=300>
+            </a>
+        </div>
+        <div class="Puntuacion">
+            <img src="../static/imgs/puntuacion.png" alt="Estrellas como puntuacion" width=250 height=50>
+        </div>
+
+    </div>
+
+    <div class="Vertical">
+
+        <div class="Descripcion">
+            <p>
+                <b>Resumen: </b>{{seleccion.desc }}<br>
+                <b>Año: </b>{{ seleccion.anno }}<br>
+                <b>Actores: </b>
+                {% for actor in seleccion.actores %}
+                <li>{{ actor.nombre }} ({{ actor.personaje }})</li>
+                {% endfor %}
+                <br>
+                <b>Director: </b>{{ seleccion.director }}<br>
+            </p>
+        </div>
+
+        <div class="centro">
+            <button class="Boton Boton1">¡Añádeme al carrito!</button>
+        </div>
+
+    </div>
+
+</div>
+
+<div>
+    <p class="centro">Recomendadas</p>
+</div>
+
+<div class="flex-container">
+    <div>
+        <a href="{{url_for('detalle', pelicula=recomendadas[0].titulo)}}" target="_parent">
+            <img src="../static/{{recomendadas[0].poster}}" alt="Imagen 1" width=200 height=250>
+        </a>
+    </div>
+    <div>
+        <a href="{{url_for('detalle', pelicula=recomendadas[1].titulo)}}" target="_parent">
+            <img src="../static/{{recomendadas[1].poster}}" alt="Imagen 2" width=200 height=250>
+        </a>
+    </div>
+    <div>
+        <a href="{{url_for('detalle', pelicula=recomendadas[2].titulo)}}" target="_parent">
+            <img src="../static/{{recomendadas[2].poster}}" alt="Imagen 3" width=200 height=250>
+        </a>
+    </div>
+</div>
+
+<div class="flex-container">
+    <div>
+        <button class="scroll_boton">Anterior</button>
+    </div>
+    <div>
+        <button class="scroll_boton">Siguiente</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<p class="Pie_texto">
+    Óscar Pinto Santamaría y Francisco de Vicente Lana
+</p>
+{% endblock %}

@@ -1,135 +1,124 @@
 <!DOCTYPE html>
-<html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <title>THE BIG LEMON</title>
-    <link rel="stylesheet" href="static/estilos.css">
-</head>
+{% extends 'layout.html' %}
 
-<body>
-    <div class="Cabecera">
-        <div class="header">
-            <a href="{{url_for('index')}}">
-                <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
-            </a>
-        </div>
+{% block title %}
+Home - BigLemon
+{% endblock %}
 
-        <div class="cartpic">
-            <a href="{{url_for('index')}}">
-                <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
-            </a>
-        </div>
+{% block header %}
+<div class="header">
+  <a href="{{url_for('index')}}">
+    <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+  </a>
+</div>
 
-        <div class="login_warning">
-            <p>¿Aún no te has registrado? <a href="register.html">Haz click aquí</a></p>
-        </div>
+<div class="cartpic">
+  <a href="{{url_for('carrito')}}">
+    <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+  </a>
+</div>
+
+<div class="login_warning">
+  <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+</div>
+{% endblock %}
+
+{% block izquierda %}
+<div class="side_menu">
+  <div class="flex-container-vertical">
+    <!--Clase para la búsqueda-->
+    <div>
+      <form action="/" method="POST">
+        <input name="buscar" type="text" placeholder="Busca...">
+        <input name="boton" type="submit" value="Buscar">
+      </form>
     </div>
 
-    <div class="Centro">
-        <div class="Izquierda">
-            <div class="side_menu">
-                <div class="flex-container-vertical">
-                    <!--Clase para la búsqueda-->
-                    <div>
-                        <form action="/" method="POST">
-                            <input name="buscar" type="text" placeholder="Busca..">
-                            <input name="boton" type="submit" value="Buscar">
-                        </form>
-                    </div>
+    <!--Clase con la lista desplegable de categorías-->
+    {% if cats %}
+    <div class="categories">
+      <p>¡Busca tu categoría favorita!</p>
+      <div class="lista_desplegable">
+        <form action="/" method="POST">
+          <select name="seleccion" id="seleccion" onchange="this.form.submit()">
+            {% for cat in cats %}
+            <option value="{{cat}}">{{cat}}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+    </div>
+    {% endif %}
 
-                    <!--Clase con la lista desplegable de categorías-->
-                    <div class="categories">
-                        <p>¡Busca tu categoría favorita!</p>
-                        <div class="lista_desplegable">
-                            <select>
-                                <option value="Aventuras">Aventuras</option>
-                                <option value="Comedia">Comedia</option>
-                                <option value="Romántica">Romántica</option>
-                                <option value="Acción">Acción</option>
-                            </select>
-                        </div>
-                    </div>
+    <!--Clase para el botón de login-->
+    <div class="login_button">
+      <p>¡Inicie sesión para comprar!</p>
+    <form style="display: inline" action="/" method="POST">
+      <!-- <p>Nombre de usuario:</p> -->
+      <input name="username" type="text" placeholder="Nombre de usuario">
+      <!-- <p>Contraseña:</p> -->
+      <input name="password" type="password" placeholder="Contraseña">
+      <p></p>
 
-                    <!--Clase para el botón de login-->
-                    <div class="login_button">
-                        <p>¡Inicie sesión para comprar!</p>
-                        <!-- <p>Nombre de usuario:</p> -->
-                        <input type="text" placeholder="Nombre de usuario">
-                        <!-- <p>Contraseña:</p> -->
-                        <input type="text" placeholder="Contraseña">
-                        <p></p>
-                        <form style="display: inline" action="../index_logged.html" method="get" target="_parent">
-                            <button>Login</button>
-                        </form>
+      <input type="submit" value="LOGIN">
+    </form>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="Derecha">
-            <!--Catalogo de peliculas-->
-            {% if seleccion %}
-            <div class="catalogue">
+    </div>
+  </div>
+</div>
+{% endblock %}
 
-                {% if seleccion[0] %}
-                <div class="film1">
-                    <h2>{{seleccion[0].titulo}}</h2>
-                    <a href="{{url_for('detalle', pelicula=seleccion[0].titulo)}}" target="_parent">
-                        <img src="static/{{seleccion[0].poster}}" alt="img1" style="width:150px;height:200px;">
-                    </a>
-                    <p>{{seleccion[0].desc}}</p>
-                </div>
-                {% else %}
-                <p>Error: No se han encontrado partidas</p>
-                {% endif %}
+{% block derecha %}
+<!--Catalogo de peliculas-->
+{% if seleccion %}
 
-                {%if seleccion[1] %}
-                <div class="film2">
-                    <h2>{{seleccion[1].titulo}}</h2>
-                    <a href="{{url_for('detalle', pelicula=seleccion[1].titulo)}}" target="_parent">
-                        <img src="static/{{seleccion[1].poster}}" alt="img2" style="width:150px;height:200px;">
-                    </a>
-                    <p>{{seleccion[1].desc}}</p>
-                </div>
-                {% endif %}
-
-                {% if seleccion[2] %}
-                <div class="film3">
-                    <h2>{{seleccion[2].titulo}}</h2>
-                    <a href="{{url_for('detalle', pelicula=seleccion[2].titulo)}}" target="_parent">
-                        <img src="static/{{seleccion[2].poster}}" alt="img3" style="width:150px;height:200px;">
-                    </a>
-                    <p>{{seleccion[2].desc}}</p>
-                </div>
-                {% endif %}
-
-            </div>
-
-            <!--Flechas catalogo-->
-            <div class="sidescroll">
-                <div class="leftscroll">
-                    <a class="arrow">Anterior</a>
-                </div>
-
-                <div class="rightscroll">
-                    <a class="arrow">Siguiente</a>
-                </div>
-            </div>
+<div class="flex-container-wrap">
+  {% for peli in seleccion %}
+  <div class=film>
+    {% if peli.titulo|length < 20 %}
+      <h2>{{peli.titulo}}</h2>
+    {% else %}
+      <div title="{{peli.titulo}}">
+        <h2>{{peli.titulo[:18] + '...'}}</h2>
+      </div>
+    {% endif %}
+    <div class="portada">
+      <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+        <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px">
+        <div class="overlay">
+          <div class="descPortada">
+            {% if peli.desc|length < 200 %}
+              <b>{{peli.desc}}</b>
             {% else %}
-            <p>No se han encontrado peliculas </p>
+              <b>{{peli.desc[:198] + '...'}}</b>
             {% endif %}
-
+          </div>
         </div>
+      </a>
     </div>
-    </div>
+  </div>
+  {% endfor %}
+</div>
 
-    <div class="Pie">
-        <p class="Pie_texto">
-            Óscar Pinto Santamaría & Francisco de Vicente Lana
-        </p>
-    </div>
+<!--Flechas catalogo-->
+<div class="botonesIndex">
+  <div class="leftscroll">
+    <a class="arrow">Anterior</a>
+  </div>
 
-</body>
+  <div class="rightscroll">
+    <a class="arrow">Siguiente</a>
+  </div>
+</div>
+{% else %}
+<p class="centre">No se han encontrado peliculas </p>
+{% endif %}
 
-</html>
+{% endblock %}
+
+{% block footer %}
+<p class="Pie_texto">
+  Óscar Pinto Santamaría y Francisco de Vicente Lana
+</p>
+{% endblock %}

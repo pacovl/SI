@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+{% extends 'layout.html' %}
+
+{% block title %}
+Home - BigLemon
+{% endblock %}
+
+{% block header %}
+<div class="header">
+    <a href="{{url_for('index')}}">
+        <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+    </a>
+</div>
+
+<div class="cartpic">
+    <a href="{{url_for('index')}}">
+        <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+    </a>
+</div>
+
+<div class="login_warning">
+    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+</div>
+{% endblock %}
+
+{% block izquierda %}
+<div class="side_menu">
+    <div class="flex-container-vertical">
+        <!--Clase para la búsqueda-->
+        <div>
+            <form action="/" method="POST">
+                <input name="buscar" type="text" placeholder="Busca..">
+                <input name="boton" type="submit" value="Buscar">
+            </form>
+        </div>
+
+        <!--Clase para el botón de login-->
+        <div class="login_button">
+            <p>¡Inicie sesión para comprar!</p>
+            <form style="display: inline" action="/" method="POST">
+                <!-- <p>Nombre de usuario:</p> -->
+                <input name="username" type="text" placeholder="Nombre de usuario">
+                <!-- <p>Contraseña:</p> -->
+                <input name="password" type="password" placeholder="Contraseña">
+                <p></p>
+
+                <input type="submit" value="LOGIN">
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block derecha %}
+<!--Listado de peliculas agregadas-->
+{% if seleccion %}
+
+<div class="flex-container-vertical">
+    {% for peli in seleccion %}
+    <div class=flex-container>
+        <div>
+            {% if peli.titulo|length < 100 %} 
+            <h2>{{peli.titulo}}</h2>
+            {% else %}
+            <div title="{{peli.titulo}}">
+                <h2>{{peli.titulo[:98] + '...'}}</h2>
+            </div>
+            {% endif %}
+            <div class="portada">
+                <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+                    <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px">
+                </a>
+            </div>
+        </div>
+        <div>
+            <b>{{peli.desc[:198] + '...'}}</b>
+        </div>
+    </div>
+
+    {% endfor %}
+</div>
+
+{% else %}
+<p class="centre">No se han encontrado peliculas </p>
+{% endif %}
+
+{% endblock %}
+
+{% block footer %}
+<p class="Pie_texto">
+    Óscar Pinto Santamaría y Francisco de Vicente Lana
+</p>
+{% endblock %}
