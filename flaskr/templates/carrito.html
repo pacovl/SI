@@ -42,19 +42,32 @@ Home - BigLemon
         </div>
 
         <!--Clase para el botón de login-->
+        {% if user_id %}
         <div class="login_button">
-            <p>¡Inicie sesión para comprar!</p>
-            <form style="display: inline" action="/" method="POST">
-                <!-- <p>Nombre de usuario:</p> -->
-                <input name="username" type="text" placeholder="Nombre de usuario">
-                <!-- <p>Contraseña:</p> -->
-                <input name="password" type="password" placeholder="Contraseña">
-                <p></p>
+          <p>¡Acceda a su Historial!</p>
+          <form style="display: inline" action="/historial/" method="POST">
+            <input name="historial" type="submit" value="Historial">
+          </form>
+          <p> </p>
+        <form style="display: inline" action="/" method="POST">
+          <input name="logout" type="submit" value="LOGOUT">
+        </form>
+        </div>
+        {% else %}
+        <div class="login_button">
+          <p>¡Inicie sesión para comprar!</p>
+        <form style="display: inline" action="/" method="POST">
+          <!-- <p>Nombre de usuario:</p> -->
+          <input name="username" type="text" placeholder="Nombre de usuario">
+          <!-- <p>Contraseña:</p> -->
+          <input name="password" type="password" placeholder="Contraseña">
+          <p></p>
 
-                <input type="submit" value="LOGIN">
-            </form>
+          <input type="submit" value="LOGIN">
+        </form>
 
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -129,6 +129,15 @@ def create_app(test_config=None):
 
                 return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias,user_id = session.get('user'))
 
+            if "logout" in type:
+                #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
+                #category = request.form['categoria']
+                #print(category)
+
+                session.clear()
+
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias,user_id = session.get('user'))
+
         #Pasamos la lista de peliculas para obtener los datos en seleccion
         return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = session.get('user'))
 
