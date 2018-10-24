@@ -143,6 +143,38 @@ def create_app(test_config=None):
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
+        if request.method == 'POST':
+            type = request.form.keys()
+            print(type)
+            if "username" in type:
+
+                #Recibimos los campos de registro
+                nombre = request.form['username']
+                password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
+                pelicula = request.form['peli']
+
+                #Comprobamos si existe una carpeta con el mismo nombre
+                dir_name = CUR_DIR + '/usuarios/' + nombre
+                if (not os.path.isdir(dir_name)):
+                    return "No existe ese usuario"
+
+                with open(dir_name + '/datos.json', 'r') as outfile:
+                    datos_usuario = json.load(outfile)
+
+                if password != datos_usuario["password"]:
+                    return "Contrasenia incorrecta"
+
+                #Creamos la cookie de session
+                session['user'] = datos_usuario["nombre"]
+                session.modified = True
+
+
+                for peli in catalogo["peliculas"]:
+                    if peli['titulo'] == pelicula:
+                        resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
+                        return resp
+                return "No se ha encontrado pelicula"
+
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
@@ -156,6 +188,30 @@ def create_app(test_config=None):
 
     @app.route('/carrito', methods=['POST', 'GET'])
     def carrito():
+        if request.method == 'POST':
+            type = request.form.keys()
+            if "username" in type:
+
+                #Recibimos los campos de registro
+                nombre = request.form['username']
+                password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
+
+                #Comprobamos si existe una carpeta con el mismo nombre
+                dir_name = CUR_DIR + '/usuarios/' + nombre
+                if (not os.path.isdir(dir_name)):
+                    return "No existe ese usuario"
+
+                with open(dir_name + '/datos.json', 'r') as outfile:
+                    datos_usuario = json.load(outfile)
+
+                if password != datos_usuario["password"]:
+                    return "Contrasenia incorrecta"
+
+                #Creamos la cookie de session
+                session['user'] = datos_usuario["nombre"]
+                session.modified = True
+
+                resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
         return render_template('carrito.html', seleccion = catalogo['peliculas'][:4], user_id = session.get('user'))
 
     return app

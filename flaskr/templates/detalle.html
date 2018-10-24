@@ -72,7 +72,8 @@
         {% else %}
         <div class="login_button">
           <p>¡Inicie sesión para comprar!</p>
-        <form style="display: inline" action="/" method="POST">
+        <form style="display: inline" action="/detalle" method="POST">
+          <input type="hidden" name="peli" value={{seleccion.titulo}}>
           <!-- <p>Nombre de usuario:</p> -->
           <input name="username" type="text" placeholder="Nombre de usuario">
           <!-- <p>Contraseña:</p> -->
