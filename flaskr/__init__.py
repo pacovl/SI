@@ -14,6 +14,7 @@ def create_app(test_config=None):
     print(CUR_DIR)
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    app.secret_key = os.urandom(24)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -61,7 +62,7 @@ def create_app(test_config=None):
 
                 indice = int(categorias.index(search))
 
-                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias)
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias, login_algo = None)
 
             if "username" in type:
 
@@ -81,8 +82,16 @@ def create_app(test_config=None):
                     return "Contrasenia incorrecta"
 
                 #TODO Hacer el login
-                print("LOGIN EXITOSOOOOOOOO")
-                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+                session['tmp'] = datos_usuario["nombre"]
+                session['card'] = datos_usuario["card"]
+                session['email'] = datos_usuario["email"]
+                session['sex'] = datos_usuario["sex"]
+                session['saldo'] = datos_usuario["saldo"]
+                session.modified = True
+
+                #Crear cookie
+
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = True)
             if "fnombre" in type:
 
                 #Recibimos los campos de registro
@@ -106,7 +115,7 @@ def create_app(test_config=None):
                 else:
                     return "El usuario ya existe"
 
-                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = None)
 
             if "buscar" in type:
                 search = request.form['buscar']
@@ -119,17 +128,17 @@ def create_app(test_config=None):
                     if pelicula["titulo"].lower().find(search.lower()) != -1:
                         lista_filtrada.append(pelicula)
 
-                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias)
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias,login_algo = None)
 
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias)
+        return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = None)
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias)
+                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias, login_algo = None)
 
         return "No se ha encontrado la pelicula"
 
@@ -139,7 +148,7 @@ def create_app(test_config=None):
 
     @app.route('/carrito', methods=['POST', 'GET'])
     def carrito():
-        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4])
+        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4], login_algo = None)
 
     return app
 
