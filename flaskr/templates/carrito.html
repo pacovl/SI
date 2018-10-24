@@ -66,9 +66,10 @@ Home - BigLemon
 <div class="flex-container-vertical">
     {% for peli in seleccion %}
     <div class=flex-container>
+        <!-- Parte izquierda con titulo y portada -->
         <div>
-            {% if peli.titulo|length < 100 %}
-            <h2>{{peli.titulo}}</h2>
+            {% if peli.titulo|length < 100 %} 
+            <h2 class = "centro">{{peli.titulo}}</h2>
             {% else %}
             <div title="{{peli.titulo}}">
                 <h2>{{peli.titulo[:98] + '...'}}</h2>
@@ -80,10 +81,14 @@ Home - BigLemon
                 </a>
             </div>
         </div>
+        <!-- Parte derecha con descripcion, fecha de compra y precio -->
         <div>
-            <b>{{peli.desc[:198] + '...'}}</b>
+            <p><b>Sinopsis: </b>{{peli.desc[:198] + '...'}}</p>
+            <p><b>Fecha compra:</b> - To be implemented</p>
+            <p><b>Precio: </b>{{peli.precio}}</p>
         </div>
     </div>
+    <hr>
 
     {% endfor %}
 </div>

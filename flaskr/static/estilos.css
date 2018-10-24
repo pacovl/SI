@@ -405,7 +405,11 @@ iframe {
     padding: 10px;
     position: relative;
     width: 100%;
+    text-align: center;
 }
+
+
+
 .portada:hover {
     background-color: rgba(77, 155, 125, 0.575);
 }
