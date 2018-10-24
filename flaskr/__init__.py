@@ -4,7 +4,7 @@ import json
 import functools
 from flask import Flask
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
 )
 from random import randint
 
@@ -62,7 +62,9 @@ def create_app(test_config=None):
 
                 indice = int(categorias.index(search))
 
-                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias, login_algo = None)
+                user = session.get('user')
+
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias, user_id = user)
 
             if "username" in type:
 
@@ -81,17 +83,14 @@ def create_app(test_config=None):
                 if password != datos_usuario["password"]:
                     return "Contrasenia incorrecta"
 
-                #TODO Hacer el login
-                session['tmp'] = datos_usuario["nombre"]
-                session['card'] = datos_usuario["card"]
-                session['email'] = datos_usuario["email"]
-                session['sex'] = datos_usuario["sex"]
-                session['saldo'] = datos_usuario["saldo"]
+                #Creamos la cookie de session
+                session['user'] = datos_usuario["nombre"]
                 session.modified = True
 
-                #Crear cookie
+                resp = make_response(render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
+                #resp.set_cookie('user_id', datos_usuario["nombre"])
 
-                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = True)
+                return resp
             if "fnombre" in type:
 
                 #Recibimos los campos de registro
@@ -115,7 +114,7 @@ def create_app(test_config=None):
                 else:
                     return "El usuario ya existe"
 
-                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = None)
+                return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = session.get('user'))
 
             if "buscar" in type:
                 search = request.form['buscar']
@@ -128,17 +127,17 @@ def create_app(test_config=None):
                     if pelicula["titulo"].lower().find(search.lower()) != -1:
                         lista_filtrada.append(pelicula)
 
-                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias,login_algo = None)
+                return render_template('index.html', seleccion = lista_filtrada[:9], cats = categorias,user_id = session.get('user'))
 
         #Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, login_algo = None)
+        return render_template('index.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = session.get('user'))
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias, login_algo = None)
+                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:5], cats = categorias, user_id = session.get('user'))
 
         return "No se ha encontrado la pelicula"
 
@@ -148,7 +147,7 @@ def create_app(test_config=None):
 
     @app.route('/carrito', methods=['POST', 'GET'])
     def carrito():
-        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4], login_algo = None)
+        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4], user_id = session.get('user'))
 
     return app
 

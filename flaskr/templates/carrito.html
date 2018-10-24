@@ -19,9 +19,15 @@ Home - BigLemon
     </a>
 </div>
 
+{% if user_id %}
 <div class="login_warning">
-    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+  <p>Bienvenido, {{user_id}}</p>
 </div>
+{% else %}
+<div class="login_warning">
+  <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block izquierda %}
@@ -61,7 +67,7 @@ Home - BigLemon
     {% for peli in seleccion %}
     <div class=flex-container>
         <div>
-            {% if peli.titulo|length < 100 %} 
+            {% if peli.titulo|length < 100 %}
             <h2>{{peli.titulo}}</h2>
             {% else %}
             <div title="{{peli.titulo}}">

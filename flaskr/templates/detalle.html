@@ -19,9 +19,15 @@
     </a>
 </div>
 
+{% if user_id %}
 <div class="login_warning">
-    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+  <p>Bienvenido, {{user_id}}</p>
 </div>
+{% else %}
+<div class="login_warning">
+  <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+</div>
+{% endif %}
 {% endblock %}
 
 {% block izquierda %}
