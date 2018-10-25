@@ -186,9 +186,12 @@ def create_app(test_config=None):
         id_peli = request.args.get('id')
         id_peli = int(id_peli)
         peli = getPeliculaById(id_peli)
-        if ('carro' not in session):
+        if session.get('carro'):
+            session['carro'].append(id_peli)
+            session.modified = True
+        else:
             session['carro'] = []
-        session['carro'].append(id_peli)
+            session['carro'].append(id_peli)
 
         print("========> anado al carrito: "+peli['titulo']+"("+str(id_peli)+") "+"["+str(len(session['carro']))+"]")
         for item in session['carro']:
