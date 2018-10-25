@@ -5,7 +5,7 @@ import functools
 from flask import Flask, session
 from flask_session import Session
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
 )
 from random import randint
 
@@ -16,7 +16,7 @@ def create_app(test_config=None):
     print(CUR_DIR)
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
+    app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
     app.config.from_mapping(
         #SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -55,6 +55,8 @@ def create_app(test_config=None):
     # Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
     def index():
+
+        #session['carro'] = []
         # Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
             type = request.form.keys()
@@ -188,7 +190,11 @@ def create_app(test_config=None):
             session['carro'] = []
         session['carro'].append(id_peli)
 
-        print("========> anado al carrito: "+peli['titulo']+"("+id_peli+") "+"["+len(session['carro'])+"]")
+        print("========> anado al carrito: "+peli['titulo']+"("+str(id_peli)+") "+"["+str(len(session['carro']))+"]")
+        for item in session['carro']:
+            print(str(item))
+        #print("========> anado al carrito: "+peli[indice]+"("+str(id_peli)+")")
+        
         return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias)
 
         #return "No se ha encontrado la pelicula"
@@ -228,24 +234,29 @@ def create_app(test_config=None):
             return render_template('carrito.html', seleccion = None, user_id = session.get('user'))
         else:
             ids = session['carro']
-            pelis_carro = {}
+            #pelis_carro = {}
+            lista_pelis = []
 
             print("---SESION---")
             for item in ids:
-                print("-"+str(ids))
+                print("-"+str(item))
 
             total = 0
             for peli_id in ids:
+                peli_id = int(peli_id)
                 peli = getPeliculaById(peli_id)
+                print("vamos a mostrar la peli: ===> "+peli['titulo'])
                 if peli == None:
-                    break;
+                    break
                 total += peli['precio']
-                if peli_id in pelis_carro:
-                    pelis_carro[peli_id]['cant'] += 1
-                else:
-                    pelis_carro[peli_id] = {"cant":1, "titulo":peli['titulo'], "poster":peli['poster'], "desd":peli['desc'], "precio":peli['precio']}
 
-            return render_template('carrito.html', seleccion = pelis_carro, user_id = session.get('user'))
+                lista_pelis.append(peli)
+                #if peli_id in pelis_carro:
+                    #pelis_carro[peli_id]['cant'] += 1
+                #else:
+                    #pelis_carro[peli_id] = {"cant":1, "titulo":peli['titulo'], "poster":peli['poster'], "desd":peli['desc'], "precio":peli['precio']}
+
+            return render_template('carrito.html', seleccion = lista_pelis, user_id = session.get('user'))
 
     return app
 
