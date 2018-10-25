@@ -11,15 +11,14 @@ from random import randint
 
 
 def create_app(test_config=None):
-    sess = Session()
 
     CUR_DIR = os.getcwd()
     print(CUR_DIR)
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    sess.init_app(app)
+    app.secret_key = '\xf5!\x07!qj\xa4\x08\xc6\xf8\n\x8a\x95m\xe2\x04g\xbb\x98|U\xa2f\x03'
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        #SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
@@ -44,6 +43,14 @@ def create_app(test_config=None):
             for cat in peli["etiquetas"]:
                 if(cat and (cat not in categorias)):
                     categorias.append(cat)
+
+
+    def getPeliculaById(id_peli):
+        for peli in catalogo['peliculas']:
+            if peli['id'] == id_peli:
+                return peli
+        return None 
+        #'{"id": 0, "titulo": "Avatar","poster": "imgs/avatar.jpg","director": "James Cameron","precio": 10,"anno": 2009,"desc": "Un senor militar se vuelve azul y alucina con un mundo alienigena.","etiquetas": ["ciencia ficcion","espacio"],"actores": [{"nombre": "Zoe Saldana","personaje": "Neytiri"},{"nombre": "Sam Worthington","personaje": "Jake Sully"}]}'
 
     # Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
@@ -172,15 +179,26 @@ def create_app(test_config=None):
 
         return "No se ha encontrado la pelicula"
 
+    @app.route('/adicion', methods=['GET'])
+    def adicion():
+        id_peli = request.args.get('id')
+        id_peli = int(id_peli)
+        peli = getPeliculaById(id_peli)
+        if ('carro' not in session):
+            session['carro'] = []
+        session['carro'].append(id_peli)
+
+        print("========> anado al carrito: "+peli['titulo']+"("+id_peli+") "+"["+len(session['carro'])+"]")
+        return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias)
+
+        #return "No se ha encontrado la pelicula"
+
     @app.route('/registro', methods=['POST', 'GET'])
     def registro():
         return render_template('register.html')
 
     @app.route('/carrito', methods=['POST', 'GET'])
     def carrito():
-<<<<<<< HEAD
-        return render_template('carrito.html', seleccion=catalogo['peliculas'][:4])
-=======
         if request.method == 'POST':
             type = request.form.keys()
             if "username" in type:
@@ -205,11 +223,31 @@ def create_app(test_config=None):
                 session.modified = True
 
                 resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
-        return render_template('carrito.html', seleccion = catalogo['peliculas'][:4], user_id = session.get('user'))
->>>>>>> 37dc938d0ae69c66cd5cb7fe08fb2cbb7b401ab3
+        
+        if 'carro' not in session:
+            return render_template('carrito.html', seleccion = None, user_id = session.get('user'))
+        else:
+            ids = session['carro']
+            pelis_carro = {}
+
+            print("---SESION---")
+            for item in ids:
+                print("-"+str(ids))
+
+            total = 0
+            for peli_id in ids:
+                peli = getPeliculaById(peli_id)
+                if peli == None:
+                    break;
+                total += peli['precio']
+                if peli_id in pelis_carro:
+                    pelis_carro[peli_id]['cant'] += 1
+                else:
+                    pelis_carro[peli_id] = {"cant":1, "titulo":peli['titulo'], "poster":peli['poster'], "desd":peli['desc'], "precio":peli['precio']}
+
+            return render_template('carrito.html', seleccion = pelis_carro, user_id = session.get('user'))
 
     return app
-
 
 if __name__ == '__main__':
     app = create_app()

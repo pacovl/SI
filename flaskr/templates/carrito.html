@@ -96,8 +96,14 @@ Home - BigLemon
         </div>
         <!-- Parte derecha con descripcion, fecha de compra y precio -->
         <div>
-            <p><b>Sinopsis: </b>{{peli.desc[:198] + '...'}}</p>
-            <p><b>Fecha compra:</b> - To be implemented</p>
+            <p>
+            <b>Sinópsis:</b>
+            {% if peli.desc|length < 220 %}
+            {{peli.desc}}
+            {% else %}
+            {{peli.desc[:218] + '...'}}
+            {% endif %}
+            </p>
             <p><b>Precio: </b>{{peli.precio}}</p>
         </div>
     </div>
@@ -107,7 +113,7 @@ Home - BigLemon
 </div>
 
 {% else %}
-<p class="centre">No se han encontrado peliculas </p>
+<p class="centre">Tu carrito esta vacío</p>
 {% endif %}
 
 {% endblock %}

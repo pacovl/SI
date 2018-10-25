@@ -448,3 +448,8 @@ iframe {
     bottom: 0;
     height: 25px;
 }
+
+hr {
+    border-style: solid;
+    margin: 0;
+}

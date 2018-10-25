@@ -14,7 +14,7 @@ Detalle - BigLemon
 </div>
 
 <div class="cartpic">
-    <a href="{{url_for('index')}}">
+    <a href="{{url_for('carrito')}}">
         <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
     </a>
 </div>
@@ -121,10 +121,14 @@ Detalle - BigLemon
         </div>
 
         <div class="centro">
-            <form action="/detalle" method="POST">
+            <!-- <form action="/detalle" action="{{url_for('detalle', pelicula=seleccion.titulo)}}">
                 <input type="hidden" name="pelicula" value="{{seleccion.titulo}}">
                 <input class="Boton Boton1" name="anade" type="submit" value="¡Añádeme al carrito!">
-            </form>
+            </form> -->
+            <a href="{{url_for('adicion', id=seleccion.id)}}">
+                <button class="Boton Boton1">
+                Añademe al carrito!
+                </button>
         </div>
     </div>
 
