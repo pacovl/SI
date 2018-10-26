@@ -238,12 +238,9 @@ def create_app(test_config=None):
         else:
             ids = session['carro']
 
-            # print("---SESION---")
-            # for item in ids:
-            #     print("-"+str(item))
-
             total = 0
             pelis_dict = {}
+            
             for peli_id in ids:
                 peli = getPeliculaById(peli_id)
 
@@ -261,7 +258,7 @@ def create_app(test_config=None):
         # if (session.get('username')):
 
         # else:
-            alert
+            #alert
         return render_template("index.html", seleccion=catalogo["peliculas"][:9], cats=categorias)
 
     @app.route('/eliminar', methods=['GET'])

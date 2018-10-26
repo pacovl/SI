@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-
 {% extends 'layout.html' %}
 
 {% block title %}
 Detalle - BigLemon
-{% endblock %}
-
-{% block header %}
-<div class="header">
-    <a href="{{url_for('index')}}">
-        <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
-    </a>
-</div>
-
-<div class="cartpic">
-    <a href="{{url_for('carrito')}}">
-        <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
-    </a>
-</div>
-
-{% if user_id %}
-<div class="login_warning">
-    <p>Bienvenido, {{user_id}}</p>
-</div>
-{% else %}
-<div class="login_warning">
-    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
-</div>
-{% endif %}
 {% endblock %}
 
 {% block izquierda %}
@@ -166,10 +140,4 @@ Detalle - BigLemon
         <button class="scroll_boton">Siguiente</button>
     </div>
 </div>
-{% endblock %}
-
-{% block footer %}
-<p class="Pie_texto">
-    Óscar Pinto Santamaría y Francisco de Vicente Lana
-</p>
 {% endblock %}

@@ -1,33 +1,7 @@
-<!DOCTYPE html>
-
 {% extends 'layout.html' %}
 
 {% block title %}
 Home - BigLemon
-{% endblock %}
-
-{% block header %}
-<div class="header">
-  <a href="{{url_for('index')}}">
-    <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
-  </a>
-</div>
-
-<div class="cartpic">
-  <a href="{{url_for('carrito')}}">
-    <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
-  </a>
-</div>
-
-{% if user_id %}
-<div class="login_warning">
-  <p>Bienvenido, {{user_id}}</p>
-</div>
-{% else %}
-<div class="login_warning">
-  <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
-</div>
-{% endif %}
 {% endblock %}
 
 {% block izquierda %}
@@ -66,22 +40,22 @@ Home - BigLemon
         <input name="historial" type="submit" value="Historial">
       </form>
       <p> </p>
-    <form style="display: inline" action="/" method="POST">
-      <input name="logout" type="submit" value="LOGOUT">
-    </form>
+      <form style="display: inline" action="/" method="POST">
+        <input name="logout" type="submit" value="LOGOUT">
+      </form>
     </div>
     {% else %}
     <div class="login_button">
       <p>¡Inicie sesión para comprar!</p>
-    <form style="display: inline" action="/" method="POST">
-      <!-- <p>Nombre de usuario:</p> -->
-      <input name="username" type="text" placeholder="Nombre de usuario">
-      <!-- <p>Contraseña:</p> -->
-      <input name="password" type="password" placeholder="Contraseña">
-      <p></p>
+      <form style="display: inline" action="/" method="POST">
+        <!-- <p>Nombre de usuario:</p> -->
+        <input name="username" type="text" placeholder="Nombre de usuario">
+        <!-- <p>Contraseña:</p> -->
+        <input name="password" type="password" placeholder="Contraseña">
+        <p></p>
 
-      <input type="submit" value="LOGIN">
-    </form>
+        <input type="submit" value="LOGIN">
+      </form>
 
     </div>
     {% endif %}
@@ -96,27 +70,25 @@ Home - BigLemon
 <div class="flex-container-wrap">
   {% for peli in seleccion %}
   <div class=film>
-    {% if peli.titulo|length < 20 %}
-      <h2>{{peli.titulo}}</h2>
-    {% else %}
+    {% if peli.titulo|length < 20 %} <h2>{{peli.titulo}}</h2>
+      {% else %}
       <div title="{{peli.titulo}}">
         <h2>{{peli.titulo[:18] + '...'}}</h2>
       </div>
-    {% endif %}
-    <div class="portada">
-      <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
-        <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px">
-        <div class="overlay">
-          <div class="descPortada">
-            {% if peli.desc|length < 200 %}
-              <b>{{peli.desc}}</b>
-            {% else %}
-              <b>{{peli.desc[:198] + '...'}}</b>
-            {% endif %}
+      {% endif %}
+      <div class="portada">
+        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+          <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px">
+          <div class="overlay">
+            <div class="descPortada">
+              {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
+                {% else %}
+                <b>{{peli.desc[:198] + '...'}}</b>
+                {% endif %}
+            </div>
           </div>
-        </div>
-      </a>
-    </div>
+        </a>
+      </div>
   </div>
   {% endfor %}
 </div>
@@ -135,10 +107,4 @@ Home - BigLemon
 <p class="centre">No se han encontrado peliculas </p>
 {% endif %}
 
-{% endblock %}
-
-{% block footer %}
-<p class="Pie_texto">
-  Óscar Pinto Santamaría y Francisco de Vicente Lana
-</p>
 {% endblock %}
