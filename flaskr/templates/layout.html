@@ -1,31 +1,33 @@
 {% extends 'base.html' %}
 
 {% block title %}
-BigLemon
+The Big Lemon
 {% endblock %}
 
 {% block header %}
-<div class="header">
-    <a href="{{url_for('index')}}">
-        <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
-    </a>
-</div>
+<div class="flex-container-header">
+    <div class="head1">
+        <a href="{{url_for('carrito')}}">
+            <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+        </a>
+    </div>
 
-<div class="cartpic">
-    <a href="{{url_for('carrito')}}">
-        <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
-    </a>
-</div>
+    <div class="head2">
+        <a href="{{url_for('index')}}">
+            <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+        </a>
+    </div>
 
-{% if user_id %}
-<div class="login_warning">
-    <p>Bienvenido, {{user_id}}</p>
+    {% if user_id %}
+    <div class="head3">
+        <p>Bienvenido, {{user_id}}</p>
+    </div>
+    {% else %}
+    <div class="head3">
+        <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+    </div>
+    {% endif %}
 </div>
-{% else %}
-<div class="login_warning">
-    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
-</div>
-{% endif %}
 {% endblock %}
 
 {% block centro %}

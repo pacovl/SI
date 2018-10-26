@@ -244,6 +244,7 @@ iframe {
     left: 0px;
     display: block;
     overflow: hidden;
+    background-color:rgb(133, 133, 133);
 }
 
 
@@ -294,9 +295,6 @@ iframe {
     font-size: 30px;
 }
 
-.Boton_compra {
-}
-
 .Vertical {
     display: flex;
     flex-direction: column;
@@ -313,13 +311,24 @@ iframe {
 
 .flex-container {
     display: flex;
-    background-color: rgba(255, 255, 255, 0);
     justify-content: center;
 }
 .flex-container > div {
-    background-color: rgba(255, 255, 255, 0);
     margin: 10px;
     padding: 10px;
+}
+
+.flex-container-header {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    height: 100px;
+}
+.flex-container-header > div {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    align-self: center
 }
 
 .flex-container-wrap {
@@ -467,4 +476,16 @@ hr {
 
 .papelera:hover {
     background-color: rgba(77, 155, 125, 0.575);
+}
+
+.head1 {
+    flex-grow: 1
+}
+
+.head2 {
+    flex-grow: 8
+}
+
+.head3 {
+    flex-grow: 2
 }
