@@ -50,34 +50,31 @@ def create_app(test_config=None):
             if peli['id'] == id_peli:
                 return peli
         return None 
-        #'{"id": 0, "titulo": "Avatar","poster": "imgs/avatar.jpg","director": "James Cameron","precio": 10,"anno": 2009,"desc": "Un senor militar se vuelve azul y alucina con un mundo alienigena.","etiquetas": ["ciencia ficcion","espacio"],"actores": [{"nombre": "Zoe Saldana","personaje": "Neytiri"},{"nombre": "Sam Worthington","personaje": "Jake Sully"}]}'
+
+    def getUserName():
+        if session.get("user"):
+            return session['user']
+        return None
 
     # Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
     def index():
 
-        #session['carro'] = []
         # Identificamos solicitudes post tras busqueda
         if request.method == 'POST':
             type = request.form.keys()
 
             if "seleccion" in type:
                 search = request.form['seleccion']
-                #pelis = catalogo["peliculas"].filter(lambda x: x["titulo"] == filmname)
-                #category = request.form['categoria']
-                # print(category)
 
                 lista_filtrada = []
                 for pelicula in catalogo['peliculas']:
                     if search in pelicula["etiquetas"]:
                         lista_filtrada.append(pelicula)
 
-                indice = int(categorias.index(search))
-
-                return render_template('index.html', seleccion=lista_filtrada[:9], cats=categorias)
+                return render_template('index.html', seleccion=lista_filtrada, cats=categorias, user_id=getUserName())
 
             if "username" in type:
-
                 # Recibimos los campos de registro
                 nombre = request.form['username']
                 password = hashlib.md5(
@@ -86,19 +83,27 @@ def create_app(test_config=None):
                 # Comprobamos si existe una carpeta con el mismo nombre
                 dir_name = CUR_DIR + '/usuarios/' + nombre
                 if (not os.path.isdir(dir_name)):
-                    return "No existe ese usuario"
+                    flash("No existe ese usuario")
+                else:
 
-                with open(dir_name + '/datos.json', 'r') as outfile:
-                    datos_usuario = json.load(outfile)
+                    with open(dir_name + '/datos.json', 'r') as outfile:
+                        datos_usuario = json.load(outfile)
 
-                if password != datos_usuario["password"]:
-                    return "Contrasenia incorrecta"
+                    if password != datos_usuario["password"]:
+                        flash("Contrasenia incorrecta")
+                        #return "Contrasenia incorrecta"
+                        #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
+                    else:
+                        # TODO Hacer el login
+                        session['user'] = datos_usuario["nombre"]
+                        session.modified = True
+                        print("LOGIN EXITOSOOOOOOOO")
 
-                # TODO Hacer el login
-                print("LOGIN EXITOSOOOOOOOO")
-                return render_template('index.html', seleccion=catalogo["peliculas"][:9], cats=categorias)
+                # Pasamos la lista de peliculas para obtener los datos en seleccion
+                return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+                #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
+            
             if "fnombre" in type:
-
                 # Recibimos los campos de registro
                 nombre = request.form['fnombre']
                 password = hashlib.md5(
@@ -122,7 +127,7 @@ def create_app(test_config=None):
                 else:
                     return "El usuario ya existe"
 
-                return render_template('index.html', seleccion=catalogo["peliculas"][:9], cats=categorias)
+                return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
 
             if "buscar" in type:
                 search = request.form['buscar']
@@ -135,10 +140,11 @@ def create_app(test_config=None):
                     if pelicula["titulo"].lower().find(search.lower()) != -1:
                         lista_filtrada.append(pelicula)
 
-                return render_template('index.html', seleccion=lista_filtrada[:9], cats=categorias)
+                return render_template('index.html', seleccion=lista_filtrada[:9], cats=categorias, user_id=getUserName())
 
         # Pasamos la lista de peliculas para obtener los datos en seleccion
-        return render_template('index.html', seleccion=catalogo["peliculas"][:9], cats=categorias)
+        return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+
 
     @app.route('/detalle', methods=['POST', 'GET'])
     def detalle():
@@ -155,29 +161,27 @@ def create_app(test_config=None):
                 #Comprobamos si existe una carpeta con el mismo nombre
                 dir_name = CUR_DIR + '/usuarios/' + nombre
                 if (not os.path.isdir(dir_name)):
-                    return "No existe ese usuario"
+                    flash("No existe ese usuario")
+                else:
+                    with open(dir_name + '/datos.json', 'r') as outfile:
+                        datos_usuario = json.load(outfile)
 
-                with open(dir_name + '/datos.json', 'r') as outfile:
-                    datos_usuario = json.load(outfile)
-
-                if password != datos_usuario["password"]:
-                    return "Contrasenia incorrecta"
-
-                #Creamos la cookie de session
-                session['user'] = datos_usuario["nombre"]
-                session.modified = True
-
+                    if password != datos_usuario["password"]:
+                        flash("Contrasenia incorrecta")
+                    else:
+                        #Creamos la cookie de session
+                        session['user'] = datos_usuario["nombre"]
+                        session.modified = True
 
                 for peli in catalogo["peliculas"]:
                     if peli['titulo'] == pelicula:
-                        resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
+                        resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = catalogo["peliculas"][:3], cats = categorias, user_id=getUserName()))
                         return resp
-                return "No se ha encontrado pelicula"
 
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias)
+                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias, user_id=getUserName())
 
         return "No se ha encontrado la pelicula"
 
@@ -198,7 +202,7 @@ def create_app(test_config=None):
             print(str(item))
         #print("========> anado al carrito: "+peli[indice]+"("+str(id_peli)+")")
         
-        return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias)
+        return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias, user_id=getUserName())
 
         #return "No se ha encontrado la pelicula"
 
@@ -219,28 +223,29 @@ def create_app(test_config=None):
                 #Comprobamos si existe una carpeta con el mismo nombre
                 dir_name = CUR_DIR + '/usuarios/' + nombre
                 if (not os.path.isdir(dir_name)):
-                    return "No existe ese usuario"
+                    flash("No existe ese usuario")
+                else:
 
-                with open(dir_name + '/datos.json', 'r') as outfile:
-                    datos_usuario = json.load(outfile)
+                    with open(dir_name + '/datos.json', 'r') as outfile:
+                        datos_usuario = json.load(outfile)
 
-                if password != datos_usuario["password"]:
-                    return "Contrasenia incorrecta"
+                    if password != datos_usuario["password"]:
+                        flash("Contrasenia incorrecta")
+                    else:
+                        #Creamos la cookie de session
+                        session['user'] = datos_usuario["nombre"]
+                        session.modified = True
 
-                #Creamos la cookie de session
-                session['user'] = datos_usuario["nombre"]
-                session.modified = True
-
-                resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
+                #resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"], cats = categorias, user_id = datos_usuario["nombre"]))
         
         if not session.get('carro'):
-            return render_template('carrito.html', seleccion = None, user_id = session.get('user'))
+            return render_template('carrito.html', seleccion = None, user_id=getUserName())
         else:
             ids = session['carro']
 
             total = 0
             pelis_dict = {}
-            
+
             for peli_id in ids:
                 peli = getPeliculaById(peli_id)
 
@@ -251,15 +256,16 @@ def create_app(test_config=None):
 
                 total += peli['precio']
 
-            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id = session.get('user'))
+            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id=getUserName())
 
     @app.route('/tramitar', methods=['GET'])
     def tramitar():
-        # if (session.get('username')):
-
-        # else:
-            #alert
-        return render_template("index.html", seleccion=catalogo["peliculas"][:9], cats=categorias)
+        if (session.get('user')):
+            #nada
+            nombre = session['user']
+        else:
+            flash("<html>Necesitas haber iniciado sesion para tramitar el pedido</html>")
+        return render_template("index.html", seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
 
     @app.route('/eliminar', methods=['GET'])
     def eliminar():
@@ -269,6 +275,11 @@ def create_app(test_config=None):
             session['carro'].remove(id_peli)
             session.modified = True
         return redirect("/carrito")
+
+    @app.route('/logout', methods=['GET', 'POST'])
+    def logout():
+        session.pop('user', None)
+        return redirect("/")
 
     return app
 

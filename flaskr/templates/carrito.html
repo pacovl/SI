@@ -4,48 +4,6 @@
 Detalles - BigLemon
 {% endblock %}
 
-{% block izquierda %}
-<div class="side_menu">
-    <div class="flex-container-vertical">
-        <!--Clase para la búsqueda-->
-        <div>
-            <form action="/" method="POST">
-                <input name="buscar" type="text" placeholder="Busca..">
-                <input name="boton" type="submit" value="Buscar">
-            </form>
-        </div>
-
-        <!--Clase para el botón de login-->
-        {% if user_id %}
-        <div class="login_button">
-            <p>¡Acceda a su Historial!</p>
-            <form style="display: inline" action="/historial/" method="POST">
-                <input name="historial" type="submit" value="Historial">
-            </form>
-            <p> </p>
-            <form style="display: inline" action="/" method="POST">
-                <input name="logout" type="submit" value="LOGOUT">
-            </form>
-        </div>
-        {% else %}
-        <div class="login_button">
-            <p>¡Inicie sesión para comprar!</p>
-            <form style="display: inline" action="/carrito" method="POST">
-                <!-- <p>Nombre de usuario:</p> -->
-                <input name="username" type="text" placeholder="Nombre de usuario">
-                <!-- <p>Contraseña:</p> -->
-                <input name="password" type="password" placeholder="Contraseña">
-                <p></p>
-
-                <input type="submit" value="LOGIN">
-            </form>
-
-        </div>
-        {% endif %}
-    </div>
-</div>
-{% endblock %}
-
 {% block derecha %}
 <!--Listado de peliculas agregadas-->
 {% if seleccion %}

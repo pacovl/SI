@@ -483,9 +483,9 @@ hr {
 }
 
 .head2 {
-    flex-grow: 8
+    flex-grow: 6
 }
 
 .head3 {
-    flex-grow: 2
+    flex-grow: 1
 }

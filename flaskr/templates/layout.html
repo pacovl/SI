@@ -32,11 +32,75 @@ The Big Lemon
 
 {% block centro %}
 <div class="Izquierda">
-    {% block izquierda %}
-    {% endblock %}
+    <div class="side_menu">
+        <div class="flex-container-vertical">
+            <!--Clase para la búsqueda-->
+            <div>
+                <form action="/" method="POST">
+                    <input name="buscar" type="text" placeholder="Busca..">
+                    <input name="boton" type="submit" value="Buscar">
+                </form>
+            </div>
+
+            <!--Clase con la lista desplegable de categorías-->
+            {% if cats %}
+            <div class="categories">
+                <p>¡Busca tu categoría favorita!</p>
+                <div class="lista_desplegable">
+                    <form action="/" method="POST">
+                        <select name="seleccion" id="seleccion" onchange="this.form.submit()">
+                            {% for cat in cats %}
+                            <option value="{{cat}}">{{cat}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!--Clase para el botón de login-->
+            {% if user_id %}
+            <div class="login_button">
+                <p>¡Acceda a su Historial!</p>
+                <form style="display: inline" action="/historial" method="POST">
+                    <input class="Boton Boton1" name="historial" type="submit" value="Historial">
+                </form>
+                <p> </p>
+                <form style="display: inline" action="/logout" method="POST">
+                    <input class="Boton Boton1" name="logout" type="submit" value="LOGOUT">
+                </form>
+            </div>
+            {% else %}
+            <div class="login_button">
+                <p>¡Inicie sesión para comprar!</p>
+                <form style="display: inline" action="/" method="POST">
+                    <input type="hidden" name="peli" value={{seleccion.titulo}}>
+                    <!-- <p>Nombre de usuario:</p> -->
+                    <input name="username" type="text" placeholder="Nombre de usuario">
+                    <!-- <p>Contraseña:</p> -->
+                    <input name="password" type="password" placeholder="Contraseña">
+                    <p></p>
+                        <input class="Boton Boton1" type="submit" value="LOGIN">
+                </form>
+
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
 <div class="Derecha">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+
     {% block derecha %}
     {% endblock %}
+    {% endif %}
+    {% endwith %}
 </div>
 {% endblock %}

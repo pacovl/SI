@@ -207,29 +207,6 @@
                     "personaje": "The Narrator"
                 }
             ]
-        },
-        {
-            "id": 9,
-            "titulo": "",
-            "poster": "imgs/.jpg",
-            "director": "",
-            "precio": 10,
-            "etiquetas": [
-                "",
-                ""
-            ],
-            "anno": 20,
-            "desc": "",
-            "actores": [
-                {
-                    "nombre": "",
-                    "personaje": ""
-                },
-                {
-                    "nombre": "",
-                    "personaje": ""
-                }
-            ]
         }
     ]
 }
