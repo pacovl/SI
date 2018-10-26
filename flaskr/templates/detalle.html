@@ -109,7 +109,7 @@ Detalle - BigLemon
     <div class="Vertical">
         <div class="Descripcion">
             <p>
-                <b>Resumen: </b>{{seleccion.desc }}<br>
+                <b>Resumen: </b>{{ seleccion.desc }}<br>
                 <b>Año: </b>{{ seleccion.anno }}<br>
                 <b>Actores: </b>
                 {% for actor in seleccion.actores %}
@@ -127,8 +127,9 @@ Detalle - BigLemon
             </form> -->
             <a href="{{url_for('adicion', id=seleccion.id)}}">
                 <button class="Boton Boton1">
-                Añademe al carrito!
+                Añádeme al carrito ( {{ seleccion.precio }} €)
                 </button>
+            </a>
         </div>
     </div>
 

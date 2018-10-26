@@ -233,33 +233,45 @@ def create_app(test_config=None):
 
                 resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"][:9], cats = categorias, user_id = datos_usuario["nombre"]))
         
-        if 'carro' not in session:
+        if not session.get('carro'):
             return render_template('carrito.html', seleccion = None, user_id = session.get('user'))
         else:
             ids = session['carro']
-            #pelis_carro = {}
-            lista_pelis = []
 
-            print("---SESION---")
-            for item in ids:
-                print("-"+str(item))
+            # print("---SESION---")
+            # for item in ids:
+            #     print("-"+str(item))
 
             total = 0
+            pelis_dict = {}
             for peli_id in ids:
-                peli_id = int(peli_id)
                 peli = getPeliculaById(peli_id)
-                print("vamos a mostrar la peli: ===> "+peli['titulo'])
-                if peli == None:
-                    break
+
+                if peli_id in pelis_dict:
+                    pelis_dict[peli_id]["cant"] += 1
+                else:
+                    pelis_dict[peli_id] = {"peli": peli, "cant": 1}
+
                 total += peli['precio']
 
-                lista_pelis.append(peli)
-                #if peli_id in pelis_carro:
-                    #pelis_carro[peli_id]['cant'] += 1
-                #else:
-                    #pelis_carro[peli_id] = {"cant":1, "titulo":peli['titulo'], "poster":peli['poster'], "desd":peli['desc'], "precio":peli['precio']}
+            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id = session.get('user'))
 
-            return render_template('carrito.html', seleccion = lista_pelis, user_id = session.get('user'))
+    @app.route('/tramitar', methods=['GET'])
+    def tramitar():
+        # if (session.get('username')):
+
+        # else:
+            alert
+        return render_template("index.html", seleccion=catalogo["peliculas"][:9], cats=categorias)
+
+    @app.route('/eliminar', methods=['GET'])
+    def eliminar():
+        id_peli = request.args.get('pelicula')
+        id_peli = int(id_peli)
+        if session.get('carro'):
+            session['carro'].remove(id_peli)
+            session.modified = True
+        return redirect("/carrito")
 
     return app
 

@@ -21,11 +21,11 @@ Home - BigLemon
 
 {% if user_id %}
 <div class="login_warning">
-  <p>Bienvenido, {{user_id}}</p>
+    <p>Bienvenido, {{user_id}}</p>
 </div>
 {% else %}
 <div class="login_warning">
-  <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+    <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
 </div>
 {% endif %}
 {% endblock %}
@@ -44,27 +44,27 @@ Home - BigLemon
         <!--Clase para el botón de login-->
         {% if user_id %}
         <div class="login_button">
-          <p>¡Acceda a su Historial!</p>
-          <form style="display: inline" action="/historial/" method="POST">
-            <input name="historial" type="submit" value="Historial">
-          </form>
-          <p> </p>
-        <form style="display: inline" action="/" method="POST">
-          <input name="logout" type="submit" value="LOGOUT">
-        </form>
+            <p>¡Acceda a su Historial!</p>
+            <form style="display: inline" action="/historial/" method="POST">
+                <input name="historial" type="submit" value="Historial">
+            </form>
+            <p> </p>
+            <form style="display: inline" action="/" method="POST">
+                <input name="logout" type="submit" value="LOGOUT">
+            </form>
         </div>
         {% else %}
         <div class="login_button">
-          <p>¡Inicie sesión para comprar!</p>
-        <form style="display: inline" action="/carrito" method="POST">
-          <!-- <p>Nombre de usuario:</p> -->
-          <input name="username" type="text" placeholder="Nombre de usuario">
-          <!-- <p>Contraseña:</p> -->
-          <input name="password" type="password" placeholder="Contraseña">
-          <p></p>
+            <p>¡Inicie sesión para comprar!</p>
+            <form style="display: inline" action="/carrito" method="POST">
+                <!-- <p>Nombre de usuario:</p> -->
+                <input name="username" type="text" placeholder="Nombre de usuario">
+                <!-- <p>Contraseña:</p> -->
+                <input name="password" type="password" placeholder="Contraseña">
+                <p></p>
 
-          <input type="submit" value="LOGIN">
-        </form>
+                <input type="submit" value="LOGIN">
+            </form>
 
         </div>
         {% endif %}
@@ -81,35 +81,53 @@ Home - BigLemon
     <div class=flex-container>
         <!-- Parte izquierda con titulo y portada -->
         <div>
-            {% if peli.titulo|length < 100 %} 
-            <h2 class = "centro">{{peli.titulo}}</h2>
-            {% else %}
-            <div title="{{peli.titulo}}">
-                <h2>{{peli.titulo[:98] + '...'}}</h2>
-            </div>
-            {% endif %}
-            <div class="portada">
-                <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
-                    <img src="static/{{peli.poster}}" alt="portada de {{peli.titulo}}" width="200px" height="270px">
-                </a>
-            </div>
+            {% if seleccion[peli]['peli'].titulo|length < 100 %} <h2 class="centro">{{seleccion[peli]['peli'].titulo}}</h2>
+                {% else %}
+                <div title="{{seleccion[peli]['peli'].titulo}}">
+                    <h2>{{seleccion[peli]['peli'].titulo[:98] + '...'}}</h2>
+                </div>
+                {% endif %}
+                <div class="portada">
+                    <a href="{{url_for('detalle', pelicula=seleccion[peli]['peli'].titulo)}}" target="_parent">
+                        <img src="static/{{seleccion[peli]['peli'].poster}}" alt="portada de {{seleccion[peli]['peli'].titulo}}" width="200px" height="270px">
+                    </a>
+                </div>
         </div>
         <!-- Parte derecha con descripcion, fecha de compra y precio -->
         <div>
             <p>
-            <b>Sinópsis:</b>
-            {% if peli.desc|length < 220 %}
-            {{peli.desc}}
-            {% else %}
-            {{peli.desc[:218] + '...'}}
-            {% endif %}
+                <b>Sinópsis:</b>
+                {% if seleccion[peli]['peli'].desc|length < 220 %} 
+                    {{seleccion[peli]['peli'].desc}} 
+                {% else %} 
+                    {{seleccion[peli]['peli'].desc[:218] + '...'}} 
+                {% endif %} 
             </p>
-            <p><b>Precio: </b>{{peli.precio}}€</p>
+            <p>
+                <b>Precio: </b>{{seleccion[peli]['peli'].precio}}€
+            </p>
+            <p>
+                <b>Cantidad: </b>{{seleccion[peli]['cant']}}
+            </p>
+            <a href="{{url_for('eliminar', pelicula=seleccion[peli]['peli'].id)}}" target="_parent">
+                <div class="papelera">
+                    <img src="static/imgs/papelera.png" alt="icono de papelera" width="30px" height="30px">
+                </div>
+            </a>
         </div>
+
     </div>
     <hr>
 
     {% endfor %}
+</div>
+
+<div class="tramitar">
+    <a href="{{url_for('tramitar', total=precio)}}">
+        <button class="Boton Boton1">
+            Tramitar ( Total: {{ precio }} €)
+        </button>
+    </a>
 </div>
 
 {% else %}
