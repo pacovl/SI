@@ -7,7 +7,7 @@ from flask_session import Session
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
 )
-from random import randint
+from random import randint, sample
 
 
 def create_app(test_config=None):
@@ -21,6 +21,7 @@ def create_app(test_config=None):
         #SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    recomendadas = [] # var global para recomendacion de peliculas
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -55,6 +56,28 @@ def create_app(test_config=None):
         if session.get("user"):
             return session['user']
         return None
+
+    def calcular_total():
+        ids = session['carro']
+        total = 0
+
+        for peli_id in ids:
+            peli = getPeliculaById(peli_id)
+            total += peli['precio']
+
+        return total
+
+    def recomendacion_aletoria(num_pelis=3, mantener=False):
+        # if mantener:
+        #     return global_recomendadas
+        # else:
+        longitud = len(catalogo['peliculas'])
+        indices = sample(range(longitud), num_pelis)
+        recomendadas = []
+        for i in indices:
+            recomendadas.append(catalogo['peliculas'][i])
+
+        return recomendadas
 
     # Definimos index.html
     @app.route('/', methods=['POST', 'GET'])
@@ -175,13 +198,13 @@ def create_app(test_config=None):
 
                 for peli in catalogo["peliculas"]:
                     if peli['titulo'] == pelicula:
-                        resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = catalogo["peliculas"][:3], cats = categorias, user_id=getUserName()))
+                        resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
                         return resp
 
         pelicula = request.args.get('pelicula')
         for peli in catalogo["peliculas"]:
             if peli['titulo'] == pelicula:
-                return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias, user_id=getUserName())
+                return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
 
         return "No se ha encontrado la pelicula"
 
@@ -197,14 +220,11 @@ def create_app(test_config=None):
             session['carro'] = []
             session['carro'].append(id_peli)
 
-        print("========> anado al carrito: "+peli['titulo']+"("+str(id_peli)+") "+"["+str(len(session['carro']))+"]")
-        for item in session['carro']:
-            print(str(item))
-        #print("========> anado al carrito: "+peli[indice]+"("+str(id_peli)+")")
-        
-        return render_template('detalle.html', seleccion=peli, recomendadas=catalogo["peliculas"][:3], cats=categorias, user_id=getUserName())
+        # print("========> anado al carrito: "+peli['titulo']+"("+str(id_peli)+") "+"["+str(len(session['carro']))+"]")
+        #for item in session['carro']:
+        #    print(str(item))
 
-        #return "No se ha encontrado la pelicula"
+        return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(mantener=True), cats=categorias, user_id=getUserName())
 
     @app.route('/registro', methods=['POST', 'GET'])
     def registro():
@@ -261,10 +281,16 @@ def create_app(test_config=None):
     @app.route('/tramitar', methods=['GET'])
     def tramitar():
         if (session.get('user')):
-            #nada
             nombre = session['user']
+            coste = calcular_total()
+            
+            # Comprobar si hay saldo
+
+            # restar saldo
+            dir_name = CUR_DIR + '/usuarios/' + nombre
+
         else:
-            flash("<html>Necesitas haber iniciado sesion para tramitar el pedido</html>")
+            flash("Necesitas haber iniciado sesion para tramitar el pedido")
         return render_template("index.html", seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
 
     @app.route('/eliminar', methods=['GET'])
