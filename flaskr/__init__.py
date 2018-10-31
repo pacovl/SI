@@ -5,9 +5,10 @@ import functools
 from flask import Flask, session
 from flask_session import Session
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response, current_app
 )
 from random import randint, sample
+import datetime
 
 
 def create_app(test_config=None):
@@ -21,7 +22,6 @@ def create_app(test_config=None):
         #SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-    recomendadas = [] # var global para recomendacion de peliculas
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -45,28 +45,43 @@ def create_app(test_config=None):
                 if(cat and (cat not in categorias)):
                     categorias.append(cat)
 
-
+    # Obtencion de un objeto pelicula a partir de su id
     def getPeliculaById(id_peli):
         for peli in catalogo['peliculas']:
             if peli['id'] == id_peli:
                 return peli
         return None 
 
+    # Devuelve el nombre del usuario actual, none si no existe
     def getUserName():
         if session.get("user"):
             return session['user']
         return None
 
-    def calcular_total():
+    # Devuleve el importe total correspondiente a los items del carrito y un diccionario
+    # con las peliculas compradas con sus respectivas cantidades
+    def procesar_carro():
         ids = session['carro']
+
         total = 0
+        pelis_dict = {}
 
         for peli_id in ids:
             peli = getPeliculaById(peli_id)
+
+            if peli_id in pelis_dict:
+                pelis_dict[peli_id]["cant"] += 1
+            else:
+                pelis_dict[peli_id] = {"peli": peli, "cant": 1}
+            
             total += peli['precio']
 
-        return total
+        return total, pelis_dict
 
+    def vaciar_carro():
+        session.pop('carro')
+
+    # Devuelve un listado de objetos pelicula aleatoriamente obtenidos
     def recomendacion_aletoria(num_pelis=3, mantener=False):
         # if mantener:
         #     return global_recomendadas
@@ -138,6 +153,7 @@ def create_app(test_config=None):
                 # Creamos un dict con los campos de registro
                 dict = {'nombre': nombre, 'password': password,
                         'email': email, 'card': card, 'sex': sex, 'saldo': saldo}
+                dict_historial = {'compras': []}
 
                 # Comprobamos si existe una carpeta con el mismo nombre
                 dir_name = CUR_DIR + '/usuarios/' + nombre
@@ -146,6 +162,8 @@ def create_app(test_config=None):
                     # Escribimos un archivo json con el usuario
                     with open(dir_name + '/datos.json', 'w+') as outfile:
                         json.dump(dict, outfile)
+                    with open(dir_name + '/historial.json', 'w+') as outfile_historial:
+                        json.dump(dict_historial, outfile_historial)
                 else:
                     return "El usuario ya existe"
 
@@ -219,12 +237,7 @@ def create_app(test_config=None):
             session['carro'] = []
             session['carro'].append(id_peli)
 
-        # print("========> anado al carrito: "+peli['titulo']+"("+str(id_peli)+") "+"["+str(len(session['carro']))+"]")
-        #for item in session['carro']:
-        #    print(str(item))
-
         return redirect(url_for('detalle', pelicula=peli["titulo"]))
-        #return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(mantener=True), cats=categorias, user_id=getUserName())
 
     @app.route('/registro', methods=['POST', 'GET'])
     def registro():
@@ -282,12 +295,42 @@ def create_app(test_config=None):
     def tramitar():
         if (session.get('user')):
             nombre = session['user']
-            coste = calcular_total()
-            
-            # Comprobar si hay saldo
-
-            # restar saldo
+            coste, dict_pelis = procesar_carro()
             dir_name = CUR_DIR + '/usuarios/' + nombre
+            
+            if (not os.path.isdir(dir_name)):
+                flash("No existe ese usuario")
+            else:
+                # Comprobar si hay saldo
+                with open(dir_name + '/datos.json') as f:
+                    datos = json.load(f)
+
+                saldo = datos['saldo']
+                if saldo >= coste:
+                    # Descontamos coste
+                    datos['saldo'] = saldo - coste
+
+                    with open(dir_name + '/datos.json', 'w+') as f_datos:
+                        json.dump(datos, f_datos)
+
+                    fecha = str(datetime.datetime.now())
+                    dict_compra = {'fecha': fecha, 'coste': coste, 'peliculas': dict_pelis}
+
+                    with open(dir_name + '/historial.json') as f_historial:
+                        historial = json.load(f_historial)
+
+                    # Anadimos la compra al historial
+                    historial['compras'].append(dict_compra)
+
+                    with open(dir_name + '/historial.json', 'w+') as outfile:
+                        json.dump(historial, outfile)
+                    
+                    flash("Has realizado tu compra exitosamente")
+
+                    vaciar_carro()
+
+                else:
+                    flash("No tienes suficiente saldo")
 
         else:
             flash("Necesitas haber iniciado sesion para tramitar el pedido")
@@ -312,3 +355,4 @@ def create_app(test_config=None):
 if __name__ == '__main__':
     app = create_app()
     app.run()
+    
