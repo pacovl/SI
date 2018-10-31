@@ -33,7 +33,7 @@ except OSError:
     pass
 
 # Aqui obtenemos el catalogo y las categorias
-with open('catalogo.json') as f:
+with open(os.path.join(os.path.dirname(__file__), 'catalogo.json')) as f:
     catalogo = json.load(f)
     categorias = ["--"]
     for peli in catalogo["peliculas"]:
@@ -116,7 +116,7 @@ def index():
                     request.form['password'].encode('utf8')).hexdigest()
 
                 # Comprobamos si existe una carpeta con el mismo nombre
-                dir_name = CUR_DIR + '/usuarios/' + nombre
+                dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
                 if (not os.path.isdir(dir_name)):
                     flash("No existe ese usuario")
                 else:
@@ -152,7 +152,7 @@ def index():
             dict_historial = {'compras': []}
 
             # Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = CUR_DIR + '/usuarios/' + nombre
+            dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
             if (not os.path.isdir(dir_name)):
                 os.makedirs(dir_name)
                 # Escribimos un archivo json con el usuario
@@ -195,7 +195,7 @@ def detalle():
             pelicula = request.form['peli']
 
             #Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = CUR_DIR + '/usuarios/' + nombre
+            dir_name = dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
             if (not os.path.isdir(dir_name)):
                 flash("No existe ese usuario")
             else:
@@ -250,7 +250,7 @@ def carrito():
             password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
 
             #Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = CUR_DIR + '/usuarios/' + nombre
+            dir_name = dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
             if (not os.path.isdir(dir_name)):
                 flash("No existe ese usuario")
             else:
@@ -292,7 +292,7 @@ def tramitar():
     if (session.get('user')):
         nombre = session['user']
         coste, dict_pelis = procesar_carro()
-        dir_name = CUR_DIR + '/usuarios/' + nombre
+        dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
 
         if (not os.path.isdir(dir_name)):
             flash("No existe ese usuario")
@@ -308,7 +308,7 @@ def tramitar():
 
                 with open(dir_name + '/datos.json', 'w+') as f_datos:
                     json.dump(datos, f_datos)
-                
+
                 fecha = str(datetime.datetime.now())
                 dict_compra = {'fecha': fecha, 'coste': coste, 'peliculas': dict_pelis}
 
@@ -332,25 +332,6 @@ def tramitar():
         flash("Necesitas haber iniciado sesion para tramitar el pedido")
     return render_template("index.html", seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
 
-    @app.route('/historial', methods=['GET', 'POST'])
-    def historial():
-        nombre = getUserName()
-        dir_name = CUR_DIR + '/usuarios/' + nombre
-        if not nombre == None:
-            with open(dir_name + '/datos.json') as f:
-                datos = json.load(f)
-
-            with open(dir_name + '/historial.json') as f_historial:
-                historial = json.load(f_historial)
-
-            saldo = datos['saldo']
-            return(render_template('historico.html', saldo = saldo, compras = historial['compras'], user_id=getUserName()))
-
-    @app.route('/logout', methods=['GET', 'POST'])
-    def logout():
-        session.pop('user', None)
-        return redirect("/")
-
 @app.route('/eliminar', methods=['GET'])
 def eliminar():
     id_peli = request.args.get('pelicula')
@@ -358,12 +339,12 @@ def eliminar():
     if session.get('carro'):
         session['carro'].remove(id_peli)
         session.modified = True
-    return redirect("/carrito")
+    return redirect(url_for("carrito"))
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('user', None)
-    return redirect("/")
+    return redirect(url_for("index"))
 
 @app.route('/visitas', methods=['GET', 'POST'])
 def visitas():
@@ -372,6 +353,20 @@ def visitas():
         Response(str(x), headers={'Content-Type': 'text/html'}),
         200)
     return rv
+
+@app.route('/historial', methods=['GET', 'POST'])
+def historial():
+    nombre = getUserName()
+    dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
+    if not nombre == None:
+        with open(dir_name + '/datos.json') as f:
+            datos = json.load(f)
+
+        with open(dir_name + '/historial.json') as f_historial:
+            historial = json.load(f_historial)
+
+        saldo = datos['saldo']
+        return(render_template('historico.html', saldo = saldo, seleccion = historial['compras'][0]['peliculas'], user_id=getUserName()))
 
 if __name__ == '__main__':
     app.run()

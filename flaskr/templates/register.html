@@ -46,7 +46,7 @@ $(document).ready(function(){
 
   <div class="Registro">
     <h3>¡Regístrese para disfrutar al máximo de The Big Lemon!</h3>
-    <form id="registro" action="/" method="POST">
+    <form id="registro" action="{{url_for("index")}}" method="POST">
       <label for="nombre">Nombre de usuario:</label>
       <input type="text" name="fnombre" id="nombre" /><br>
       <label for="pass">Contraseña:</label>
