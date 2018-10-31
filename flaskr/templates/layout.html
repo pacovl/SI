@@ -74,7 +74,9 @@ The Big Lemon
             <div class="login_button">
                 <p>¡Inicie sesión para comprar!</p>
                 <form style="display: inline" action="/" method="POST">
+                    {% if seleccion %}
                     <input type="hidden" name="peli" value={{seleccion.titulo}}>
+                    {% endif %}
                     <!-- <p>Nombre de usuario:</p> -->
                     <input name="username" type="text" placeholder="Nombre de usuario">
                     <!-- <p>Contraseña:</p> -->
