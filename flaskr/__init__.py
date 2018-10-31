@@ -2,8 +2,7 @@ import os
 import hashlib
 import json
 import functools
-from flask import Flask, session
-from flask_session import Session
+from flask import Flask, session, Response
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for, make_response, current_app
 )
@@ -50,7 +49,7 @@ def create_app(test_config=None):
         for peli in catalogo['peliculas']:
             if peli['id'] == id_peli:
                 return peli
-        return None 
+        return None
 
     # Devuelve el nombre del usuario actual, none si no existe
     def getUserName():
@@ -73,7 +72,7 @@ def create_app(test_config=None):
                 pelis_dict[peli_id]["cant"] += 1
             else:
                 pelis_dict[peli_id] = {"peli": peli, "cant": 1}
-            
+
             total += peli['precio']
 
         return total, pelis_dict
@@ -139,7 +138,7 @@ def create_app(test_config=None):
                     # Pasamos la lista de peliculas para obtener los datos en seleccion
                     return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
                 #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
-            
+
             if "fnombre" in type:
                 # Recibimos los campos de registro
                 nombre = request.form['fnombre']
@@ -270,7 +269,7 @@ def create_app(test_config=None):
                         session.modified = True
 
                 #resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"], cats = categorias, user_id = datos_usuario["nombre"]))
-        
+
         if not session.get('carro'):
             return render_template('carrito.html', seleccion = None, user_id=getUserName())
         else:
@@ -297,7 +296,7 @@ def create_app(test_config=None):
             nombre = session['user']
             coste, dict_pelis = procesar_carro()
             dir_name = CUR_DIR + '/usuarios/' + nombre
-            
+
             if (not os.path.isdir(dir_name)):
                 flash("No existe ese usuario")
             else:
@@ -324,7 +323,7 @@ def create_app(test_config=None):
 
                     with open(dir_name + '/historial.json', 'w+') as outfile:
                         json.dump(historial, outfile)
-                    
+
                     flash("Has realizado tu compra exitosamente")
 
                     vaciar_carro()
@@ -350,9 +349,16 @@ def create_app(test_config=None):
         session.pop('user', None)
         return redirect("/")
 
+    @app.route('/visitas', methods=['GET', 'POST'])
+    def visitas():
+        x = randint(0, 10000)
+        rv = make_response(
+            Response(str(x), headers={'Content-Type': 'text/html'}),
+            200)
+        return rv
+
     return app
 
 if __name__ == '__main__':
     app = create_app()
     app.run()
-    
