@@ -100,30 +100,29 @@ def create_app(test_config=None):
             if "username" in type:
                 # Recibimos los campos de registro
                 nombre = request.form['username']
-                password = hashlib.md5(
-                    request.form['password'].encode('utf8')).hexdigest()
+                if not(not nombre or nombre == ""):
+                    password = hashlib.md5(
+                        request.form['password'].encode('utf8')).hexdigest()
 
-                # Comprobamos si existe una carpeta con el mismo nombre
-                dir_name = CUR_DIR + '/usuarios/' + nombre
-                if (not os.path.isdir(dir_name)):
-                    flash("No existe ese usuario")
-                else:
-
-                    with open(dir_name + '/datos.json', 'r') as outfile:
-                        datos_usuario = json.load(outfile)
-
-                    if password != datos_usuario["password"]:
-                        flash("Contrasenia incorrecta")
-                        #return "Contrasenia incorrecta"
-                        #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
+                    # Comprobamos si existe una carpeta con el mismo nombre
+                    dir_name = CUR_DIR + '/usuarios/' + nombre
+                    if (not os.path.isdir(dir_name)):
+                        flash("No existe ese usuario")
                     else:
-                        # TODO Hacer el login
-                        session['user'] = datos_usuario["nombre"]
-                        session.modified = True
-                        print("LOGIN EXITOSOOOOOOOO")
 
-                # Pasamos la lista de peliculas para obtener los datos en seleccion
-                return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+                        with open(dir_name + '/datos.json', 'r') as outfile:
+                            datos_usuario = json.load(outfile)
+
+                        if password != datos_usuario["password"]:
+                            flash("Contrasenia incorrecta")
+                            #return "Contrasenia incorrecta"
+                            #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
+                        else:
+                            session['user'] = datos_usuario["nombre"]
+                            session.modified = True
+
+                    # Pasamos la lista de peliculas para obtener los datos en seleccion
+                    return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
                 #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
             
             if "fnombre" in type:
@@ -224,7 +223,8 @@ def create_app(test_config=None):
         #for item in session['carro']:
         #    print(str(item))
 
-        return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(mantener=True), cats=categorias, user_id=getUserName())
+        return redirect(url_for('detalle', pelicula=peli["titulo"]))
+        #return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(mantener=True), cats=categorias, user_id=getUserName())
 
     @app.route('/registro', methods=['POST', 'GET'])
     def registro():
