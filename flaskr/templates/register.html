@@ -16,7 +16,50 @@
 
 {% block centro %}
 
-	<script type="text/javascript" src="static/validacion.js"></script>
+	<script type="text/javascript" src="static/validacion.js">
+
+  </script>
+
+  <script src= "http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">
+  jQuery.fn.fortalezaClave = function(){
+   $(this).each(function(){
+      elem = $(this);
+      //creo el elemento HTML para el mensaje
+      msg = $('<span class="fortaleza">No segura</span>');
+      //inserto el mensaje en la página, justo después del campo input password
+      elem.after(msg)
+      //almaceno la referencia del elemento del mensaje dentro del campo input
+      elem.data("mensaje", msg);
+
+      elem.keyup(function(e){
+         elem = $(this);
+         //recupero la referencia al elemento del mensaje
+         msg = elem.data("mensaje")
+         //miro la fortaleza
+         //extraigo el atributo value del campo input password
+         claveActual = elem.attr("value");
+         var fortalezaActual = "";
+         //saco la fortaleza en función de los caracteres que tenga la clave
+         if (claveActual.length < 5){
+            fortalezaActual = "No segura";
+         }else{
+            if(claveActual.length < 8){
+               fortalezaActual = "Medianamente segura";
+            }else{
+               fortalezaActual = "Segura";
+            }
+         }
+         //cambio el texto del elemento mensaje para mostrar la fortaleza actual
+         msg.html(fortalezaActual);
+      });
+   });
+   return this;
+}
+
+$(document).ready(function(){
+   $("#fnombre").fortalezaClave();
+});
+  </script>
 
   <div class="Registro">
     <h3>¡Regístrese para disfrutar al máximo de The Big Lemon!</h3>
@@ -30,7 +73,7 @@
       <label for="card">Número de tarjeta:</label>
       <input type="text" name="fcard" id="card" /><br>
       <label for="sex">Sexo:</label>
-      <select name="fsex" id ="sex">
+      <select name="fsex" id="sex">
         <option value="--">--</option>
         <option value="M">M</option>
         <option value="F">F</option>
