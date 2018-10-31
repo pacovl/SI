@@ -5,6 +5,20 @@ The Big Lemon
 {% endblock %}
 
 {% block header %}
+<script >
+function contadorVisitas() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("contador").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "/visitas", true);
+  xhttp.send();
+}
+setInterval(contadorVisitas, 1500);
+</script>
 <div class="flex-container-header">
     <div class="head1">
         <a href="{{url_for('carrito')}}">
@@ -87,6 +101,11 @@ The Big Lemon
 
             </div>
             {% endif %}
+            <!-- Contador de visitas -->
+            <div class = "contador_visitas">
+            <p> Usuarios online: </p>
+            <p id = "contador"> </p>
+            </div>
         </div>
     </div>
 </div>

@@ -2,21 +2,23 @@ function validarNombre(nombre) {
 	return(nombre.trim().length >= 2);
 }
 
-/*TODO USAR REGEX POR DIOS QUE ESTO ES FEO*/
 function validarContraseña(pass) {
-	var flag1, flag2, flag3, i = 0;
+	if(pass.length < 1){
+		return false;
+	}
+	var flag1 = 0, flag2 = 0, flag3 = 0, i = 0;
 	for(i=0; i<pass.length; i++){
 		if(pass.charAt(i) == pass.charAt(i).toUpperCase()){
 			flag1 = 1;
 		}
-		if('0123456789'.indexOf(pass.charAt(i)) != -1){
+		if('0123456789'.indexOf(pass.charAt(i)) >= 0){
 			flag2 = 1;
 		}
-		if('0123456789qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM'.indexOf(pass.charAt(i)) == -1){
+
+		if('qwertyuiopasdfghjklñzxcvbnmQWERTYUIOPASDFGHJKLÑZXCVBNM'.indexOf(pass.charAt(i)) >= 0){
 			flag3 = 1;
 		}
 	}
-
 	prod = flag1*flag2*flag3;
 
 	if(prod == 0){
@@ -34,33 +36,28 @@ function validarCorreo(correo) {
 	return((correo.indexOf("@") > 0) && (correo.lastIndexOf("@") < correo.length-1) && (correo.indexOf("@") == correo.lastIndexOf("@")));
 }
 
-function validar(formulario) {
+function validar(formulario, documento) {
 	var retorno = true;
 	var msj = "";
-
-	if(! validarNombre(formulario["fnombre"].value))
+	if(! validarNombre(document.getElementById('nombre').value))
 	{
-		formulario["fnombre"].focus();
 		retorno = false;
 		msj += "Escriba al menos 2 caracteres en el campo \"Nombre\".";
 	}
-
-	if(! validarContraseña(formulario["fpass"].value))
+	if(! validarContraseña(document.getElementById('pass').value))
 	{
 		if(retorno)
 		{
-			formulario["fpass"].focus();
 			retorno = false;
 		}
 		else msj += "\n";
 		msj += "El campo \"Contrasenia\" debe contener:\n Un n\u00FAmero entero.\n Una letra may\u00FAscula.\n Un caracter alfanumerico";
 	}
 
-	if(! validarCorreo(formulario["femail"].value))
+	if(! validarCorreo(document.getElementById('correo').value))
 	{
 		if(retorno)
 		{
-			formulario["femail"].focus();
 			retorno = false;
 		}
 		else msj += "\n";
@@ -69,11 +66,10 @@ function validar(formulario) {
 
 	/*TODO FALTA VALIDAR TARJETA*/
 
-	if(! validarSexo(formulario["fsex"].value))
+	if(! validarSexo(document.getElementById('sex').value))
 	{
 		if(retorno)
 		{
-			formulario["fsex"].focus();
 			retorno = false;
 		}
 		else msj += "\n";
@@ -85,8 +81,8 @@ function validar(formulario) {
 	return(retorno);
 }
 
-function validacion(formulario){
-	retorno = validar(formulario);
+function validacion(formulario, documento){
+	retorno = validar(formulario, documento);
 
 	if(retorno){
 		formulario.submit();
