@@ -1,0 +1,22 @@
+sudo su - postgres
+
+createdb -U alumnodb <nombre>
+dropdb
+
+psql (terminal)
+
+\l (lista las bbdd)
+\q (salir)
+
+psql -U alumnodb <nombre bbdd>
+
+una vez cargada la bbdd:
+\d (lista las tablas)
+\d <nombre tabla> (lista tabla)
+
+puedes hacer consultas directamente
+
+
+
+Notas clase dia 15:
+No crear vistas dentro de una funcion/trigger. Si eso hacerlo fuera
