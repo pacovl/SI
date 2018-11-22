@@ -1,0 +1,69 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Detalles - BigLemon
+{% endblock %}
+
+{% block derecha %}
+<!--Listado de peliculas agregadas-->
+{% if seleccion %}
+
+<div class="flex-container-vertical">
+    {% for peli in seleccion %}
+    <div class=flex-container>
+        <!-- Parte izquierda con titulo y portada -->
+        <div>
+            {% if seleccion[peli]['peli'].titulo|length < 100 %} <h2 class="centro">{{seleccion[peli]['peli'].titulo}}</h2>
+                {% else %}
+                <div title="{{seleccion[peli]['peli'].titulo}}">
+                    <h2>{{seleccion[peli]['peli'].titulo[:98] + '...'}}</h2>
+                </div>
+                {% endif %}
+                <div class="portada">
+                    <a href="{{url_for('detalle', pelicula=seleccion[peli]['peli'].titulo)}}" target="_parent">
+                        <img src="static/caratula.jpg" alt="portada de {{seleccion[peli]['peli'].titulo}}" width="200px" height="270px">
+                    </a>
+                </div>
+        </div>
+        <!-- Parte derecha con descripcion, fecha de compra y precio -->
+        <div>
+            <p>
+                <b>Sinópsis:</b>
+                {% if seleccion[peli]['peli'].desc|length < 220 %} 
+                    {{seleccion[peli]['peli'].desc}} 
+                {% else %} 
+                    {{seleccion[peli]['peli'].desc[:218] + '...'}} 
+                {% endif %} 
+            </p>
+            <p>
+                <b>Precio: </b>{{seleccion[peli]['peli'].precio}}€
+            </p>
+            <p>
+                <b>Cantidad: </b>{{seleccion[peli]['cant']}}
+            </p>
+            <a href="{{url_for('eliminar', pelicula=seleccion[peli]['peli'].id)}}" target="_parent">
+                <div class="papelera">
+                    <img src="static/imgs/papelera.png" alt="icono de papelera" width="30px" height="30px">
+                </div>
+            </a>
+        </div>
+
+    </div>
+    <hr>
+
+    {% endfor %}
+</div>
+
+<div class="tramitar">
+    <a href="{{url_for('tramitar', total=precio)}}">
+        <button class="Boton Boton1">
+            Tramitar ( Total: {{ precio }} €)
+        </button>
+    </a>
+</div>
+
+{% else %}
+<p class="centre">Tu carrito esta vacío</p>
+{% endif %}
+
+{% endblock %}

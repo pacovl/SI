@@ -1,0 +1,512 @@
+.header {
+    position: absolute;
+    background-color: rgb(133, 133, 133);
+    color: gold;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
+}
+
+.header_img {
+    background-color: rgb(133, 133, 133);
+    margin: auto;
+    color: gold;
+    text-align: center;
+    width: 50%;
+    height: 100%;
+}
+
+.logout {
+    position: absolute;
+    top: 10px;
+    background-color: rgb(133, 133, 133);
+    color: gold;
+    text-align: center;
+    right: 10px;
+    width: 100px;
+    height: 50px;
+}
+
+.login_warning {
+    position: absolute;
+    right: 50px;
+    width: 150px;
+}
+
+.profilepic {
+    position: absolute;
+    top: 25px;
+    right: 125px;
+}
+
+.cartpic {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+}
+
+/* Seccion para el pie de pagina */
+.Pie {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+    background-color: rgb(133,133,133);
+}
+
+.Pie_texto {
+    text-align: center;
+    line-height: 40px;
+    margin: auto;
+}
+
+.side_menu {
+    position: absolute;
+    color: yellow;
+    background-color: rgb(133, 131, 112);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: auto;
+}
+.main_menu {
+    position: absolute;
+    color: black;
+    background-color: rgb(219, 235, 240);
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.catalogue {
+    position: absolute;
+    left: 0;
+    padding: 1rem;
+    text-align: center;
+    width: 95%;
+    height: 75%;
+    top: 0;
+    overflow: hidden;
+}
+
+.sidescroll {
+    position: absolute;
+    padding: 1rem;
+    margin: 10px;
+    width: 100%;
+    height: 20%;
+    bottom: 60px;
+    left: 0;
+}
+
+.leftscroll {
+    position: absolute;
+    width: 20%;
+    bottom: 0;
+    left: 0;
+}
+
+.rightscroll {
+    position: absolute;
+    width: 20%;
+    bottom: 0;
+    right: 0;
+}
+
+.film1 {
+    position: absolute;
+    left: 50px;
+    padding: 1rem;
+    text-align: center;
+    width: 20%;
+    top: 50px;
+    display: block;
+}
+
+.film2 {
+    position: absolute;
+    width: 20%;
+    top: 50px;
+    right: 50px;
+    padding: 1rem;
+    display: block;
+}
+
+.film3 {
+    padding: 1rem;
+    margin-top: 33px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 20%;
+    display: block;
+}
+
+.search {
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 50px;
+    width: 90%;
+    display: block;
+}
+
+.login_button {
+    font-size: 10px;
+}
+.history_button {
+    padding: 1rem;
+    margin: auto;
+    margin-bottom: 50px;
+    width: 60%;
+    display: block;
+}
+
+.categories {
+    /* margin: auto;
+    margin-bottom: 50px;
+    padding: 1rem;
+    width: 90%;
+    display: block; */
+    font-size: 10px;
+}
+
+/*Consideraciones generales */
+
+a:visited, a:link {
+    color: #F93;
+  }
+
+html {
+    font-family: helvetica;
+    background: #333;
+    color: #CCC;
+  }
+
+body {
+    font-family: helvetica;
+    background: rgb(205, 230, 230);
+    color: rgb(0, 0, 0);
+    margin: 0px;
+  }
+
+  /*Esto es exclusivamente para los botones de adelante y atr�s*/
+.arrow {
+    cursor: pointer;
+    display: inline-block;
+    height: 40px;
+    position: relative;
+    line-height: 2.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    background: white;
+    color: black;
+}
+
+.arrow:after {
+    /* the triangle */
+    content: "";
+    position: absolute;
+    border-bottom: 20px solid transparent;
+    border-top: 20px solid transparent;
+    height: 0px;
+    width: 0px;
+    margin-right: -20px;
+    right: 0;
+}
+
+.arrow:hover, .arrow:active {
+    background: yellow;
+    color: black;
+}
+
+/*A PARTIR DE AQU� ES LO DE LOS IFRAMES*/
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border:none;
+    overflow: hidden;
+    margin: auto;
+}
+
+/*Estilo para iframes de la web*/
+
+.Cabecera {
+    position: fixed;
+    width: 100%;
+    height: 100px;
+    top: 0px;
+    left: 0px;
+    display: block;
+    overflow: hidden;
+    background-color:rgb(133, 133, 133);
+}
+
+
+.Registro {
+    margin: auto;
+    color: gold;
+    background-color: rgb(133, 133, 133);
+    text-align: center;
+    width: 90%;
+    height: 90%;
+}
+
+.Centro {
+    position: absolute;
+    top: 100px;
+    bottom: 40px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.Izquierda {
+    position: absolute;
+    width: 25%;
+    height: 100%;
+    left: 0px;
+    overflow: auto;
+}
+
+.Derecha {
+    position: absolute;
+    background-color: rgb(219, 235, 240);
+    width: 75%;
+    height: 100%;
+    right: 0px;
+    overflow: auto;
+}
+
+/* Para la pagina de Detalles */
+.Detalles {
+    position: static;
+    float: top;
+    margin: 15px;
+}
+
+.Titulo_peli {
+    text-align: center;
+    font-size: 30px;
+}
+
+.Vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.Descripcion {
+    border-style: none;
+    border-width: 2px;
+    border-color: #f93;
+    margin: 10px;
+    padding: 10px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+.flex-container > div {
+    margin: 10px;
+    padding: 10px;
+}
+
+.flex-container-header {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    height: 100px;
+}
+.flex-container-header > div {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    align-self: center
+}
+
+.flex-container-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    position: absolute;
+    bottom: 50px;
+    top: 0;
+}
+.flex-container-wrap > div {
+    margin: 10px;
+    padding: 10px;
+}
+
+.flex-container-vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.flex-container-vertical > div {
+    margin: 10px;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.centro {
+    text-align: center;
+    margin: 10px;
+    padding: 10px;
+}
+
+.borde {
+    border-style: solid;
+    border-width: 2px;
+    border-color: #f93
+}
+
+/* Estilo de botones */
+.Boton {
+    background-color: gold;
+    border: orange;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.Boton1 {
+    background-color: white;
+    color: black;
+    border: 2px solid gold;
+}
+
+.Boton1:hover {
+    background-color: gold;
+    color: rgb(0, 0, 0);
+}
+
+.scroll_boton {
+    background-color: gold;
+    border: orange;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    width: 100px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.film {
+    width: 250px;
+    text-align: center;
+}
+
+.portada {
+    padding: 10px;
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.portada:hover {
+    background-color: rgba(77, 155, 125, 0.575);
+}
+
+.portada:hover .overlay {
+    opacity: 0.9;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(133, 133, 133);
+}
+
+.descPortada {
+    color: gold;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.botonesIndex {
+    position: absolute;
+    bottom: 0;
+    height: 25px;
+}
+
+hr {
+    border-style: solid;
+    margin: 0;
+}
+
+.tramitar {
+    position: fixed;
+    bottom: 50px;
+    right: 25px;
+}
+
+.papelera {
+    padding: 5px;
+    position: relative;
+    width: 40px;
+    text-align: center;
+}
+
+.papelera:hover {
+    background-color: rgba(77, 155, 125, 0.575);
+}
+
+.head1 {
+    flex-grow: 1
+}
+
+.head2 {
+    flex-grow: 6
+}
+
+.head3 {
+    flex-grow: 1
+}
+
+.expandirJQ {
+    background-color: rgb(105, 105, 105);
+}
+
+.flex-container-expandible {
+    display: flex;
+    justify-content: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(0, 0, 0)
+}
+.flex-container-expandible > div {
+    margin: 10px;
+    padding: 10px;
+}
+
+#exp1 {
+    border: solid;
+    align-self: center;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0)
+}

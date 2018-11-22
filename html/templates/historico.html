@@ -1,0 +1,121 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Historico - BigLemon
+{% endblock %}
+
+{% block script %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="static/functions.js"></script>
+{% endblock %}
+
+<!-- {% block izquierda %}
+<div class="side_menu">
+    <div class="flex-container-vertical">
+        <!--Clase para la búsqueda--
+        <div>
+            <form action="{{url_for("index")}}" method="POST">
+                <input name="buscar" type="text" placeholder="Busca..">
+                <input name="boton" type="submit" value="Buscar">
+            </form>
+        </div>
+
+        <!--Clase para el botón de login--
+        {% if user_id %}
+        <div class="login_button">
+            <p>¡Acceda a su Historial!</p>
+            <form style="display: inline" action="{{url_for("historial")}}" method="POST">
+                <input name="historial" type="submit" value="Historial">
+            </form>
+            <p> </p>
+            <form style="display: inline" action="{{url_for("index")}}" method="POST">
+                <input name="logout" type="submit" value="LOGOUT">
+            </form>
+        </div>
+        {% else %}
+        <div class="login_button">
+            <p>¡Inicie sesión para comprar!</p>
+            <form style="display: inline" action="{{url_for("carrito")}}" method="POST">
+                <!-- <p>Nombre de usuario:</p> --
+                <input name="username" type="text" placeholder="Nombre de usuario">
+                <!-- <p>Contraseña:</p> --
+                <input name="password" type="password" placeholder="Contraseña">
+                <p></p>
+
+                <input type="submit" value="LOGIN">
+            </form>
+
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %} -->
+
+{% block derecha %}
+
+<!--Listado de peliculas agregadas-->
+<p>Tu saldo actual es : <b>{{saldo}}</b></p>
+{% if compras %}
+    {% for compra in compras %}
+    <div class="flex-container-expandible">
+        <div>
+            <p>Compra del {{compra.fecha}}</p>
+        </div>
+        <div>
+            <p>Coste de <b>{{compra.coste}}</b></p>
+        </div>
+        <div id="exp1">
+                <img src="static/imgs/expandir.png" alt="icono de expansion" width="30px" height="30px">
+        </div>
+
+    </div>
+
+    <div class="expandirJQ">
+        <div class="flex-container-vertical">
+        {% for peli in compra.peliculas %}
+        <div class=flex-container>
+                <!-- Parte izquierda con titulo y portada -->
+                <div>
+                    {% if compra.peliculas[peli]['peli'].titulo|length < 100 %} <h2 class="centro">{{compra.peliculas[peli]['peli'].titulo}}</h2>
+                        {% else %}
+                        <div title="{{compra.peliculas[peli]['peli'].titulo}}">
+                            <h2>{{compra.peliculas[peli]['peli'].titulo[:98] + '...'}}</h2>
+                        </div>
+                        {% endif %}
+                        <div class="portada">
+                            <a href="{{url_for('detalle', pelicula=compra.peliculas[peli]['peli'].titulo)}}" target="_parent">
+                                <img src="static/caratula.jpg" alt="portada de {{compra.peliculas[peli]['peli'].titulo}}" width="200px" height="270px">
+                            </a>
+                        </div>
+                </div>
+                <!-- Parte derecha con descripcion, fecha de compra y precio -->
+                <div>
+                    <p>
+                        <b>Sinópsis:</b>
+                        {% if compra.peliculas[peli]['peli'].desc|length < 220 %} 
+                            {{compra.peliculas[peli]['peli'].desc}} 
+                        {% else %} 
+                            {{compra.peliculas[peli]['peli'].desc[:218] + '...'}} 
+                        {% endif %} 
+                    </p>
+                    <p>
+                        <b>Precio: </b>{{compra.peliculas[peli]['peli'].precio}}€
+                    </p>
+                    <p>
+                        <b>Cantidad: </b>{{compra.peliculas[peli]['cant']}}
+                    </p>
+                </div>
+        
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <hr>
+    {% endfor %}
+
+{% else %}
+<p class="centre">Tu historial sigue vacío</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}
+The Big Lemon
+{% endblock %}
+
+{% block header %}
+<script >
+function contadorVisitas() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("contador").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "{{url_for("visitas")}}", true);
+  xhttp.send();
+}
+setInterval(contadorVisitas, 1500);
+</script>
+<div class="flex-container-header">
+    <div class="head1">
+        <a href="{{url_for('carrito')}}">
+            <img src="static/imgs/carrito.png" alt="Carrito de la compra" width=50 height=50>
+        </a>
+    </div>
+
+    <div class="head2">
+        <a href="{{url_for('index')}}">
+            <img src="static/imgs/logo.jpg" alt="Logo de Big Lemon" width=300 height=90>
+        </a>
+    </div>
+
+    {% if user_id %}
+    <div class="head3">
+        <p>Bienvenido, {{user_id}}</p>
+    </div>
+    {% else %}
+    <div class="head3">
+        <p>¿Aún no te has registrado? <a href="{{url_for('registro')}}">Haz click aquí</a></p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block centro %}
+<div class="Izquierda">
+    <div class="side_menu">
+        <div class="flex-container-vertical">
+            <!--Clase para la búsqueda-->
+            <div>
+                <form action="{{url_for("index")}}" method="POST">
+                    <input name="buscar" type="text" placeholder="Busca..">
+                    <input name="boton" type="submit" value="Buscar">
+                </form>
+            </div>
+
+            <!--Clase con la lista desplegable de categorías-->
+            {% if cats %}
+            <div class="categories">
+                <p>¡Busca tu categoría favorita!</p>
+                <div class="lista_desplegable">
+                    <form action="{{url_for("index")}}" method="POST">
+                        <select name="seleccion" id="seleccion" onchange="this.form.submit()">
+                            {% for cat in cats %}
+                            <option value="{{cat}}">{{cat}}</option>
+                            {% endfor %}
+                        </select>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+
+            <!--Clase para el botón de login-->
+            {% if user_id %}
+            <div class="login_button">
+                <p>¡Acceda a su Historial!</p>
+                <form style="display: inline" action="{{url_for("historial")}}" method="POST">
+                    <input class="Boton Boton1" name="historial" type="submit" value="Historial">
+                </form>
+                <p> </p>
+                <form style="display: inline" action="{{url_for("logout")}}" method="POST">
+                    <input class="Boton Boton1" name="logout" type="submit" value="LOGOUT">
+                </form>
+            </div>
+            {% else %}
+            <div class="login_button">
+                <p>¡Inicie sesión para comprar!</p>
+                <form style="display: inline" action="{{url_for("index")}}" method="POST">
+                    {% if seleccion %}
+                    <input type="hidden" name="peli" value={{seleccion.titulo}}>
+                    {% endif %}
+                    <!-- <p>Nombre de usuario:</p> -->
+                    <input name="username" type="text" placeholder="Nombre de usuario">
+                    <!-- <p>Contraseña:</p> -->
+                    <input name="password" type="password" placeholder="Contraseña">
+                    <p></p>
+                        <input class="Boton Boton1" type="submit" value="LOGIN">
+                </form>
+
+            </div>
+            {% endif %}
+            <!-- Contador de visitas -->
+            <div class = "contador_visitas">
+            <p> Usuarios online: </p>
+            <p id = "contador"> </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="Derecha">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+
+    {% block derecha %}
+    {% endblock %}
+    {% endif %}
+    {% endwith %}
+</div>
+{% endblock %}

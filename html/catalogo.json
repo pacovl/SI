@@ -1,0 +1,212 @@
+{
+    "peliculas": [
+        {
+            "id": 0,
+            "titulo": "Avatar",
+            "poster": "imgs/avatar.jpg",
+            "director": "James Cameron",
+            "precio": 10,
+            "anno": 2009,
+            "desc": "Un señor militar se vuelve azul y alucina con un mundo alienígena.",
+            "etiquetas": [
+                    "ciencia ficcion",
+                    "espacio"
+            ],
+            "actores": [
+                {
+                    "nombre": "Zoe Saldana",
+                    "personaje": "Neytiri"
+                },
+                {
+                    "nombre": "Sam Worthington",
+                    "personaje": "Jake Sully"
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "titulo": "Up",
+            "poster": "imgs/up.jpg",
+            "director": "Pete Docter",
+            "precio": 10,
+            "etiquetas": [
+                "animacion",
+                "infantil"
+            ],
+            "anno": 2009,
+            "desc": "A veces para superar estar viejo y amargado necesitas un niño buscador de gamusinos.",
+            "actores": [
+                {
+                    "nombre": "Edward Asner",
+                    "personaje": "Carl Fredricksen"
+                },
+                {
+                    "nombre": "Christopher Plummer",
+                    "personaje": "Charles Muntz"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "titulo": "Infiltrados",
+            "poster": "imgs/infiltrados.jpg",
+            "director": "Martin Scorsese",
+            "precio": 10,
+            "etiquetas": [
+                "policiaca",
+                "premiada"
+            ],
+            "anno": 2006,
+            "desc": "Una de polis y ladrones en la que nadie sabe qué está pasando y todos mueren.",
+            "actores": [
+                {
+                    "nombre": " Leonardo DiCaprio",
+                    "personaje": "Billy"
+                },
+                {
+                    "nombre": "Matt Damon",
+                    "personaje": "Colin Sullivan"
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "titulo": "Interstellar",
+            "poster": "imgs/interstellar.jpg",
+            "director": "Christopher Nolan",
+            "precio": 10,
+            "etiquetas": [
+                "espacio",
+                "drama",
+                "aventura"
+            ],
+            "anno": 2014,
+            "desc": "Un grupo de exploradores hacen uso de un orificio recién descubierto para superar las limitaciones de los viajes espaciales humanos y conquistar las vastas distancias relacionadas con los viajes interestelares.",
+            "actores": [
+                {
+                    "nombre": "Ellen Burstyn",
+                    "personaje": "Murph (mayor)"
+                },
+                {
+                    "nombre": "Matthew McConaughe",
+                    "personaje": "Cooper"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "titulo": "Cadena perpetua",
+            "poster": "imgs/cadena_perpetua.jpg",
+            "director": "Frank Darabont",
+            "precio": 10,
+            "etiquetas": [
+                "drama"
+            ],
+            "anno": 1994,
+            "desc": "Un hombre inocente es enviado a una corrupta penitenciaria de Maine en 1947 y sentenciado a dos cadenas perpetuas por un doble asesinato.",
+            "actores": [
+                {
+                    "nombre": "Tim Robbins",
+                    "personaje": "Andy Dufresne"
+                },
+                {
+                    "nombre": "Morgan Freeman",
+                    "personaje": "Ellis Boyd 'Red' Redding"
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "titulo": "El padrino",
+            "poster": "imgs/padrino.jpg",
+            "director": "Francis Ford Coppola",
+            "precio": 10,
+            "etiquetas": [
+                "drama",
+                "crimen"
+            ],
+            "anno": 1972,
+            "desc": "Michael Corleone, heredero del imperio de don Vito Corleone, intenta rehabilitarse socialmente y legitimizar todas las posesiones de la familia negociando con el Vaticano. Después de luchar toda su vida se encuentra cansado y centra todas sus esperanzas en encontrar a un sucesor que se haga cargo de los negocios.",
+            "actores": [
+                {
+                    "nombre": "Marlon Brando",
+                    "personaje": "Don Vito Corleone"
+                },
+                {
+                    "nombre": "Al Pacino",
+                    "personaje": "Michael Corleone"
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "titulo": "El caballero oscuro",
+            "poster": "imgs/caballeroOscuro.jpg",
+            "director": "Christopher Nolan",
+            "precio": 10,
+            "etiquetas": [
+                "accion",
+                "drama",
+                "crimen"
+            ],
+            "anno": 20,
+            "desc": "Batman tiene que mantener el equilibrio entre el heroísmo y el vigilantismo para pelear contra un vil criminal conocido como el Guasón, que sumiría a Ciudad Gótica en la anarquía.",
+            "actores": [
+                {
+                    "nombre": "Christian Bale",
+                    "personaje": "Bruce Wayne"
+                },
+                {
+                    "nombre": "Heath Ledger",
+                    "personaje": "Joker"
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "titulo": "El señor de los anillos: El retorno del rey",
+            "poster": "imgs/senorAnillosRetornoRey.jpg",
+            "director": "Peter Jackson",
+            "precio": 10,
+            "etiquetas": [
+                "accion",
+                "drama",
+                "aventura"
+            ],
+            "anno": 2003,
+            "desc": "Las fuerzas de Saruman han sido destruidas, y su fortaleza sitiada. Ha llegado el momento de decidir el destino de la Tierra Media, y, por primera vez, parece que hay una pequeña esperanza. El interés del señor oscuro Sauron se centra ahora en Gondor, el último reducto de los hombres, cuyo trono será reclamado por Aragorn. Sauron se dispone a lanzar un ataque decisivo contra Gondor. Mientras tanto, Frodo y Sam continuan su camino hacia Mordor, con la esperanza de llegar al Monte del Destino.",
+            "actores": [
+                {
+                    "nombre": "Sean Astin",
+                    "personaje": "Sam"
+                },
+                {
+                    "nombre": "Sean Bean",
+                    "personaje": "Boromir"
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "titulo": "El club de la lucha",
+            "poster": "imgs/clubLucha.jpg",
+            "director": "David Fincher",
+            "precio": 10,
+            "etiquetas": [
+                "drama"
+            ],
+            "anno": 1999,
+            "desc": "El lado oscuro de un trabajador de cuello blanco sale a flote en un club clandestino donde los hombres pelean a muerte.",
+            "actores": [
+                {
+                    "nombre": "Brad Pitt",
+                    "personaje": "Tyler Durden"
+                },
+                {
+                    "nombre": "Edward Norton",
+                    "personaje": "The Narrator"
+                }
+            ]
+        }
+    ]
+}

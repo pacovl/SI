@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="static/estilos.css">
+    {% block script %}
+    {% endblock %}
+</head>
+
+<body>
+
+    <div class="Cabecera">
+        {% block header %}
+        {% endblock %}
+    </div>
+
+    <div class="Centro">
+        {% block centro %}
+        {% endblock %}
+    </div>
+
+    <div class="Pie">
+        <p class="Pie_texto">
+            Óscar Pinto Santamaría y Francisco de Vicente Lana
+        </p>
+    </div>
+</body>
+
+</html>
