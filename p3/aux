@@ -19,12 +19,12 @@ END $$;
 ---
 
 DO $$ BEGIN
-    PERFORM getTopVentas(2015);
+    PERFORM set_order_amount_arg(1);
 END $$;
 
 ---
 
-SELECT DATE_PART('year', O.orderdate) as year, 
+SELECT DATE_PART('year', O.orderdate) as year,
        DATE_PART('month', O.orderdate) as month,
        SUM(aux.num_prod) as num_ventas,
        SUM(O.totalamount) as ingresos_totales
@@ -41,7 +41,7 @@ GROUP BY (DATE_PART('year', DATE_PART('month', O.orderdate)))
 ---
 
 SELECT *
-FROM (SELECT DATE_PART('year', O.orderdate) as year, 
+FROM (SELECT DATE_PART('year', O.orderdate) as year,
             DATE_PART('month', O.orderdate) as month,
             SUM(aux.num_prod) as num_ventas,
             SUM(O.totalamount) as ingresos_totales
@@ -56,3 +56,32 @@ FROM (SELECT DATE_PART('year', O.orderdate) as year,
         GROUP BY DATE_PART('year', O.orderdate), DATE_PART('month', O.orderdate)) as proxy
 WHERE num_ventas > 19000 or ingresos_totales > 320000
 ORDER BY year desc, month;
+
+
+---
+
+
+UPDATE
+    orders
+SET
+    netamount = aux.netamount, totalamount=aux.netamount*(CAST(orders.tax as float)/CAST(100 as float) + 1)
+FROM
+    (select SUM(price) as netamount, O.orderid
+    from orders as O, orderdetail as OD
+    where O.orderid = OD.orderid and OD.orderid = 1
+    group by O.orderid) as aux
+WHERE
+    orders.orderid = aux.orderid;
+return;
+
+---
+
+drop function if exists set_price_arg cascade;
+create function set_price_arg() returns trigger as $$
+begin
+    UPDATE orderdetail
+    SET price = NEW.quantity * POWER(0.9804, DATE_PART('year', current_date) - DATE_PART('year', O.orderdate)) * P.price
+    FROM orders as O, products as P
+    WHERE O.orderid = NEW.orderid and P.prod_id = NEW.prod_id;
+end;
+$$ language plpgsql;
