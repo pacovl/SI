@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Detalle - BigLemon
+{% endblock %}
+
+{% block derecha %}
+<div class="flex-container">
+
+    <div class="Vertical">
+        <div class="Titulo_peli">
+            <p>{{ seleccion.titulo }}</p>
+        </div>
+        <div class="Miniatura">
+            <!-- <a href="../details_logged.html" target="_parent"> -->
+            <img src=../static/caratula.jpg alt="Imagen de {{seleccion.titulo}}" width=200 height=300>
+            </a>
+        </div>
+        <div class="Puntuacion">
+            <img src="../static/imgs/puntuacion.png" alt="Estrellas como puntuacion" width=200 height=50>
+        </div>
+    </div>
+
+    <div class="Vertical">
+        <div class="Descripcion">
+            <p>
+                <b>Resumen: </b>{{ seleccion.desc }}<br>
+                <b>Año: </b>{{ seleccion.anno }}<br>
+                <b>Actores: </b>
+                {% for actor in seleccion.actores %}
+                <li>{{ actor.nombre }} ({{ actor.personaje }})</li>
+                {% endfor %}
+                <br>
+                <b>Director: </b>{{ seleccion.director }}<br>
+            </p>
+        </div>
+
+        <div class="centro">
+            <!-- <form action="/detalle" action="{{url_for('detalle', pelicula=seleccion.titulo)}}">
+                <input type="hidden" name="pelicula" value="{{seleccion.titulo}}">
+                <input class="Boton Boton1" name="anade" type="submit" value="¡Añádeme al carrito!">
+            </form> -->
+            <a href="{{url_for('adicion', id=seleccion.id)}}">
+                <button class="Boton Boton1">
+                    Añádeme al carrito ( {{ seleccion.precio }} €)
+                </button>
+            </a>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <p class="centro">Recomendadas</p>
+</div>
+
+<div class="flex-container">
+    {% for peli in recomendadas %}
+    <div class="portada">
+        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+            <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="250px">
+            <div class="overlay">
+                <div class="descPortada">
+                    {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
+                        {% else %}
+                        <b>{{peli.desc[:198] + '...'}}</b>
+                        {% endif %}
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="flex-container">
+    <div>
+        <button class="scroll_boton">Anterior</button>
+    </div>
+    <div>
+        <button class="scroll_boton">Siguiente</button>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Home - BigLemon
+{% endblock %}
+
+{% block derecha %}
+<!--Catalogo de peliculas-->
+{% if seleccion %}
+
+<div class="flex-container-wrap">
+  {% for peli in seleccion %}
+  <div class=film>
+    {% if peli.titulo|length < 20 %} <h2>{{peli.titulo}}</h2>
+      {% else %}
+      <div title="{{peli.titulo}}">
+        <h2>{{peli.titulo[:18] + '...'}}</h2>
+      </div>
+      {% endif %}
+      <div class="portada">
+        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+          <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="270px">
+          <div class="overlay">
+            <div class="descPortada">
+              {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
+                {% else %}
+                <b>{{peli.desc[:198] + '...'}}</b>
+                {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<p class="centre">No se han encontrado peliculas </p>
+{% endif %}
+
+{% endblock %}
