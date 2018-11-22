@@ -1,0 +1,58 @@
+UPDATE
+  orders
+SET
+  netamount = aux.netamount, totalamount=aux.netamount*(CAST(orders.tax as float)/CAST(100 as float) + 1)
+FROM
+  (select SUM(price) as netamount, O.orderid
+   from orders as O, orderdetail as OD
+   where O.orderid = OD.orderid
+   group by O.orderid) as aux
+WHERE
+  orders.orderid = aux.orderid;
+
+----
+
+DO $$ BEGIN
+    PERFORM set_order_amount();
+END $$;
+
+---
+
+DO $$ BEGIN
+    PERFORM getTopVentas(2015);
+END $$;
+
+---
+
+SELECT DATE_PART('year', O.orderdate) as year, 
+       DATE_PART('month', O.orderdate) as month,
+       SUM(aux.num_prod) as num_ventas,
+       SUM(O.totalamount) as ingresos_totales
+FROM
+    orders as O,
+    (SELECT SUM(OD.quantity) as num_prod, O.orderid
+    FROM orders as O, orderdetail as OD
+    WHERE O.orderid = OD.orderid
+    GROUP BY O.orderid) as aux
+WHERE
+    aux.orderid = O.orderid and (SUM(aux.num_prod) > 19000 or SUM(O.totalamount > 320000)
+GROUP BY (DATE_PART('year', DATE_PART('month', O.orderdate)))
+
+---
+
+SELECT *
+FROM (SELECT DATE_PART('year', O.orderdate) as year, 
+            DATE_PART('month', O.orderdate) as month,
+            SUM(aux.num_prod) as num_ventas,
+            SUM(O.totalamount) as ingresos_totales
+        FROM
+            orders as O,
+            (SELECT SUM(OD.quantity) as num_prod, O.orderid
+            FROM orders as O, orderdetail as OD
+            WHERE O.orderid = OD.orderid
+            GROUP BY O.orderid) as aux
+        WHERE
+            aux.orderid = O.orderid
+        GROUP BY DATE_PART('year', O.orderdate), DATE_PART('month', O.orderdate)) as proxy
+WHERE num_ventas > 19000 or ingresos_totales > 320000
+ORDER BY year desc, month;
