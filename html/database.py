@@ -41,17 +41,49 @@ def db_getUserName(name):
         # Seleccionar las peliculas del anno 1949
         #db_name = select([db_table_customers]).where("username = '" + name + "'")
 
-        stmt = "select * from customers where username = '" + name + "'" # consulta
+        stmt = "select firstname, lastname, email, phone from customers where username = '" + name + "'" # consulta
         db_name = sqlalchemy.text(stmt)
 
+        print('-')
         print('La consulta realizada es:')
         print(db_name)
+        print('-')
 
         db_result = db_conn.execute(db_name)
         #db_result = db_conn.execute("Select * from customers where username = '@name'")
         
         db_conn.close()
+
+        return  list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getMovieInfo():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
         
+        # Campos para el detalle
+
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+                from imdb_movies as M, products as P, imdb_moviegenres as G
+                where P.movieid = M.movieid and P.movieid = G.movieid  
+               """
+        db_name = sqlalchemy.text(stmt)
+
+        print('-')
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+        #db_result = db_conn.execute("Select * from customers where username = '@name'")
+        
+        db_conn.close()
+
         return  list(db_result)
     except:
         if db_conn is not None:

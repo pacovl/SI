@@ -186,13 +186,12 @@ def index():
 @app.route('/detalle', methods=['POST', 'GET'])
 def detalle():
 
-    f = open ("salida.txt", "w")
-
-    f.write('hago una consulta de prueba:')
-    for item in database.db_getUserName('wile'):
-        f.write(item)
-
-    f.close()
+    '''
+    list_db = database.db_getUserName('wile')
+    for item in list_db:
+       usr = item
+       print(usr['lastname'])
+    '''
 
     if request.method == 'POST':
         type = request.form.keys()
@@ -221,13 +220,31 @@ def detalle():
 
             for peli in catalogo["peliculas"]:
                 if peli['titulo'] == pelicula:
-                    resp = make_response(render_template('detalle.html', seleccion = peli, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
+                    movies = database.db_getMovieInfo()
+                    movie = movies[0]
+                    dict_peli = {
+                        'titulo': movie['titulo'],
+                        'anno': movie['anno'],
+                        'precio': movie['precio'],
+                        'genero': movie['genero']
+                    }
+                    resp = make_response(render_template('detalle.html', seleccion = movie, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
                     return resp
 
     pelicula = request.args.get('pelicula')
     for peli in catalogo["peliculas"]:
         if peli['titulo'] == pelicula:
-            return render_template('detalle.html', seleccion=peli, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
+
+            movies = database.db_getMovieInfo()
+            movie = movies[0]
+            dict_peli = {
+                'titulo': movie['titulo'],
+                'anno': movie['anno'],
+                'precio': movie['precio'],
+                'genero': movie['genero']
+            }
+
+            return render_template('detalle.html', seleccion=movie, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
 
     return "No se ha encontrado la pelicula"
 
