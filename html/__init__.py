@@ -318,7 +318,6 @@ def carrito():
             if (not os.path.isdir(dir_name)):
                 flash("No existe ese usuario")
             else:
-
                 with open(dir_name + '/datos.json', 'r') as outfile:
                     datos_usuario = json.load(outfile)
 
@@ -332,7 +331,7 @@ def carrito():
             #resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"], cats = categorias, user_id = datos_usuario["nombre"]))
 
     if not session.get('carro'):
-        return render_template('carrito.html', seleccion = None, user_id=getUserName())
+        return render_template('carrito.html', seleccion=None, user_id=getUserName())
     else:
         ids = session['carro']
 
@@ -340,7 +339,11 @@ def carrito():
         pelis_dict = {}
 
         for peli_id in ids:
-            peli = database.db_getMovieById(peli_id)
+            peli = database.db_getMovieById(peli_id)[0]
+            print('peli carrito: ---')
+            print(peli)
+            print(peli['anno'])
+            print(peli['precio'])
 
             if peli_id in pelis_dict:
                 pelis_dict[peli_id]["cant"] += 1
