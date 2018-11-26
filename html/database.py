@@ -102,6 +102,8 @@ def db_getCategories():
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
+        print db_result
+
         return list(db_result)
     except:
         if db_conn is not None:

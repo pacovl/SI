@@ -34,22 +34,15 @@ except OSError:
     pass
 
 # Aqui obtenemos el catalogo y las categorias
-# with open(os.path.join(os.path.dirname(__file__), 'catalogo.json')) as f:
-#     catalogo = json.load(f)
-#     categorias = ["--"]
-#     for peli in catalogo["peliculas"]:
-#         for cat in peli["etiquetas"]:
-#             if(cat and (cat not in categorias)):
-#                 categorias.append(cat)
-
 catalogo = {
     'peliculas': database.db_getMovieInfo()
 }
 
-categorias = database.db_getCategories()
-# for item in categorias:
-#     print(tostring(item))
-# print(categorias)
+# Obtencion de los distintos generos
+categorias = []
+categorias_listado = database.db_getCategories()
+for item in categorias_listado:
+    categorias.append(item[0])
 
 def getRandomText(init=0, end=200):
         # getParragraph returns a parragraph, useful for testing
