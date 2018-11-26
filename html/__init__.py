@@ -34,13 +34,33 @@ except OSError:
     pass
 
 # Aqui obtenemos el catalogo y las categorias
-with open(os.path.join(os.path.dirname(__file__), 'catalogo.json')) as f:
-    catalogo = json.load(f)
-    categorias = ["--"]
-    for peli in catalogo["peliculas"]:
-        for cat in peli["etiquetas"]:
-            if(cat and (cat not in categorias)):
-                categorias.append(cat)
+# with open(os.path.join(os.path.dirname(__file__), 'catalogo.json')) as f:
+#     catalogo = json.load(f)
+#     categorias = ["--"]
+#     for peli in catalogo["peliculas"]:
+#         for cat in peli["etiquetas"]:
+#             if(cat and (cat not in categorias)):
+#                 categorias.append(cat)
+
+catalogo = {
+    'peliculas': database.db_getMovieInfo()[:20]
+}
+
+categorias = database.db_getCategories()
+
+def getRandomText(init=0, end=200):
+        # getParragraph returns a parragraph, useful for testing
+        if end > 250:
+            end = 250
+        if init < 0:
+            init = 0
+        return """Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+deserunt mollit anim id est laborum."""[init:end]
 
 # Obtencion de un objeto pelicula a partir de su id
 def getPeliculaById(id_peli):
@@ -79,15 +99,17 @@ def vaciar_carro():
     session.pop('carro')
 
 # Devuelve un listado de objetos pelicula aleatoriamente obtenidos
-def recomendacion_aletoria(num_pelis=3, mantener=False):
-    # if mantener:
-    #     return global_recomendadas
-    # else:
-    longitud = len(catalogo['peliculas'])
+def recomendacion_aletoria(num_pelis=3):
+    peliculas = database.db_getMovieInfo()
+    longitud = len(peliculas)
     indices = sample(range(longitud), num_pelis)
     recomendadas = []
     for i in indices:
-        recomendadas.append(catalogo['peliculas'][i])
+        dict_movie = {
+            'titulo': peliculas[i]['titulo'],
+            'desc': getRandomText()
+        }
+        recomendadas.append(dict_movie)
 
     return recomendadas
 
@@ -222,13 +244,16 @@ def detalle():
                 if peli['titulo'] == pelicula:
                     movies = database.db_getMovieInfo()
                     movie = movies[0]
-                    dict_peli = {
+
+                    movie_dict = {
                         'titulo': movie['titulo'],
                         'anno': movie['anno'],
                         'precio': movie['precio'],
-                        'genero': movie['genero']
+                        'id': movie['id'],
+                        'desc': getRandomText()
                     }
-                    resp = make_response(render_template('detalle.html', seleccion = movie, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
+                    
+                    resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
                     return resp
 
     pelicula = request.args.get('pelicula')
@@ -237,14 +262,16 @@ def detalle():
 
             movies = database.db_getMovieInfo()
             movie = movies[0]
-            dict_peli = {
+
+            movie_dict = {
                 'titulo': movie['titulo'],
                 'anno': movie['anno'],
                 'precio': movie['precio'],
-                'genero': movie['genero']
+                'id': movie['id'],
+                'desc': getRandomText()
             }
 
-            return render_template('detalle.html', seleccion=movie, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
+            return render_template('detalle.html', seleccion=movie_dict, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
 
     return "No se ha encontrado la pelicula"
 

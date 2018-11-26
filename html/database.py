@@ -50,8 +50,6 @@ def db_getUserName(name):
         print('-')
 
         db_result = db_conn.execute(db_name)
-        #db_result = db_conn.execute("Select * from customers where username = '@name'")
-        
         db_conn.close()
 
         return  list(db_result)
@@ -65,8 +63,6 @@ def db_getMovieInfo():
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
-        
-        # Campos para el detalle
 
         stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
                 from imdb_movies as M, products as P, imdb_moviegenres as G
@@ -80,8 +76,30 @@ def db_getMovieInfo():
         print('-')
 
         db_result = db_conn.execute(db_name)
-        #db_result = db_conn.execute("Select * from customers where username = '@name'")
+        db_conn.close()
+
+        return  list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getCategories():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
         
+        stmt = """select distinct genre from imdb_moviegenres; 
+               """
+        db_name = sqlalchemy.text(stmt)
+
+        print('-')
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
         db_conn.close()
 
         return  list(db_result)
