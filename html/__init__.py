@@ -233,7 +233,7 @@ def detalle():
                     session['user'] = datos_usuario["nombre"]
                     session.modified = True
 
-            for peli in catalogo["peliculas"]:
+            """for peli in catalogo["peliculas"]:
                 if peli['titulo'] == pelicula:
                     movies = database.db_getMovieInfo()
                     movie = movies[0]
@@ -244,27 +244,38 @@ def detalle():
                         'precio': movie['precio'],
                         'id': movie['id'],
                         'desc': getRandomText()
-                    }
-                    
-                    resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
-                    return resp
-
-    pelicula = request.args.get('pelicula')
-    for peli in catalogo["peliculas"]:
-        if peli['titulo'] == pelicula:
-
-            movies = database.db_getMovieInfo()
+                    }"""
+            
+            movies = database.db_getMovieById(pelicula)
             movie = movies[0]
-
             movie_dict = {
                 'titulo': movie['titulo'],
                 'anno': movie['anno'],
                 'precio': movie['precio'],
                 'id': movie['id'],
-                'desc': getRandomText()
+                'desc': getRandomText(),
+                'genero': movie['genero']
             }
+                    
+            resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
+            return resp
 
-            return render_template('detalle.html', seleccion=movie_dict, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
+    pelicula = request.args.get('pelicula')
+
+    print("entro en detalle")
+
+    movies = database.db_getMovieById(pelicula)
+    movie = movies[0]
+    movie_dict = {
+        'titulo': movie['titulo'],
+        'anno': movie['anno'],
+        'precio': movie['precio'],
+        'id': movie['id'],
+        'desc': getRandomText(),
+        'genero': movie['genero']
+    }
+
+    return render_template('detalle.html', seleccion=movie_dict, recomendadas=recomendacion_aletoria(), cats=categorias, user_id=getUserName())
 
     return "No se ha encontrado la pelicula"
 

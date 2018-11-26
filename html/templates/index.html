@@ -18,7 +18,7 @@ Home - BigLemon
       </div>
       {% endif %}
       <div class="portada">
-        <a href="{{url_for('detalle', pelicula=peli.titulo)}}" target="_parent">
+        <a href="{{url_for('detalle', pelicula=peli.id)}}" target="_parent">
           <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="270px">
           <div class="overlay">
             <div class="descPortada">
