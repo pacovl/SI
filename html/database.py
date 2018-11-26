@@ -133,7 +133,7 @@ def db_getMoviesWithGenre(genre):
             db_conn.close()
         return 'Something is broken'
 
-def db_getMovieById(id):
+def db_getMovieById(id_peli):
     try:
         # conexion a la base de datos
         db_conn = None
@@ -141,7 +141,7 @@ def db_getMovieById(id):
 
         stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
                 from imdb_movies as M, products as P, imdb_moviegenres as G
-                where P.movieid = M.movieid and P.movieid = G.movieid and M.movieid = """ + id
+                where P.movieid = M.movieid and P.movieid = G.movieid and M.movieid = """ + str(id_peli)
         db_name = sqlalchemy.text(stmt)
 
         print('-')

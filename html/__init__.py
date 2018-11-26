@@ -96,14 +96,15 @@ def vaciar_carro():
 
 # Devuelve un listado de objetos pelicula aleatoriamente obtenidos
 def recomendacion_aletoria(num_pelis=3):
-    peliculas = database.db_getMovieInfo()
+    peliculas = catalogo['peliculas']
     longitud = len(peliculas)
     indices = sample(range(longitud), num_pelis)
     recomendadas = []
     for i in indices:
         dict_movie = {
             'titulo': peliculas[i]['titulo'],
-            'desc': getRandomText()
+            'desc': getRandomText(),
+            'id': peliculas[i]['id']
         }
         recomendadas.append(dict_movie)
 
@@ -284,6 +285,11 @@ def adicion():
     id_peli = request.args.get('id')
     id_peli = int(id_peli)
     peli = database.db_getMovieById(id_peli)
+    peli_ = peli[0]
+    
+    print('primer item de getMovie')
+    print(peli)
+
     if session.get('carro'):
         session['carro'].append(id_peli)
         session.modified = True
@@ -291,7 +297,7 @@ def adicion():
         session['carro'] = []
         session['carro'].append(id_peli)
 
-    return redirect(url_for('detalle', pelicula=peli["titulo"]))
+    return redirect(url_for('detalle', pelicula=peli_['id']))
 
 @app.route('/registro', methods=['POST', 'GET'])
 def registro():
