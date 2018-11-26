@@ -80,7 +80,7 @@ def procesar_carro():
     pelis_dict = {}
 
     for peli_id in ids:
-        peli = getPeliculaById(peli_id)
+        peli = database.db_getMovieById(peli_id)
 
         if peli_id in pelis_dict:
             pelis_dict[peli_id]["cant"] += 1
@@ -272,7 +272,7 @@ def detalle():
 def adicion():
     id_peli = request.args.get('id')
     id_peli = int(id_peli)
-    peli = getPeliculaById(id_peli)
+    peli = database.db_getMovieById(id_peli)
     if session.get('carro'):
         session['carro'].append(id_peli)
         session.modified = True
@@ -323,7 +323,7 @@ def carrito():
         pelis_dict = {}
 
         for peli_id in ids:
-            peli = getPeliculaById(peli_id)
+            peli = database.db_getMovieById(peli_id)
 
             if peli_id in pelis_dict:
                 pelis_dict[peli_id]["cant"] += 1

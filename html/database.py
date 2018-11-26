@@ -102,8 +102,6 @@ def db_getCategories():
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
-        print db_result
-
         return list(db_result)
     except:
         if db_conn is not None:
@@ -119,6 +117,31 @@ def db_getMoviesWithGenre(genre):
         stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid  and G.genre = """ + "'" + genre + "'"
+        db_name = sqlalchemy.text(stmt)
+
+        print('-')
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return  list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getMovieById():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect(id)
+
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+                from imdb_movies as M, products as P, imdb_moviegenres as G
+                where P.movieid = M.movieid and P.movieid = G.movieid and M.movieid = """ + id
         db_name = sqlalchemy.text(stmt)
 
         print('-')
