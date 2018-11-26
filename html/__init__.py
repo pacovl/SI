@@ -43,10 +43,13 @@ except OSError:
 #                 categorias.append(cat)
 
 catalogo = {
-    'peliculas': database.db_getMovieInfo()[:20]
+    'peliculas': database.db_getMovieInfo()
 }
 
 categorias = database.db_getCategories()
+# for item in categorias:
+#     print(tostring(item))
+# print(categorias)
 
 def getRandomText(init=0, end=200):
         # getParragraph returns a parragraph, useful for testing
@@ -124,10 +127,7 @@ def index():
         if "seleccion" in type:
             search = request.form['seleccion']
 
-            lista_filtrada = []
-            for pelicula in catalogo['peliculas']:
-                if search in pelicula["etiquetas"]:
-                    lista_filtrada.append(pelicula)
+            lista_filtrada = database.db_getMoviesWithGenre(search)
 
             return render_template('index.html', seleccion=lista_filtrada, cats=categorias, user_id=getUserName())
 
