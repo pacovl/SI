@@ -142,8 +142,6 @@ def index():
 
                     if password != datos_usuario["password"]:
                         flash("Contrasenia incorrecta")
-                        #return "Contrasenia incorrecta"
-                        #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
                     else:
                         session['user'] = datos_usuario["nombre"]
                         session.modified = True
@@ -187,12 +185,14 @@ def index():
             #category = request.form['categoria']
             # print(category)
 
-            lista_filtrada = []
-            for pelicula in catalogo['peliculas']:
-                if pelicula["titulo"].lower().find(search.lower()) != -1:
-                    lista_filtrada.append(pelicula)
+            #lista_filtrada = []
+            #for pelicula in catalogo['peliculas']:
+            #    if pelicula["titulo"].lower().find(search.lower()) != -1:
+            #        lista_filtrada.append(pelicula)
 
-            return render_template('index.html', seleccion=lista_filtrada[:9], cats=categorias, user_id=getUserName())
+            lista_filtrada = database.db_getFilteredMovies(search)
+
+            return render_template('index.html', seleccion=lista_filtrada, cats=categorias, user_id=getUserName())
 
     # Pasamos la lista de peliculas para obtener los datos en seleccion
     return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
