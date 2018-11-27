@@ -9,6 +9,35 @@ Home - BigLemon
 {% if seleccion %}
 
 <div class="flex-container-wrap">
+  {% if top %}
+  <h2 class="bloque">Top ventas ultimos años</h2>
+  {% for peli in top %}
+  <div class=film>
+      {% if peli.titulo|length < 20 %} 
+        <h2>{{peli.titulo}}</h2>
+        {% else %}
+        <div title="{{peli.titulo}}">
+          <h2>{{peli.titulo[:18] + '...'}}</h2>
+        </div>
+      {% endif %}
+      <div class="portada">
+        <a href="{{url_for('detalle', pelicula=peli.id)}}" target="_parent">
+          <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="270px">
+          <div class="overlay">
+            <div class="descPortada">
+              {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
+                {% else %}
+                <b>{{peli.desc[:198] + '...'}}</b>
+                {% endif %}
+            </div>
+          </div>
+        </a>
+      </div>
+  </div>
+  {% endfor %}
+  {% endif %}
+
+  <h2 class="bloque">Biblioteca</h2>
   {% for peli in seleccion %}
   <div class=film>
     {% if peli.titulo|length < 20 %} <h2>{{peli.titulo}}</h2>

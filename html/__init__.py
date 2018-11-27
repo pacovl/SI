@@ -39,6 +39,15 @@ catalogo = {
     'peliculas': database.db_getMovieInfo()
 }
 
+def get_top_ventas():
+    top10_raw = database.db_getTopVentas(2016)
+    pelis = []
+    for item in top10_raw:
+        peli = database.db_getMovieInfoByName(item[1])[0]
+        pelis.append(peli)
+    print(pelis)
+    return pelis
+
 # Obtencion de los distintos generos
 categorias = []
 categorias_listado = database.db_getCategories()
@@ -150,7 +159,7 @@ def index():
                         session.modified = True
 
                 # Pasamos la lista de peliculas para obtener los datos en seleccion
-                return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+                return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
             #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
 
         if "fnombre" in type:
@@ -180,7 +189,7 @@ def index():
             else:
                 return "El usuario ya existe"
 
-            return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+            return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
 
         if "buscar" in type:
             search = request.form['buscar']
@@ -198,18 +207,11 @@ def index():
             return render_template('index.html', seleccion=lista_filtrada, cats=categorias, user_id=getUserName())
 
     # Pasamos la lista de peliculas para obtener los datos en seleccion
-    return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias, user_id=getUserName())
+    return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
 
 
 @app.route('/detalle', methods=['POST', 'GET'])
 def detalle():
-
-    '''
-    list_db = database.db_getUserName('wile')
-    for item in list_db:
-       usr = item
-       print(usr['lastname'])
-    '''
 
     if request.method == 'POST':
         type = request.form.keys()

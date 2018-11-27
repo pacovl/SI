@@ -510,3 +510,13 @@ hr {
     border-width: 1px;
     border-color: rgb(0, 0, 0)
 }
+
+.bloque {
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(0, 0, 0);
+    width: 200px;
+    height: 350px;
+    text-align: center;
+    background-color: yellow;
+}

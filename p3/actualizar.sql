@@ -2,20 +2,18 @@ DROP TABLE IF EXISTS shipping_address CASCADE;
 DROP TABLE IF EXISTS creditcard CASCADE;
 DROP TABLE IF EXISTS client_creditcard;
 DROP TABLE IF EXISTS orderedbyclient;
+
 -- Creamos las tablas auxiliares
 CREATE TABLE shipping_address AS
     SELECT customerid, address1, address2, city, state, zip, country, region
     FROM customers
     ORDER BY customerid;
 
-
 CREATE TABLE creditcard AS
     SELECT creditcard, creditcardexpiration, creditcardtype
     FROM customers;
 
-
 -- Añadimos constraints
-
 ALTER TABLE creditcard
 	ADD CONSTRAINT creditcard_pk PRIMARY KEY (creditcard);
 
@@ -25,7 +23,6 @@ ALTER TABLE shipping_address
 ALTER TABLE imdb_actormovies
 	ADD CONSTRAINT actormovies_actorid_fk FOREIGN KEY (actorid) REFERENCES imdb_actors(actorid),
 	ADD CONSTRAINT actormovies_movieid_fk FOREIGN KEY (movieid) REFERENCES imdb_movies(movieid);
-
 
 -- Añadimos relaciones
 CREATE TABLE client_creditcard AS
@@ -47,7 +44,6 @@ ALTER TABLE orderedbyclient
 	ADD CONSTRAINT orderedbyclient_customerid_fk FOREIGN KEY (customerid) REFERENCES customers(customerid);
 
 -- Eliminamos las columnas que hemos cambiado
-
 ALTER TABLE customers
     DROP COLUMN address1,
     DROP COLUMN address2,
