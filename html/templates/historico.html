@@ -83,7 +83,7 @@ Historico - BigLemon
                         </div>
                         {% endif %}
                         <div class="portada">
-                            <a href="{{url_for('detalle', pelicula=compra.peliculas[peli]['peli'].titulo)}}" target="_parent">
+                            <a href="{{url_for('detalle', pelicula=compra.peliculas[peli]['peli'].id)}}" target="_parent">
                                 <img src="static/caratula.jpg" alt="portada de {{compra.peliculas[peli]['peli'].titulo}}" width="200px" height="270px">
                             </a>
                         </div>

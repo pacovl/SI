@@ -10,6 +10,7 @@ from random import randint, sample
 import datetime
 import database
 
+
 CUR_DIR = os.getcwd()
 print(CUR_DIR)
 # create and configure the app
@@ -80,7 +81,7 @@ def procesar_carro():
     pelis_dict = {}
 
     for peli_id in ids:
-        peli = database.db_getMovieById(peli_id)
+        peli = database.db_getMovieById(peli_id)[0]
 
         if peli_id in pelis_dict:
             pelis_dict[peli_id]["cant"] += 1
@@ -88,6 +89,7 @@ def procesar_carro():
             pelis_dict[peli_id] = {"peli": peli, "cant": 1}
 
         total += peli['precio']
+        print(peli['precio'])
 
     return total, pelis_dict
 
@@ -372,6 +374,7 @@ def tramitar():
             if saldo >= coste:
                 # Descontamos coste
                 datos['saldo'] = saldo - coste
+                print(datos['saldo'])
 
                 with open(dir_name + '/datos.json', 'w+') as f_datos:
                     json.dump(datos, f_datos)
