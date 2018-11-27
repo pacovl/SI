@@ -8,7 +8,7 @@ begin
     SET
         netamount = aux.netamount, totalamount=aux.netamount*(CAST(orders.tax as float)/CAST(100 as float) + 1)
     FROM
-        (select SUM(price) as netamount, O.orderid
+        (select SUM(price*quantity) as netamount, O.orderid
         from orders as O, orderdetail as OD
         where O.orderid = OD.orderid
         group by O.orderid) as aux
@@ -17,3 +17,7 @@ begin
     return;
 end;
 $$ language plpgsql;
+
+DO $$ BEGIN
+    PERFORM set_order_amount();
+END $$;
