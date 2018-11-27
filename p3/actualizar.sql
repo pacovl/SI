@@ -31,7 +31,7 @@ CREATE TABLE client_creditcard AS
 
 ALTER TABLE client_creditcard
 	ADD CONSTRAINT client_creditcard_pk PRIMARY KEY (customerid, creditcard),
-	ADD CONSTRAINT creditcard_customer_fk FOREIGN KEY (customerid) REFERENCES customers(customerid),
+	ADD CONSTRAINT creditcard_customer_fk FOREIGN KEY (customerid) REFERENCES customers(customerid) ON DELETE CASCADE,
 	ADD CONSTRAINT creditcard_addrid_fk FOREIGN KEY (creditcard) REFERENCES creditcard(creditcard);
 
 CREATE TABLE orderedbyclient AS
@@ -41,9 +41,16 @@ CREATE TABLE orderedbyclient AS
 ALTER TABLE orderedbyclient
 	ADD CONSTRAINT orderedbyclient_pk PRIMARY KEY (orderid, customerid),
 	ADD CONSTRAINT orderedbyclient_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid),
-	ADD CONSTRAINT orderedbyclient_customerid_fk FOREIGN KEY (customerid) REFERENCES customers(customerid);
+	ADD CONSTRAINT orderedbyclient_customerid_fk FOREIGN KEY (customerid) REFERENCES customers(customerid) ON DELETE CASCADE;
 
 -- Eliminamos las columnas que hemos cambiado
+
+WITH CountedData as
+(SELECT DISTINCT customerid
+FROM customers)
+DELETE FROM customers
+WHERE customerid IN (SELECT * FROM CountedData);
+
 ALTER TABLE customers
     DROP COLUMN address1,
     DROP COLUMN address2,
@@ -54,7 +61,8 @@ ALTER TABLE customers
     DROP COLUMN region,
     DROP COLUMN creditcard,
     DROP COLUMN creditcardexpiration,
-    DROP COLUMN creditcardtype;
+    DROP COLUMN creditcardtype,
+    ADD CONSTRAINT unique_name UNIQUE(username);
 
 ALTER TABLE orders
     DROP COLUMN customerid;
