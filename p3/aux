@@ -19,7 +19,7 @@ END $$;
 ---
 
 DO $$ BEGIN
-    PERFORM set_order_amount_arg(1);
+    PERFORM set_price_arg(1, 1014);
 END $$;
 
 ---
