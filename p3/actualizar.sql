@@ -73,5 +73,18 @@ ALTER TABLE customers
     
 DELETE FROM orders WHERE status IS NULL;
 
+DELETE FROM orders
+WHERE status is null;
+
 ALTER TABLE orders
     DROP COLUMN customerid;
+
+-- Alert table for trigger upd_inventory
+CREATE TABLE alerts (
+    prod_id int,
+    required_stock int
+);
+
+ALTER TABLE alerts
+	ADD CONSTRAINT alerts_pk PRIMARY KEY (prod_id),
+	ADD CONSTRAINT alerts_prod_id_fk FOREIGN KEY (prod_id) REFERENCES products(prod_id) ON DELETE CASCADE;
