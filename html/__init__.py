@@ -401,6 +401,13 @@ def eliminar():
 
     return redirect(url_for("carrito"))
 
+
+@app.route('/aumentar_saldo', methods=['GET'])
+def aumentar_saldo():
+    database.db_addSaldo(getUserName())
+
+    return redirect(url_for("historial"))
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('user', None)

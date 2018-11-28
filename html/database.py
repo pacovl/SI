@@ -319,6 +319,27 @@ def db_getProdIdFromMovieId(id):
             db_conn.close()
         return 'Something is broken'
 
+def db_addSaldo(name):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = """update creditcard as cr set balance = balance + 50 
+                from customers as c, client_creditcard as cc 
+                where cr.creditcard = cc.creditcard and c.customerid = cc.customerid and c.username = '""" + name + "'"
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)[0]
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
 
 def db_getNullOrder():
     try:
