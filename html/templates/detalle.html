@@ -24,7 +24,6 @@ Detalle - BigLemon
     <div class="Vertical">
         <div class="Descripcion">
             <p>
-                <b>Sinopsis: </b>{{ seleccion.desc }}<br>
                 <b>Año: </b>{{ seleccion.anno }}<br>
                 <b>Genero: </b>{{ seleccion.genero }}<br>
             </p>
@@ -50,29 +49,23 @@ Detalle - BigLemon
 
 <div class="flex-container">
     {% for peli in recomendadas %}
-    <div class="portada">
-        <a href="{{url_for('detalle', pelicula=peli.id)}}" target="_parent">
-            <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="250px">
-            <div class="overlay">
-                <div class="descPortada">
-                    {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
-                        {% else %}
-                        <b>{{peli.desc[:198] + '...'}}</b>
-                        {% endif %}
+    <div class="vertical">
+        <div class="Titulo_peli">{{peli.titulo}}</div>
+        <div class="portada">
+            <a href="{{url_for('detalle', pelicula=peli.id)}}" target="_parent">
+                <img src="static/caratula.jpg" alt="portada de {{peli.titulo}}" width="200px" height="250px">
+                <div class="overlay">
+                    <div class="descPortada">
+                        {% if peli.desc|length < 200 %} <b>{{peli.desc}}</b>
+                            {% else %}
+                            <b>{{peli.desc[:198] + '...'}}</b>
+                            {% endif %}
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
     {% endfor %}
-</div>
-
-<div class="flex-container">
-    <div>
-        <button class="scroll_boton">Anterior</button>
-    </div>
-    <div>
-        <button class="scroll_boton">Siguiente</button>
-    </div>
 </div>
 {% endblock %}
 

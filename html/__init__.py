@@ -10,7 +10,6 @@ from random import randint, sample
 import datetime
 import database
 
-
 CUR_DIR = os.getcwd()
 print(CUR_DIR)
 # create and configure the app
