@@ -292,7 +292,7 @@ def adicion():
     peli_ = peli[0]
 
     #nombre = getUserName()
-    nombre = None
+    nombre = 'alice'
 
     if nombre == None:
         if session.get('carro'):
@@ -302,13 +302,25 @@ def adicion():
             session['carro'] = []
             session['carro'].append(id_peli)
     else: 
-        customerid = database.db_getUserIdByUsername(nombre)
-        customer_id = customerid[0]
-        print('Voy a anadir la order <<<<<<<>>>>>>>>')
-        print(nombre)
-        print(customer_id[0])
+        num_ = database.db_getNumOrdersNull()
+        num = num_[0][0]
+        print('# nulls:')
+        print(num)
 
-        order_id = database.db_anadirCarrito(id_peli, customer_id[0])
+        if num == 0:
+            customerid = database.db_getUserIdByUsername(nombre)
+            customer_id = customerid[0]
+            
+            order_id = database.db_anadirCarrito(id_peli, customer_id[0])
+        else:
+        ret = database.db_getProdIdFromMovieId(id_peli)
+        prod_id = ret[0]
+        prod_price = ret[1]
+        print('prod_id obtenido:')
+        print(prod_id)
+        print(prod_price)
+        database.db_insertOrderDetail(order_id, prod_id, prod_price)
+
 
     return redirect(url_for('detalle', pelicula=peli_['id']))
 

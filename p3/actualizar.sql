@@ -70,6 +70,8 @@ ALTER TABLE customers
     DROP COLUMN creditcardexpiration,
     DROP COLUMN creditcardtype,
     ADD CONSTRAINT unique_name UNIQUE(username);
+    
+DELETE FROM orders WHERE status IS NULL;
 
 DELETE FROM orders
 WHERE status is null;
