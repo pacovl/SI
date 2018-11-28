@@ -290,16 +290,25 @@ def adicion():
     id_peli = int(id_peli)
     peli = database.db_getMovieById(id_peli)
     peli_ = peli[0]
-    
-    print('primer item de getMovie')
-    print(peli)
 
-    if session.get('carro'):
-        session['carro'].append(id_peli)
-        session.modified = True
-    else:
-        session['carro'] = []
-        session['carro'].append(id_peli)
+    #nombre = getUserName()
+    nombre = None
+
+    if nombre == None:
+        if session.get('carro'):
+            session['carro'].append(id_peli)
+            session.modified = True
+        else:
+            session['carro'] = []
+            session['carro'].append(id_peli)
+    else: 
+        customerid = database.db_getUserIdByUsername(nombre)
+        customer_id = customerid[0]
+        print('Voy a anadir la order <<<<<<<>>>>>>>>')
+        print(nombre)
+        print(customer_id[0])
+
+        order_id = database.db_anadirCarrito(id_peli, customer_id[0])
 
     return redirect(url_for('detalle', pelicula=peli_['id']))
 

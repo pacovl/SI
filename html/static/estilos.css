@@ -520,3 +520,8 @@ hr {
     text-align: center;
     background-color: yellow;
 }
+
+.centro_vertical {
+    display: inline-block;
+    padding: 150px 0;
+}

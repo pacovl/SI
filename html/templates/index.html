@@ -10,7 +10,7 @@ Home - BigLemon
 
 <div class="flex-container-wrap">
   {% if top %}
-  <h2 class="bloque">Top ventas ultimos años</h2>
+  <h2 class="bloque"><span class="centro_vertical">Top ventas ultimos años -></span></h2>
   {% for peli in top %}
   <div class=film>
       {% if peli.titulo|length < 20 %} 
@@ -35,9 +35,10 @@ Home - BigLemon
       </div>
   </div>
   {% endfor %}
+  <h2 class="bloque"><span class="centro_vertical">Biblioteca -></span></h2>
   {% endif %}
 
-  <h2 class="bloque">Biblioteca</h2>
+  
   {% for peli in seleccion %}
   <div class=film>
     {% if peli.titulo|length < 20 %} <h2>{{peli.titulo}}</h2>

@@ -5,6 +5,7 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy import Table, Column, Integer, String, MetaData, ForeignKey
 from sqlalchemy.sql import select, func
+from random import randint
 
 # configurar el motor de sqlalchemy
 db_engine = create_engine("postgresql://alumnodb:alumnodb@localhost/si1", echo=False)
@@ -208,10 +209,6 @@ def db_getFilteredMovies(search):
             db_conn.close()
         return 'Something is broken'
 
-# data = db.session.query(func.your_schema.your_function_name()).all()
-# result = engine.execute(func.name_of_my_pg_function(1, 2, 3))
-
-
 def db_getTopVentas(anno):
     try:
         # conexion a la base de datos
@@ -230,6 +227,71 @@ def db_getTopVentas(anno):
         db_conn.close()
 
         return  list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_anadirCarrito(id, customer_id):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = """select max(orderid) as maximo from orders;
+        """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        max_id = (list(db_result))[0]
+
+        nextid = max_id[0]+1
+        tax = randint(10, 20)
+
+        # Creacion order correspondiente
+        stmt = "insert into orders values (" + str(nextid) + ", current_date, 0, " + str(tax) + ", 0, null)"
+        db_name = sqlalchemy.text(stmt)
+
+        print('-') 
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+
+        # creacion orderedbyclient correspondiente
+        stmt = "insert into orderedbyclient values (" + str(nextid) + ", " + str(customer_id) + ")"
+        db_name = sqlalchemy.text(stmt)
+
+        print('-') 
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return nextid
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getUserIdByUsername(customer_name):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = "select customerid from customers where username = '" + customer_name + "'"
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)
     except:
         if db_conn is not None:
             db_conn.close()
