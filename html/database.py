@@ -390,7 +390,7 @@ def db_getUserOrders(nombre):
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = """select O.orderid, O.orderdate, O.totalamount 
+        stmt = """select O.orderid, O.orderdate, O.totalamount , O.status
                 from orders as O, orderedbyclient as OC, customers as C
                 where O.orderid = OC.orderid and OC.customerid = C.customerid 
                 and status is not null and C.username = '""" + nombre + "'"

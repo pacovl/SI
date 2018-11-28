@@ -17,6 +17,9 @@ Historico - BigLemon
     {% for compra in compras %}
     <div class="flex-container-expandible">
         <div>
+            <p>Estado del pedido: </p> <b>{{compra.status}}</b>
+        </div>
+        <div>
             <p>Compra del {{compra.fecha}}</p>
         </div>
         <div>
