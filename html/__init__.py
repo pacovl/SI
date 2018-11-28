@@ -369,10 +369,6 @@ def carrito():
 
             for peli_id in ids:
                 peli = database.db_getMovieById(peli_id)[0]
-                print('peli carrito: ---')
-                print(peli)
-                print(peli['anno'])
-                print(peli['precio'])
 
                 if peli_id in pelis_dict:
                     pelis_dict[peli_id]["cant"] += 1
@@ -390,28 +386,28 @@ def carrito():
             ids_ = database.db_getIdsCarrito()
             ids = []
             for item in ids_:
-                print(item)
-                print(item[0])
-                ids.append(item[0])
+                #print('id, cant:')
+                #print(item[0])
+                #print(item[1])
+                ids.append({'id':item[0], 'q':item[1]})
 
             total = 0
             pelis_dict = {}
 
             for peli_id in ids:
-                peli = database.db_getMovieById(peli_id)[0]
-                print('peli carrito: ---')
-                print(peli)
-                print(peli['anno'])
-                print(peli['precio'])
+                peli = database.db_getMovieById(peli_id['id'])[0]
+                #print('peli carrito: ---')
+                #print(peli)
+                #print(peli['anno'])
+                #print(peli['precio'])
 
-                if peli_id in pelis_dict:
-                    pelis_dict[peli_id]["cant"] += 1
-                else:
-                    pelis_dict[peli_id] = {"peli": peli, "cant": 1}
+                pelis_dict[peli_id['id']] = {"peli": peli, "cant": peli_id['q']}
 
-                total += peli['precio']
+                total += peli['precio']*peli_id['q']
+            
+            total_imp = database.db_getTotal()[0][0]
 
-            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id=nombre)
+            return render_template('carrito.html', seleccion = pelis_dict, precio = total, precio_imp = total_imp, user_id=nombre)
 
 
 @app.route('/tramitar', methods=['GET'])
@@ -463,11 +459,17 @@ def tramitar():
 
 @app.route('/eliminar', methods=['GET'])
 def eliminar():
+    #nombre = getUserName()
+    nombre = 'alice'
     id_peli = request.args.get('pelicula')
     id_peli = int(id_peli)
-    if session.get('carro'):
-        session['carro'].remove(id_peli)
-        session.modified = True
+    if nombre == None:
+        if session.get('carro'):
+            session['carro'].remove(id_peli)
+            session.modified = True
+    else:
+        database.db_removeMovie(id_peli)
+
     return redirect(url_for("carrito"))
 
 @app.route('/logout', methods=['GET', 'POST'])

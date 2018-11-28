@@ -288,16 +288,9 @@ def db_insertOrderDetail(order_id, prod_id, prod_price):
         stmt = "select count(*) from orderdetail where orderid = " + str(order_id) + " and prod_id = " + str(prod_id)
         db_name = sqlalchemy.text(stmt)
 
-        print('y aquiiiiiiiiiiiiiiiiiiiiii')
-        print(stmt)
-
         db_result = db_conn.execute(db_name)
 
-        print('aquiiiiiiiiiiiiiiiiiiiiii ya no')
-
         cont = list(db_result)[0][0]
-        print('coincide con otro producto (0 no): ')
-        print(cont)
 
         if (cont == 0): # no hay coincidencias
             stmt = "insert into orderdetail values (" + str(order_id) + ", " + str(prod_id) + ", " + str(prod_price) + ", 1)"
@@ -415,13 +408,101 @@ def db_getIdsCarrito():
         db_conn = db_engine.connect()
 
         # Obtencion ultimo id
-        stmt = """select M.movieid as id 
+        stmt = """select M.movieid as id, O.quantity 
                 from imdb_movies as M, products as P, orderdetail as O, orders as Os
                 where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid and Os.status is null
         """
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getTotal():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = """select totalamount
+                from orders as O
+                where O.status is null
+        """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_removeMovie(movieid):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = """select O.quantity 
+                from imdb_movies as M, products as P, orderdetail as O, orders as Os
+                where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
+                 and Os.status is null and M.movieid = """ + str(movieid) 
+        db_name = sqlalchemy.text(stmt)
+
+        print('---> ' + str(movieid)) 
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+
+        elems_restantes = list(db_result)[0][0]
+        print(elems_restantes)
+
+        if elems_restantes == 1: # eliminar item
+            print('a tomar por culo item')
+            stmt = """WITH auxiliary as (
+                        SELECT O.orderid
+                        FROM imdb_movies as M, products as P, orderdetail as O, orders as Os          
+                        WHERE M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
+                            and Os.status is null and M.movieid = """ + str(movieid) + " " + """
+                      )
+                      DELETE FROM orderdetail
+                      WHERE orderdetail.orderid IN (SELECT * FROM auxiliary);
+            """
+            db_name = sqlalchemy.text(stmt)
+
+            print('-') 
+            print('La consulta realizada es:')
+            print(db_name)
+            print('-')
+
+            db_result = db_conn.execute(db_name)
+        else: # decrementar quantity
+            print('decrementooooooooooooooooo')
+            stmt = """update orderdetail as O set quantity = quantity - 1
+                from imdb_movies as M, products as P, orders as Os
+                where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
+                 and Os.status is null and M.movieid = """ + str(movieid) 
+            db_name = sqlalchemy.text(stmt)
+
+            print('-') 
+            print('La consulta realizada es:')
+            print(db_name)
+            print('-')
+
+            db_result = db_conn.execute(db_name)
+
+
         db_conn.close()
 
         return list(db_result)
