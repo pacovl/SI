@@ -17,7 +17,7 @@ function contadorVisitas() {
   xhttp.open("GET", "{{url_for("visitas")}}", true);
   xhttp.send();
 }
-setInterval(contadorVisitas, 1500); 
+setInterval(contadorVisitas, 1500);
 </script>
 <div class="flex-container-header">
     <div class="head1">
@@ -73,6 +73,7 @@ setInterval(contadorVisitas, 1500);
             {% endif %}
 
             <!--Clase para el botón de login-->
+            {% block login %}
             {% if user_id %}
             <div class="login_button">
                 <p>¡Acceda a su Historial!</p>
@@ -101,6 +102,7 @@ setInterval(contadorVisitas, 1500);
 
             </div>
             {% endif %}
+            {% endblock %}
             <!-- Contador de visitas -->
             <div class = "contador_visitas">
             <p> Usuarios online: </p>

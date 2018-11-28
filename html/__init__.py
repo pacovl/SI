@@ -226,33 +226,21 @@ def detalle():
                 else:
                     session['user'] = nombre
                     session.modified = True
+                    
+        movies = database.db_getMovieById(pelicula)
+        movie = movies[0]
+        print(movie)
+        movie_dict = {
+            'titulo': movie['titulo'],
+            'anno': movie['anno'],
+            'precio': movie['precio'],
+            'id': movie['id'],
+            'desc': getRandomText(),
+            'genero': movie['genero']
+        }
 
-            """for peli in catalogo["peliculas"]:
-                if peli['titulo'] == pelicula:
-                    movies = database.db_getMovieInfo()
-                    movie = movies[0]
-
-                    movie_dict = {
-                        'titulo': movie['titulo'],
-                        'anno': movie['anno'],
-                        'precio': movie['precio'],
-                        'id': movie['id'],
-                        'desc': getRandomText()
-                    }"""
-
-            movies = database.db_getMovieById(pelicula)
-            movie = movies[0]
-            movie_dict = {
-                'titulo': movie['titulo'],
-                'anno': movie['anno'],
-                'precio': movie['precio'],
-                'id': movie['id'],
-                'desc': getRandomText(),
-                'genero': movie['genero']
-            }
-
-            resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
-            return resp
+        resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
+        return resp
 
     pelicula = request.args.get('pelicula')
 
