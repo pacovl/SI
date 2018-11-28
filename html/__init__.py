@@ -52,6 +52,7 @@ topVentas = get_top_ventas()
 # Obtencion de los distintos generos
 categorias = []
 categorias_listado = database.db_getCategories()
+categorias_listado = ["---"] + categorias_listado
 for item in categorias_listado:
     categorias.append(item[0])
 
