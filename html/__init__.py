@@ -143,19 +143,19 @@ def index():
                 password = hashlib.md5(
                     request.form['password'].encode('utf8')).hexdigest()
 
-                # Comprobamos si existe una carpeta con el mismo nombre
-                dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-                if (not os.path.isdir(dir_name)):
-                    flash("No existe ese usuario")
+                #Comprobamos si existe usuario
+                retorno = database.db_check_username(nombre)
+
+                if retorno[0][0] == 0:
+                    flash("El usuario no existe en la base de datos")
                 else:
+                    #Comprobamos la password
+                    pass_md5 = database.db_username_get_password(nombre)[0][0]
 
-                    with open(dir_name + '/datos.json', 'r') as outfile:
-                        datos_usuario = json.load(outfile)
-
-                    if password != datos_usuario["password"]:
+                    if password != pass_md5:
                         flash("Contrasenia incorrecta")
                     else:
-                        session['user'] = datos_usuario["nombre"]
+                        session['user'] = nombre
                         session.modified = True
 
                 # Pasamos la lista de peliculas para obtener los datos en seleccion
@@ -173,9 +173,7 @@ def index():
             saldo = randint(0, 100)
 
             #Ver si usuario esta insertado
-            print("PACOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             retorno = database.db_check_username(nombre)
-            print(retorno[0][0])
             #Insertamos el usuario si no esta insertado
             if retorno[0][0] == 0:
                 database.db_insert_user(nombre, password, email, card, sex, saldo)
@@ -214,19 +212,19 @@ def detalle():
             password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
             pelicula = request.form['peli']
 
-            #Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-            if (not os.path.isdir(dir_name)):
-                flash("No existe ese usuario")
-            else:
-                with open(dir_name + '/datos.json', 'r') as outfile:
-                    datos_usuario = json.load(outfile)
+            #Comprobamos si existe usuario
+            retorno = database.db_check_username(nombre)
 
-                if password != datos_usuario["password"]:
+            if retorno[0][0] == 0:
+                flash("El usuario no existe en la base de datos")
+            else:
+                #Comprobamos la password
+                pass_md5 = database.db_username_get_password(nombre)[0][0]
+
+                if password != pass_md5:
                     flash("Contrasenia incorrecta")
                 else:
-                    #Creamos la cookie de session
-                    session['user'] = datos_usuario["nombre"]
+                    session['user'] = nombre
                     session.modified = True
 
             """for peli in catalogo["peliculas"]:
@@ -241,7 +239,7 @@ def detalle():
                         'id': movie['id'],
                         'desc': getRandomText()
                     }"""
-            
+
             movies = database.db_getMovieById(pelicula)
             movie = movies[0]
             movie_dict = {
@@ -252,7 +250,7 @@ def detalle():
                 'desc': getRandomText(),
                 'genero': movie['genero']
             }
-                    
+
             resp = make_response(render_template('detalle.html', seleccion = movie_dict, recomendadas = recomendacion_aletoria(), cats = categorias, user_id=getUserName()))
             return resp
 
@@ -280,8 +278,7 @@ def adicion():
     peli = database.db_getMovieById(id_peli)
     peli_ = peli[0]
 
-    #nombre = getUserName()
-    nombre = 'alice'
+    nombre = getUserName()
 
     if nombre == None: # Sesion no iniciada
         if session.get('carro'):
@@ -299,7 +296,7 @@ def adicion():
         if num == 0: # Primera adicion
             customerid = database.db_getUserIdByUsername(nombre)
             customer_id = customerid[0]
-            
+
             order_id = database.db_anadirCarrito(id_peli, customer_id[0])
         else: # El resto
             order_id = database.db_getNullOrder()[0]
@@ -330,25 +327,24 @@ def carrito():
             nombre = request.form['username']
             password = hashlib.md5(request.form['password'].encode('utf8')).hexdigest()
 
-            #Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-            if (not os.path.isdir(dir_name)):
-                flash("No existe ese usuario")
-            else:
-                with open(dir_name + '/datos.json', 'r') as outfile:
-                    datos_usuario = json.load(outfile)
+            #Comprobamos si existe usuario
+            retorno = database.db_check_username(nombre)
 
-                if password != datos_usuario["password"]:
+            if retorno[0][0] == 0:
+                flash("El usuario no existe en la base de datos")
+            else:
+                #Comprobamos la password
+                pass_md5 = database.db_username_get_password(nombre)[0][0]
+
+                if password != pass_md5:
                     flash("Contrasenia incorrecta")
                 else:
-                    #Creamos la cookie de session
-                    session['user'] = datos_usuario["nombre"]
+                    session['user'] = nombre
                     session.modified = True
 
             #resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"], cats = categorias, user_id = datos_usuario["nombre"]))
 
-    #nombre = getUserName()
-    nombre = 'alice'
+    nombre = getUserName()
     if nombre == None: # sin inicio de sesion
         if not session.get('carro'):
             return render_template('carrito.html', seleccion=None, user_id=nombre)
@@ -395,7 +391,7 @@ def carrito():
                 pelis_dict[peli_id['id']] = {"peli": peli, "cant": peli_id['q']}
 
                 total += peli['precio']*peli_id['q']
-            
+
             total_imp = database.db_getTotal()[0][0]
 
             return render_template('carrito.html', seleccion = pelis_dict, precio = total, precio_imp = total_imp, user_id=nombre)
@@ -411,6 +407,7 @@ def tramitar():
         if (not os.path.isdir(dir_name)):
             flash("No existe ese usuario")
         else:
+            #TODO SALDO BBDD
             # Comprobar si hay saldo
             with open(dir_name + '/datos.json') as f:
                 datos = json.load(f)
@@ -450,8 +447,7 @@ def tramitar():
 
 @app.route('/eliminar', methods=['GET'])
 def eliminar():
-    #nombre = getUserName()
-    nombre = 'alice'
+    nombre = getUserName()
     id_peli = request.args.get('pelicula')
     id_peli = int(id_peli)
     if nombre == None:
@@ -480,6 +476,7 @@ def visitas():
 @app.route('/historial', methods=['GET', 'POST'])
 def historial():
     nombre = getUserName()
+    #TODO HISTORIAL CON BBDD
     dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
     if not nombre == None:
         with open(dir_name + '/datos.json') as f:

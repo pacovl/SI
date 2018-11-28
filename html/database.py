@@ -623,3 +623,28 @@ def db_check_creditcard(ccard):
         if db_conn is not None:
             db_conn.close()
         return 'Something is broken'
+
+def db_username_get_password(nombre):
+        try:
+            # conexion a la base de datos
+            db_conn = None
+            db_conn = db_engine.connect()
+
+            # Buscamos la pass
+            stmt = """ SELECT password
+                       FROM customers
+                       WHERE username = '""" + nombre + """';
+                    """
+
+            print(stmt)
+            db_name = sqlalchemy.text(stmt)
+
+            db_result = db_conn.execute(db_name)
+
+            db_conn.close()
+
+            return list(db_result)
+        except:
+            if db_conn is not None:
+                db_conn.close()
+            return 'Something is broken'
