@@ -12,7 +12,6 @@ import database
 
 
 CUR_DIR = os.getcwd()
-print(CUR_DIR)
 # create and configure the app
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
@@ -45,7 +44,6 @@ def get_top_ventas():
     for item in top10_raw:
         peli = database.db_getMovieInfoByName(item[1])[0]
         pelis.append(peli)
-    print(pelis)
     return pelis
 
 topVentas = get_top_ventas()
@@ -186,7 +184,6 @@ def detalle():
 
     if request.method == 'POST':
         type = request.form.keys()
-        print(type)
         if "username" in type:
 
             #Recibimos los campos de registro
@@ -211,7 +208,6 @@ def detalle():
                     
         movies = database.db_getMovieById(pelicula)
         movie = movies[0]
-        print(movie)
         movie_dict = {
             'titulo': movie['titulo'],
             'anno': movie['anno'],
@@ -373,7 +369,6 @@ def tramitar():
     if (nombre):
         #coste, dict_pelis = procesar_carro()
         coste = database.db_getCartTotalAmount()[0][0]
-        print('coste:' + str(coste))
         
         # Comprobar si hay saldo
         saldo = database.db_get_balance(nombre)[0][0]
@@ -384,7 +379,6 @@ def tramitar():
             # Ponemos la compra como pagada
             database.db_set_paid_order()
 
-            print('Compra realizada')
             flash("Tu compra ha sido pagada existosamente")
 
         else:
@@ -429,15 +423,10 @@ def historial():
 
     orders = database.db_getUserOrders(nombre)
     for item in orders:
-        print(item)
-        print(item[0])
-        print(item[1])
-        print(item[2])
         pelis = {}
         info_pelis = database.getInfoPelisFromOrder(item[0])
 
         for info_peli in info_pelis:
-            print(info_peli)
             pelis[info_peli['id']] = {
                 'peli': info_peli,
                 'cant': info_peli['cant']
