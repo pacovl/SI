@@ -104,6 +104,7 @@ def procesar_carro():
 
 def vaciar_carro():
     session.pop('carro')
+    database.delete_null_order()
 
 # Devuelve un listado de objetos pelicula aleatoriamente obtenidos
 def recomendacion_aletoria(num_pelis=3):
@@ -387,30 +388,26 @@ def carrito():
 
 @app.route('/tramitar', methods=['GET'])
 def tramitar():
-    if (session.get('user')):
-        nombre = session['user']
-        coste, dict_pelis = procesar_carro()
-        dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
+    nombre = getUserName()
+    if (nombre):
+        #coste, dict_pelis = procesar_carro()
+        coste = database.db_getCartTotalAmount()[0][0]
+        print('coste:' + str(coste))
+        
+        # Comprobar si hay saldo
+        saldo = database.db_get_balance(nombre)[0][0]
+        if saldo >= coste:
+            # Descontamos coste
+            database.db_sustract_cost(nombre, coste)
 
-        if (not os.path.isdir(dir_name)):
-            flash("No existe ese usuario")
+            # Ponemos la compra como pagada
+            database.db_set_paid_order()
+
+            print('Compra realizada')
+            flash("Has realizado tu compra exitosamente")
+
         else:
-            # Comprobar si hay saldo
-            saldo = database.db_get_balance(username)[0][0];
-            if saldo >= coste:
-                # Descontamos coste
-                database.db_sustract_cost(nombre, coste)
-
-                # Ponemos la compra como pagada
-                order_id = database.db_getNullOrder()[0]
-                database.db_set_paid_order(order_id)
-
-                flash("Has realizado tu compra exitosamente")
-
-                vaciar_carro()
-
-            else:
-                flash("No tienes suficiente saldo")
+            flash("No tienes suficiente saldo")
 
     else:
         flash("Necesitas haber iniciado sesion para tramitar el pedido")
@@ -433,8 +430,7 @@ def eliminar():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     session.pop('user', None)
-    session.pop('carro', None)
-    database.delete_null_order()
+    vaciar_carro()
     return redirect(url_for("index"))
 
 @app.route('/visitas', methods=['GET', 'POST'])
@@ -448,19 +444,32 @@ def visitas():
 @app.route('/historial', methods=['GET', 'POST'])
 def historial():
     nombre = getUserName()
-    #TODO HISTORIAL CON BBDD
-    # dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-    # if not nombre == None:
-    #     with open(dir_name + '/datos.json') as f:
-    #         datos = json.load(f)
+    compras = []
 
-    #     with open(dir_name + '/historial.json') as f_historial:
-    #         historial = json.load(f_historial)
+    orders = database.db_getUserOrders(nombre)
+    for item in orders:
+        print(item)
+        print(item[0])
+        print(item[1])
+        print(item[2])
+        pelis = {}
+        info_pelis = database.getInfoPelisFromOrder(item[0])
 
+        for info_peli in info_pelis:
+            print(info_peli)
+            pelis[info_peli['id']] = {
+                'peli': info_peli,
+                'cant': info_peli['cant']
+            }
+        compra = {
+            'peliculas': pelis,
+            'fecha': item[1],
+            'coste': item[2]
+        }
+        compras.append(compra)
 
-
-    saldo = datos['saldo']
-    return(render_template('historico.html', saldo = saldo, compras = historial['compras'], user_id=nombre))
+    saldo = database.db_get_balance(nombre)[0][0]
+    return(render_template('historico.html', saldo = saldo, compras = compras, user_id=nombre))
 
 if __name__ == '__main__':
     app.run()

@@ -445,50 +445,80 @@ def db_getTotal():
             db_conn.close()
         return 'Something is broken'
 
-def db_removeMovie(movieid):
+
+def db_getUserOrders(nombre):
     try:
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
 
-        # Obtencion ultimo id
-        # stmt = """select O.quantity
-        #         from imdb_movies as M, products as P, orderdetail as O, orders as Os
-        #         where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
-        #          and Os.status is null and M.movieid = """ + str(movieid)
-        # db_name = sqlalchemy.text(stmt)
+        stmt = """select O.orderid, O.orderdate, O.totalamount 
+                from orders as O, orderedbyclient as OC, customers as C
+                where O.orderid = OC.orderid and OC.customerid = C.customerid 
+                and status is not null and C.username = '""" + nombre + "'"
+        db_name = sqlalchemy.text(stmt)
 
-        # print('---> ' + str(movieid))
-        # print('La consulta realizada es:')
-        # print(db_name)
-        # print('-')
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
 
-        # db_result = db_conn.execute(db_name)
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
 
-        # elems_restantes = list(db_result)[0][0]
-        # print(elems_restantes)
+def getInfoPelisFromOrder(orderid):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
 
-        # if elems_restantes == 1:  eliminar item
-        #     print('a tomar por culo item')
-        #     stmt = """WITH auxiliary as (
-        #                 SELECT O.orderid
-        #                 FROM imdb_movies as M, products as P, orderdetail as O, orders as Os
-        #                 WHERE M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
-        #                     and Os.status is null and M.movieid = """ + str(movieid) + " " + """
-        #               )
-        #               DELETE FROM orderdetail
-        #               WHERE orderdetail.orderid IN (SELECT * FROM auxiliary)
-        #     """
-        #     db_name = sqlalchemy.text(stmt)
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero, O.quantity as cant
+                from imdb_movies as M, products as P, imdb_moviegenres as G, orderdetail as O
+                where P.movieid = M.movieid and P.movieid = G.movieid and P.prod_id = O.prod_id 
+                and O.orderid = """ + str(orderid)
+        db_name = sqlalchemy.text(stmt)
 
-        #     print('-')
-        #     print('La consulta realizada es:')
-        #     print(db_name)
-        #     print('-')
+        print('-')
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
 
-        #     db_result = db_conn.execute(db_name)
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
 
-        #     print('ejecuto el deleteeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+        return  list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getCartTotalAmount():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        stmt = """select totalamount from orders where status is null"""
+
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_removeMovie(movieid):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
 
         # decrementar quantity
         print('decrementooooooooooooooooo')
@@ -713,7 +743,7 @@ def db_sustract_cost(nombre, coste):
         return 'Something is broken'
 
 
-def db_set_paid_order(order_id):
+def db_set_paid_order():
     try:
         # conexion a la base de datos
         db_conn = None
