@@ -45,11 +45,18 @@ ALTER TABLE orderedbyclient
 
 -- Eliminamos las columnas que hemos cambiado
 
-WITH CountedData as
-(SELECT DISTINCT customerid
-FROM customers)
+ALTER TABLE customers
+    ADD COLUMN rownum int;
+
+UPDATE customers
+SET rownum = valor
+FROM (SELECT username, COUNT(username) as valor
+      FROM customers
+      GROUP BY username) as aux
+WHERE aux.username= customers.username;
+
 DELETE FROM customers
-WHERE customerid IN (SELECT * FROM CountedData);
+WHERE customers.rownum > 1;
 
 ALTER TABLE customers
     DROP COLUMN address1,
