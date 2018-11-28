@@ -442,11 +442,11 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
-        max_id = (list(db_result))[0]
+        max_id = (list(db_result))[0][0]
 
-        next_id = max_id[0]+1
+        next_id = max_id+1
         # Insertamos en customer
-        stmt = """ INSERT INTO creditcard
+        stmt = """ INSERT INTO customers
                        (customerid, username, password, email, gender)
                        VALUES (""" + str(next_id) + """, '""" + nombre + """', '""" + password + """', '""" + email + """', '""" + sex + """');
             """
@@ -458,7 +458,7 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
 
         #Insertamos en creditcard si no está insertada
 
-        db_result = this.db_check_creditcard(card)
+        db_result = db_check_creditcard(card)
 
         db_conn = db_engine.connect()
 
@@ -470,7 +470,6 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
             db_name = sqlalchemy.text(stmt)
 
             db_result = db_conn.execute(db_name)
-        
         
 
         #Insertamos en creditcard_client
@@ -496,10 +495,11 @@ def db_check_username(username):
         db_conn = None
         db_conn = db_engine.connect()
 
+        print("HEY HEY HEY")
         # Vemos si está en la BBDD
         stmt = """ SELECT COUNT(username)
                    FROM customers
-                   WHERE username = '""" + username + """'"""
+                   WHERE username = '""" + username + """';"""
 
         db_name = sqlalchemy.text(stmt)
 
@@ -521,8 +521,9 @@ def db_check_creditcard(username):
 
         # Vemos si está en la BBDD
         stmt = """ SELECT COUNT(creditcard)
-                   FROM customers
-                   WHERE username = '""" + creditcard + """'"""
+                   FROM creditcard
+                   WHERE username = '""" + creditcard + """';"""
+
 
         db_name = sqlalchemy.text(stmt)
 

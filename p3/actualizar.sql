@@ -10,7 +10,7 @@ CREATE TABLE shipping_address AS
     ORDER BY customerid;
 
 CREATE TABLE creditcard AS
-    SELECT creditcard, creditcardexpiration, creditcardtype, balance
+    SELECT creditcard, creditcardexpiration, creditcardtype
     FROM customers;
 
 -- Añadimos constraints
@@ -32,7 +32,7 @@ CREATE TABLE client_creditcard AS
 ALTER TABLE client_creditcard
     ADD COLUMN balance numeric;
 
-UPDATE TABLE client_creditcard
+UPDATE client_creditcard
 SET balance = 200;
 
 ALTER TABLE client_creditcard
@@ -75,7 +75,9 @@ ALTER TABLE customers
     DROP COLUMN creditcard,
     DROP COLUMN creditcardexpiration,
     DROP COLUMN creditcardtype,
-    ALTER COLUMN gender varchar(10),
+    ALTER COLUMN gender TYPE varchar(10),
+    ALTER COLUMN firstname drop not null,
+    ALTER COLUMN lastname drop not null,
     ADD CONSTRAINT unique_name UNIQUE(username);
     
 DELETE FROM orders WHERE status IS NULL;

@@ -9,3 +9,4 @@ psql -h localhost -U alumnodb -d si1 -a -f setOrderAmountArg.sql
 psql -h localhost -U alumnodb -d si1 -a -f getTopVentas.sql
 psql -h localhost -U alumnodb -d si1 -a -f getTopMonths.sql
 psql -h localhost -U alumnodb -d si1 -a -f updOrders.sql
+psql -h localhost -U alumnodb -d si1 -a -f updInventory.sql

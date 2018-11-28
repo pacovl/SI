@@ -172,9 +172,11 @@ def index():
             sex = request.form['fsex']
             saldo = randint(0, 100)
 
-            #Ver si usuario está insertado
+            #Ver si usuario esta insertado
+            print("PACOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
             retorno = database.db_check_username(nombre)
-            #Insertamos el usuario si no está insertado
+            print(retorno[0][0])
+            #Insertamos el usuario si no esta insertado
             if retorno[0][0] == 0:
                 database.db_insert_user(nombre, password, email, card, sex, saldo)
 
