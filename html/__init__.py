@@ -83,27 +83,6 @@ def getUserName():
         return session['user']
     return None
 
-# Devuleve el importe total correspondiente a los items del carrito y un diccionario
-# con las peliculas compradas con sus respectivas cantidades
-def procesar_carro():
-    ids = session['carro']
-
-    total = 0
-    pelis_dict = {}
-
-    for peli_id in ids:
-        peli = database.db_getMovieById(peli_id)[0]
-
-        if peli_id in pelis_dict:
-            pelis_dict[peli_id]["cant"] += 1
-        else:
-            pelis_dict[peli_id] = {"peli": peli, "cant": 1}
-
-        total += peli['precio']
-        print(peli['precio'])
-
-    return total, pelis_dict
-
 def vaciar_carro():
     #session.pop('carro')
     database.delete_null_order()
