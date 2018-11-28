@@ -395,32 +395,15 @@ def tramitar():
         if (not os.path.isdir(dir_name)):
             flash("No existe ese usuario")
         else:
-            #TODO SALDO BBDD
             # Comprobar si hay saldo
-            with open(dir_name + '/datos.json') as f:
-                datos = json.load(f)
-
-            saldo = datos['saldo']
+            saldo = database.db_get_balance(username)[0][0];
             if saldo >= coste:
                 # Descontamos coste
-                datos['saldo'] = saldo - coste
-                print(datos['saldo'])
+                database.db_sustract_cost(nombre, coste)
 
-                with open(dir_name + '/datos.json', 'w+') as f_datos:
-                    json.dump(datos, f_datos)
-
-                fecha = str(datetime.datetime.now())
-                fecha = fecha[:10]
-                dict_compra = {'fecha': fecha, 'coste': coste, 'peliculas': dict_pelis}
-
-                with open(dir_name + '/historial.json') as f_historial:
-                    historial = json.load(f_historial)
-
-                # Anadimos la compra al historial
-                historial['compras'].append(dict_compra)
-
-                with open(dir_name + '/historial.json', 'w+') as outfile:
-                    json.dump(historial, outfile)
+                # Ponemos la compra como pagada
+                order_id = database.db_getNullOrder()[0]
+                database.db_set_paid_order(order_id)
 
                 flash("Has realizado tu compra exitosamente")
 
@@ -451,6 +434,7 @@ def eliminar():
 def logout():
     session.pop('user', None)
     session.pop('carro', None)
+    database.delete_null_order()
     return redirect(url_for("index"))
 
 @app.route('/visitas', methods=['GET', 'POST'])

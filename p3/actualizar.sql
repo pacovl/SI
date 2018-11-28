@@ -24,6 +24,11 @@ ALTER TABLE imdb_actormovies
 	ADD CONSTRAINT actormovies_actorid_fk FOREIGN KEY (actorid) REFERENCES imdb_actors(actorid),
 	ADD CONSTRAINT actormovies_movieid_fk FOREIGN KEY (movieid) REFERENCES imdb_movies(movieid);
 
+ALTER TABLE orderdetail
+    ADD CONSTRAINT orderdetail_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid) ON DELETE CASCADE,
+    ADD CONSTRAINT orderdetail_prod_id_fk FOREIGN KEY (prod_id) REFERENCES products(prod_id);
+
+
 -- Añadimos relaciones
 CREATE TABLE client_creditcard AS
 	SELECT customerid, creditcard

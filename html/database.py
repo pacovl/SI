@@ -557,7 +557,6 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
 
         db_conn = db_engine.connect()
 
-        print("HAHAHAHAHA" + str(db_result[0][0]))
         if db_result[0][0] == 0:
             stmt = """ INSERT INTO creditcard
                        (creditcard, balance)
@@ -638,26 +637,127 @@ def db_check_creditcard(ccard):
         return 'Something is broken'
 
 def db_username_get_password(nombre):
-        try:
-            # conexion a la base de datos
-            db_conn = None
-            db_conn = db_engine.connect()
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
 
-            # Buscamos la pass
-            stmt = """ SELECT password
-                       FROM customers
-                       WHERE username = '""" + nombre + """';
-                    """
+        # Buscamos la pass
+        stmt = """ SELECT password
+                    FROM customers
+                    WHERE username = '""" + nombre + """';
+                """
 
-            print(stmt)
-            db_name = sqlalchemy.text(stmt)
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
 
-            db_result = db_conn.execute(db_name)
+        db_result = db_conn.execute(db_name)
 
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
             db_conn.close()
+        return 'Something is broken'
 
-            return list(db_result)
-        except:
-            if db_conn is not None:
-                db_conn.close()
-            return 'Something is broken'
+def db_get_balance(nombre):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Buscamos el saldo
+        stmt = """ SELECT CC.balance
+                    FROM customers as C, creditcard as CC, client_creditcard as CCC
+                    WHERE C.username = '""" + nombre + """' and CCC.customerid = C.customerid and CC.creditcard = CCC.creditcard;
+                """
+
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_sustract_cost(nombre, coste):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Buscamos el saldo
+        stmt = """ UPDATE creditcard as CC
+                    SET balance = balance - """ + str(coste) + """
+                    FROM customers as C, client_creditcard as CCC
+                    WHERE C.username = '""" + nombre + """' and CCC.customerid = C.customerid and CC.creditcard = CCC.creditcard;
+                """
+
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+
+def db_set_paid_order(order_id):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Actualizamos la bbdd
+        stmt = """ UPDATE orders
+                    SET status = 'Paid'
+                    WHERE status is null;
+                """
+
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def delete_null_order():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Actualizamos la bbdd
+        stmt = """ DELETE FROM orders
+                    WHERE status is null;
+                """
+
+        print(stmt)
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
