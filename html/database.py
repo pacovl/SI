@@ -45,11 +45,6 @@ def db_getUserName(name):
         stmt = "select firstname, lastname, email, phone from customers where username = '" + name + "'" # consulta
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -72,11 +67,6 @@ def db_getMovieInfo():
                """
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -97,11 +87,6 @@ def db_getMovieInfoByName(titulo):
                 where P.movieid = M.movieid and P.movieid = G.movieid and movietitle = '""" + titulo + "'"
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -120,11 +105,6 @@ def db_getCategories():
         stmt = """select distinct genre from imdb_moviegenres;
                """
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
         db_conn.close()
@@ -146,11 +126,6 @@ def db_getMoviesWithGenre(genre):
                 where P.movieid = M.movieid and P.movieid = G.movieid  and G.genre = """ + "'" + genre + "'"
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -170,11 +145,6 @@ def db_getMovieById(id_peli):
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid and M.movieid = """ + str(id_peli)
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
         db_conn.close()
@@ -196,11 +166,6 @@ def db_getFilteredMovies(search):
                 where P.movieid = M.movieid and P.movieid = G.movieid and M.movietitle LIKE '%""" + search + "%'"
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -218,11 +183,6 @@ def db_getTopVentas(anno):
 
         stmt = """ select * from getTopVentas(""" + str(anno) + ")"
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
         db_conn.close()
@@ -254,21 +214,11 @@ def db_anadirCarrito(id, customer_id):
         stmt = "insert into orders values (" + str(nextid) + ", current_date, 0, " + str(tax) + ", 0, null)"
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
 
         # creacion orderedbyclient correspondiente
         stmt = "insert into orderedbyclient values (" + str(nextid) + ", " + str(customer_id) + ")"
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
 
@@ -296,18 +246,10 @@ def db_insertOrderDetail(order_id, prod_id, prod_price):
         if (cont == 0): # no hay coincidencias
             stmt = "insert into orderdetail values (" + str(order_id) + ", " + str(prod_id) + ", " + str(prod_price) + ", 1)"
             db_name = sqlalchemy.text(stmt)
-            print('-')
-            print('La consulta realizada es:')
-            print(db_name)
-            print('-')
             db_result = db_conn.execute(db_name)
         else: # hay coincidencias
             stmt = "update orderdetail set quantity = quantity + 1 where orderid = " + str(order_id) + " and prod_id = " + str(prod_id)
             db_name = sqlalchemy.text(stmt)
-            print('-')
-            print('La consulta realizada es:')
-            print(db_name)
-            print('-')
             db_result = db_conn.execute(db_name)
 
         db_conn.close()
@@ -367,11 +309,6 @@ def db_getProdIdFromMovieId(id):
         # Obtencion ultimo id
         stmt = "select prod_id, price from products where movieid = " + str(id)
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
         db_conn.close()
@@ -480,11 +417,6 @@ def getInfoPelisFromOrder(orderid):
                 and O.orderid = """ + str(orderid)
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
@@ -502,7 +434,6 @@ def db_getCartTotalAmount():
 
         stmt = """select totalamount from orders where status is null"""
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -522,28 +453,16 @@ def db_removeMovie(movieid):
         db_conn = db_engine.connect()
 
         # decrementar quantity
-        print('decrementooooooooooooooooo')
         stmt = """update orderdetail as O set quantity = quantity - 1
             from imdb_movies as M, products as P, orders as Os
             where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
                 and Os.status is null and M.movieid = """ + str(movieid)
         db_name = sqlalchemy.text(stmt)
 
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
-
         db_result = db_conn.execute(db_name)
 
-        print('elimino los 0s')
         stmt = """delete from orderdetail where quantity <= 0""" 
         db_name = sqlalchemy.text(stmt)
-
-        print('-')
-        print('La consulta realizada es:')
-        print(db_name)
-        print('-')
 
         db_result = db_conn.execute(db_name)
 
@@ -575,7 +494,6 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
                        (customerid, username, password, email, gender)
                        VALUES (""" + str(next_id) + """, '""" + nombre + """', '""" + password + """', '""" + email + """', '""" + sex + """');
             """
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -593,7 +511,6 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
                        (creditcard, balance)
                        VALUES ('""" + card + """', """ + str(saldo) + """);
             """
-            print(stmt)
             db_name = sqlalchemy.text(stmt)
 
             db_result = db_conn.execute(db_name)
@@ -604,12 +521,10 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
                        (creditcard, customerid)
                        VALUES ('""" + card + """', """ + str(next_id) + """);
             """
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
 
-        print("INSERT SUCCESFUL")
 
         db_conn.close()
 
@@ -629,7 +544,6 @@ def db_check_username(username):
         stmt = """ SELECT COUNT(username)
                    FROM customers
                    WHERE username = '""" + username + """';"""
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -654,7 +568,6 @@ def db_check_creditcard(ccard):
                    WHERE creditcard = '""" + ccard + """';
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -679,7 +592,6 @@ def db_username_get_password(nombre):
                     WHERE username = '""" + nombre + """';
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -704,7 +616,6 @@ def db_get_balance(nombre):
                     WHERE C.username = '""" + nombre + """' and CCC.customerid = C.customerid and CC.creditcard = CCC.creditcard;
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -730,7 +641,6 @@ def db_sustract_cost(nombre, coste):
                     WHERE C.username = '""" + nombre + """' and CCC.customerid = C.customerid and CC.creditcard = CCC.creditcard;
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -756,7 +666,6 @@ def db_set_paid_order():
                     WHERE status is null;
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -780,7 +689,6 @@ def delete_null_order():
                     WHERE status is null;
                 """
 
-        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
