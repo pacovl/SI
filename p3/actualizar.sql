@@ -40,7 +40,7 @@ CREATE TABLE orderedbyclient AS
 
 ALTER TABLE orderedbyclient
 	ADD CONSTRAINT orderedbyclient_pk PRIMARY KEY (orderid, customerid),
-	ADD CONSTRAINT orderedbyclient_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid),
+	ADD CONSTRAINT orderedbyclient_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid) ON DELETE CASCADE,
 	ADD CONSTRAINT orderedbyclient_customerid_fk FOREIGN KEY (customerid) REFERENCES customers(customerid) ON DELETE CASCADE;
 
 -- Eliminamos las columnas que hemos cambiado
@@ -70,6 +70,8 @@ ALTER TABLE customers
     DROP COLUMN creditcardexpiration,
     DROP COLUMN creditcardtype,
     ADD CONSTRAINT unique_name UNIQUE(username);
+    
+DELETE FROM orders WHERE status IS NULL;
 
 ALTER TABLE orders
     DROP COLUMN customerid;
