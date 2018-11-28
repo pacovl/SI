@@ -40,7 +40,7 @@ CREATE TABLE orderedbyclient AS
 
 ALTER TABLE orderedbyclient
 	ADD CONSTRAINT orderedbyclient_pk PRIMARY KEY (orderid, customerid),
-	ADD CONSTRAINT orderedbyclient_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid),
+	ADD CONSTRAINT orderedbyclient_orderid_fk FOREIGN KEY (orderid) REFERENCES orders(orderid) ON DELETE CASCADE,
 	ADD CONSTRAINT orderedbyclient_customerid_fk FOREIGN KEY (customerid) REFERENCES customers(customerid) ON DELETE CASCADE;
 
 -- Eliminamos las columnas que hemos cambiado
@@ -71,5 +71,18 @@ ALTER TABLE customers
     DROP COLUMN creditcardtype,
     ADD CONSTRAINT unique_name UNIQUE(username);
 
+DELETE FROM orders
+WHERE status is null;
+
 ALTER TABLE orders
     DROP COLUMN customerid;
+
+-- Alert table for trigger upd_inventory
+CREATE TABLE alerts (
+    prod_id int,
+    required_stock int
+);
+
+ALTER TABLE alerts
+	ADD CONSTRAINT alerts_pk PRIMARY KEY (prod_id),
+	ADD CONSTRAINT alerts_prod_id_fk FOREIGN KEY (prod_id) REFERENCES products(prod_id) ON DELETE CASCADE;
