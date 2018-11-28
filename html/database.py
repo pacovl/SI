@@ -429,3 +429,109 @@ def db_getIdsCarrito():
         if db_conn is not None:
             db_conn.close()
         return 'Something is broken'
+
+def db_insert_user(nombre, password, email, card, sex, saldo):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtenemos nuevo id
+        stmt = """select max(customerid) as maximo from customers;
+        """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        max_id = (list(db_result))[0]
+
+        next_id = max_id[0]+1
+        # Insertamos en customer
+        stmt = """ INSERT INTO creditcard
+                       (customerid, username, password, email, gender)
+                       VALUES (""" + str(next_id) + """, '""" + nombre + """', '""" + password + """', '""" + email + """', '""" + sex + """');
+            """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        #Insertamos en creditcard si no está insertada
+
+        db_result = this.db_check_creditcard(card)
+
+        db_conn = db_engine.connect()
+
+        if db_result[0][0] == 0:
+            stmt = """ INSERT INTO creditcard
+                       (creditcard, balance)
+                       VALUES ('""" + card + """', """ + str(saldo) + """);
+            """
+            db_name = sqlalchemy.text(stmt)
+
+            db_result = db_conn.execute(db_name)
+        
+        
+
+        #Insertamos en creditcard_client
+        stmt = """ INSERT INTO client_creditcard
+                       (creditcard, customerid)
+                       VALUES ('""" + card + """', """ + str(next_id) + """);
+            """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_check_username(username):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Vemos si está en la BBDD
+        stmt = """ SELECT COUNT(username)
+                   FROM customers
+                   WHERE username = '""" + username + """'"""
+
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_check_creditcard(username):
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Vemos si está en la BBDD
+        stmt = """ SELECT COUNT(creditcard)
+                   FROM customers
+                   WHERE username = '""" + creditcard + """'"""
+
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+
+        db_conn.close()
+
+        return list(db_result)
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'

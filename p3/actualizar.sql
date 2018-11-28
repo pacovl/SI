@@ -10,7 +10,7 @@ CREATE TABLE shipping_address AS
     ORDER BY customerid;
 
 CREATE TABLE creditcard AS
-    SELECT creditcard, creditcardexpiration, creditcardtype
+    SELECT creditcard, creditcardexpiration, creditcardtype, balance
     FROM customers;
 
 -- Añadimos constraints
@@ -28,6 +28,12 @@ ALTER TABLE imdb_actormovies
 CREATE TABLE client_creditcard AS
 	SELECT customerid, creditcard
 	FROM customers;
+
+ALTER TABLE client_creditcard
+    ADD COLUMN balance numeric;
+
+UPDATE TABLE client_creditcard
+SET balance = 200;
 
 ALTER TABLE client_creditcard
 	ADD CONSTRAINT client_creditcard_pk PRIMARY KEY (customerid, creditcard),
@@ -69,6 +75,7 @@ ALTER TABLE customers
     DROP COLUMN creditcard,
     DROP COLUMN creditcardexpiration,
     DROP COLUMN creditcardtype,
+    ALTER COLUMN gender varchar(10),
     ADD CONSTRAINT unique_name UNIQUE(username);
     
 DELETE FROM orders WHERE status IS NULL;

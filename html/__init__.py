@@ -172,22 +172,11 @@ def index():
             sex = request.form['fsex']
             saldo = randint(0, 100)
 
-            # Creamos un dict con los campos de registro
-            dict = {'nombre': nombre, 'password': password,
-                    'email': email, 'card': card, 'sex': sex, 'saldo': saldo}
-            dict_historial = {'compras': []}
-
-            # Comprobamos si existe una carpeta con el mismo nombre
-            dir_name = os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-            if (not os.path.isdir(dir_name)):
-                os.makedirs(dir_name)
-                # Escribimos un archivo json con el usuario
-                with open(dir_name + '/datos.json', 'w+') as outfile:
-                    json.dump(dict, outfile)
-                with open(dir_name + '/historial.json', 'w+') as outfile_historial:
-                    json.dump(dict_historial, outfile_historial)
-            else:
-                return "El usuario ya existe"
+            #Ver si usuario está insertado
+            retorno = database.db_check_username(nombre)
+            #Insertamos el usuario si no está insertado
+            if retorno[0][0] == 0:
+                database.db_insert_user(nombre, password, email, card, sex, saldo)
 
             return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
 
