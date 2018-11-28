@@ -30,6 +30,12 @@ CREATE TABLE client_creditcard AS
 	FROM customers;
 
 ALTER TABLE client_creditcard
+    ADD COLUMN balance numeric;
+
+UPDATE client_creditcard
+SET balance = 200;
+
+ALTER TABLE client_creditcard
 	ADD CONSTRAINT client_creditcard_pk PRIMARY KEY (customerid, creditcard),
 	ADD CONSTRAINT creditcard_customer_fk FOREIGN KEY (customerid) REFERENCES customers(customerid) ON DELETE CASCADE,
 	ADD CONSTRAINT creditcard_addrid_fk FOREIGN KEY (creditcard) REFERENCES creditcard(creditcard);
@@ -69,6 +75,9 @@ ALTER TABLE customers
     DROP COLUMN creditcard,
     DROP COLUMN creditcardexpiration,
     DROP COLUMN creditcardtype,
+    ALTER COLUMN gender TYPE varchar(10),
+    ALTER COLUMN firstname drop not null,
+    ALTER COLUMN lastname drop not null,
     ADD CONSTRAINT unique_name UNIQUE(username);
     
 DELETE FROM orders WHERE status IS NULL;
