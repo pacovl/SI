@@ -57,7 +57,11 @@ Detalles - BigLemon
 <div class="tramitar">
     <a href="{{url_for('tramitar', total=precio)}}">
         <button class="Boton Boton1">
+            {% if precio_imp %}
             Tramitar ( Total: (Base: {{ precio }}) {{ precio_imp }} €)
+            {% else %}
+            Tramitar ( Total: {{ precio }} €)
+            {% endif %}
         </button>
     </a>
 </div>
