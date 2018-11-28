@@ -103,7 +103,7 @@ def procesar_carro():
     return total, pelis_dict
 
 def vaciar_carro():
-    session.pop('carro')
+    #session.pop('carro')
     database.delete_null_order()
 
 # Devuelve un listado de objetos pelicula aleatoriamente obtenidos

@@ -1,1 +1,121 @@
-{"compras": [{"peliculas": {"1": {"cant": 3, "peli": {"director": "Pete Docter", "poster": "imgs/up.jpg", "precio": 10, "anno": 2009, "etiquetas": ["animacion", "infantil"], "actores": [{"nombre": "Edward Asner", "personaje": "Carl Fredricksen"}, {"nombre": "Christopher Plummer", "personaje": "Charles Muntz"}], "titulo": "Up", "id": 1, "desc": "A veces para superar estar viejo y amargado necesitas un ni\u00f1o buscador de gamusinos."}}}, "fecha": "2018-10-31", "coste": 30}, {"peliculas": {"0": {"cant": 2, "peli": {"anno": 2009, "poster": "imgs/avatar.jpg", "precio": 10, "director": "James Cameron", "etiquetas": ["ciencia ficcion", "espacio"], "actores": [{"nombre": "Zoe Saldana", "personaje": "Neytiri"}, {"nombre": "Sam Worthington", "personaje": "Jake Sully"}], "titulo": "Avatar", "id": 0, "desc": "Un se\u00f1or militar se vuelve azul y alucina con un mundo alien\u00edgena."}}, "3": {"cant": 2, "peli": {"anno": 2014, "poster": "imgs/interstellar.jpg", "precio": 10, "director": "Christopher Nolan", "etiquetas": ["espacio", "drama", "aventura"], "actores": [{"nombre": "Ellen Burstyn", "personaje": "Murph (mayor)"}, {"nombre": "Matthew McConaughe", "personaje": "Cooper"}], "titulo": "Interstellar", "id": 3, "desc": "Un grupo de exploradores hacen uso de un orificio reci\u00e9n descubierto para superar las limitaciones de los viajes espaciales humanos y conquistar las vastas distancias relacionadas con los viajes interestelares."}}, "5": {"cant": 1, "peli": {"anno": 1972, "poster": "imgs/padrino.jpg", "precio": 10, "director": "Francis Ford Coppola", "etiquetas": ["drama", "crimen"], "actores": [{"nombre": "Marlon Brando", "personaje": "Don Vito Corleone"}, {"nombre": "Al Pacino", "personaje": "Michael Corleone"}], "titulo": "El padrino", "id": 5, "desc": "Michael Corleone, heredero del imperio de don Vito Corleone, intenta rehabilitarse socialmente y legitimizar todas las posesiones de la familia negociando con el Vaticano. Despu\u00e9s de luchar toda su vida se encuentra cansado y centra todas sus esperanzas en encontrar a un sucesor que se haga cargo de los negocios."}}}, "fecha": "2018-10-31", "coste": 50}]}
+{
+    "compras": [
+        {
+            "peliculas": {
+                "1": {
+                    "cant": 3,
+                    "peli": {
+                        "director": "Pete Docter",
+                        "poster": "imgs/up.jpg",
+                        "precio": 10,
+                        "anno": 2009,
+                        "etiquetas": [
+                            "animacion",
+                            "infantil"
+                        ],
+                        "actores": [
+                            {
+                                "nombre": "Edward Asner",
+                                "personaje": "Carl Fredricksen"
+                            },
+                            {
+                                "nombre": "Christopher Plummer",
+                                "personaje": "Charles Muntz"
+                            }
+                        ],
+                        "titulo": "Up",
+                        "id": 1,
+                        "desc": "A veces para superar estar viejo y amargado necesitas un ni\u00f1o buscador de gamusinos."
+                    }
+                }
+            },
+            "fecha": "2018-10-31",
+            "coste": 30
+        },
+        {
+            "peliculas": {
+                "0": {
+                    "cant": 2,
+                    "peli": {
+                        "anno": 2009,
+                        "poster": "imgs/avatar.jpg",
+                        "precio": 10,
+                        "director": "James Cameron",
+                        "etiquetas": [
+                            "ciencia ficcion",
+                            "espacio"
+                        ],
+                        "actores": [
+                            {
+                                "nombre": "Zoe Saldana",
+                                "personaje": "Neytiri"
+                            },
+                            {
+                                "nombre": "Sam Worthington",
+                                "personaje": "Jake Sully"
+                            }
+                        ],
+                        "titulo": "Avatar",
+                        "id": 0,
+                        "desc": "Un se\u00f1or militar se vuelve azul y alucina con un mundo alien\u00edgena."
+                    }
+                },
+                "3": {
+                    "cant": 2,
+                    "peli": {
+                        "anno": 2014,
+                        "poster": "imgs/interstellar.jpg",
+                        "precio": 10,
+                        "director": "Christopher Nolan",
+                        "etiquetas": [
+                            "espacio",
+                            "drama",
+                            "aventura"
+                        ],
+                        "actores": [
+                            {
+                                "nombre": "Ellen Burstyn",
+                                "personaje": "Murph (mayor)"
+                            },
+                            {
+                                "nombre": "Matthew McConaughe",
+                                "personaje": "Cooper"
+                            }
+                        ],
+                        "titulo": "Interstellar",
+                        "id": 3,
+                        "desc": "Un grupo de exploradores hacen uso de un orificio reci\u00e9n descubierto para superar las limitaciones de los viajes espaciales humanos y conquistar las vastas distancias relacionadas con los viajes interestelares."
+                    }
+                },
+                "5": {
+                    "cant": 1,
+                    "peli": {
+                        "anno": 1972,
+                        "poster": "imgs/padrino.jpg",
+                        "precio": 10,
+                        "director": "Francis Ford Coppola",
+                        "etiquetas": [
+                            "drama",
+                            "crimen"
+                        ],
+                        "actores": [
+                            {
+                                "nombre": "Marlon Brando",
+                                "personaje": "Don Vito Corleone"
+                            },
+                            {
+                                "nombre": "Al Pacino",
+                                "personaje": "Michael Corleone"
+                            }
+                        ],
+                        "titulo": "El padrino",
+                        "id": 5,
+                        "desc": "Michael Corleone, heredero del imperio de don Vito Corleone, intenta rehabilitarse socialmente y legitimizar todas las posesiones de la familia negociando con el Vaticano. Despu\u00e9s de luchar toda su vida se encuentra cansado y centra todas sus esperanzas en encontrar a un sucesor que se haga cargo de los negocios."
+                    }
+                }
+            },
+            "fecha": "2018-10-31",
+            "coste": 50
+        }
+    ]
+}
