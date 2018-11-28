@@ -29,10 +29,10 @@ CREATE TABLE client_creditcard AS
 	SELECT customerid, creditcard
 	FROM customers;
 
-ALTER TABLE client_creditcard
+ALTER TABLE creditcard
     ADD COLUMN balance numeric;
 
-UPDATE client_creditcard
+UPDATE creditcard
 SET balance = 200;
 
 ALTER TABLE client_creditcard
@@ -79,7 +79,7 @@ ALTER TABLE customers
     ALTER COLUMN firstname drop not null,
     ALTER COLUMN lastname drop not null,
     ADD CONSTRAINT unique_name UNIQUE(username);
-    
+
 DELETE FROM orders WHERE status IS NULL;
 
 DELETE FROM orders

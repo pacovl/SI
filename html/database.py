@@ -19,14 +19,14 @@ def db_listOfMovies1949():
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
-        
+
         # Seleccionar las peliculas del anno 1949
         db_movies_1949 = select([db_table_movies]).where("year = '1949'")
         db_result = db_conn.execute(db_movies_1949)
         #db_result = db_conn.execute("Select * from imdb_movies where year = '1949'")
-        
+
         db_conn.close()
-        
+
         return  list(db_result)
     except:
         if db_conn is not None:
@@ -38,7 +38,7 @@ def db_getUserName(name):
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
-        
+
         # Seleccionar las peliculas del anno 1949
         #db_name = select([db_table_customers]).where("username = '" + name + "'")
 
@@ -65,9 +65,9 @@ def db_getMovieInfo():
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
-                where P.movieid = M.movieid and P.movieid = G.movieid  
+                where P.movieid = M.movieid and P.movieid = G.movieid
                """
         db_name = sqlalchemy.text(stmt)
 
@@ -91,7 +91,7 @@ def db_getMovieInfoByName(titulo):
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid and movietitle = '""" + titulo + "'"
         db_name = sqlalchemy.text(stmt)
@@ -115,8 +115,8 @@ def db_getCategories():
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
-        
-        stmt = """select distinct genre from imdb_moviegenres; 
+
+        stmt = """select distinct genre from imdb_moviegenres;
                """
         db_name = sqlalchemy.text(stmt)
 
@@ -139,8 +139,8 @@ def db_getMoviesWithGenre(genre):
         # conexion a la base de datos
         db_conn = None
         db_conn = db_engine.connect()
-        
-        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid  and G.genre = """ + "'" + genre + "'"
         db_name = sqlalchemy.text(stmt)
@@ -165,7 +165,7 @@ def db_getMovieById(id_peli):
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid and M.movieid = """ + str(id_peli)
         db_name = sqlalchemy.text(stmt)
@@ -190,7 +190,7 @@ def db_getFilteredMovies(search):
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero 
+        stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid and M.movietitle LIKE '%""" + search + "%'"
         db_name = sqlalchemy.text(stmt)
@@ -253,7 +253,7 @@ def db_anadirCarrito(id, customer_id):
         stmt = "insert into orders values (" + str(nextid) + ", current_date, 0, " + str(tax) + ", 0, null)"
         db_name = sqlalchemy.text(stmt)
 
-        print('-') 
+        print('-')
         print('La consulta realizada es:')
         print(db_name)
         print('-')
@@ -264,7 +264,7 @@ def db_anadirCarrito(id, customer_id):
         stmt = "insert into orderedbyclient values (" + str(nextid) + ", " + str(customer_id) + ")"
         db_name = sqlalchemy.text(stmt)
 
-        print('-') 
+        print('-')
         print('La consulta realizada es:')
         print(db_name)
         print('-')
@@ -295,15 +295,15 @@ def db_insertOrderDetail(order_id, prod_id, prod_price):
         if (cont == 0): # no hay coincidencias
             stmt = "insert into orderdetail values (" + str(order_id) + ", " + str(prod_id) + ", " + str(prod_price) + ", 1)"
             db_name = sqlalchemy.text(stmt)
-            print('-') 
+            print('-')
             print('La consulta realizada es:')
             print(db_name)
             print('-')
             db_result = db_conn.execute(db_name)
         else: # hay coincidencias
-            stmt = "update orderdetail set quantity = quantity + 1 where orderid = " + str(order_id) + " and prod_id = " + str(prod_id) 
+            stmt = "update orderdetail set quantity = quantity + 1 where orderid = " + str(order_id) + " and prod_id = " + str(prod_id)
             db_name = sqlalchemy.text(stmt)
-            print('-') 
+            print('-')
             print('La consulta realizada es:')
             print(db_name)
             print('-')
@@ -356,7 +356,7 @@ def db_getNumOrdersNull():
             db_conn.close()
         return 'Something is broken'
 
-        
+
 def db_getProdIdFromMovieId(id):
     try:
         # conexion a la base de datos
@@ -367,7 +367,7 @@ def db_getProdIdFromMovieId(id):
         stmt = "select prod_id, price from products where movieid = " + str(id)
         db_name = sqlalchemy.text(stmt)
 
-        print('-') 
+        print('-')
         print('La consulta realizada es:')
         print(db_name)
         print('-')
@@ -381,7 +381,7 @@ def db_getProdIdFromMovieId(id):
             db_conn.close()
         return 'Something is broken'
 
-        
+
 def db_getNullOrder():
     try:
         # conexion a la base de datos
@@ -408,7 +408,7 @@ def db_getIdsCarrito():
         db_conn = db_engine.connect()
 
         # Obtencion ultimo id
-        stmt = """select M.movieid as id, O.quantity 
+        stmt = """select M.movieid as id, O.quantity
                 from imdb_movies as M, products as P, orderdetail as O, orders as Os
                 where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid and Os.status is null
         """
@@ -452,13 +452,13 @@ def db_removeMovie(movieid):
         db_conn = db_engine.connect()
 
         # Obtencion ultimo id
-        stmt = """select O.quantity 
+        stmt = """select O.quantity
                 from imdb_movies as M, products as P, orderdetail as O, orders as Os
                 where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
-                 and Os.status is null and M.movieid = """ + str(movieid) 
+                 and Os.status is null and M.movieid = """ + str(movieid)
         db_name = sqlalchemy.text(stmt)
 
-        print('---> ' + str(movieid)) 
+        print('---> ' + str(movieid))
         print('La consulta realizada es:')
         print(db_name)
         print('-')
@@ -472,7 +472,7 @@ def db_removeMovie(movieid):
             print('a tomar por culo item')
             stmt = """WITH auxiliary as (
                         SELECT O.orderid
-                        FROM imdb_movies as M, products as P, orderdetail as O, orders as Os          
+                        FROM imdb_movies as M, products as P, orderdetail as O, orders as Os
                         WHERE M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
                             and Os.status is null and M.movieid = """ + str(movieid) + " " + """
                       )
@@ -481,7 +481,7 @@ def db_removeMovie(movieid):
             """
             db_name = sqlalchemy.text(stmt)
 
-            print('-') 
+            print('-')
             print('La consulta realizada es:')
             print(db_name)
             print('-')
@@ -492,10 +492,10 @@ def db_removeMovie(movieid):
             stmt = """update orderdetail as O set quantity = quantity - 1
                 from imdb_movies as M, products as P, orders as Os
                 where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid
-                 and Os.status is null and M.movieid = """ + str(movieid) 
+                 and Os.status is null and M.movieid = """ + str(movieid)
             db_name = sqlalchemy.text(stmt)
 
-            print('-') 
+            print('-')
             print('La consulta realizada es:')
             print(db_name)
             print('-')
@@ -531,6 +531,7 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
                        (customerid, username, password, email, gender)
                        VALUES (""" + str(next_id) + """, '""" + nombre + """', '""" + password + """', '""" + email + """', '""" + sex + """');
             """
+        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -543,24 +544,29 @@ def db_insert_user(nombre, password, email, card, sex, saldo):
 
         db_conn = db_engine.connect()
 
+        print("HAHAHAHAHA" + str(db_result[0][0]))
         if db_result[0][0] == 0:
             stmt = """ INSERT INTO creditcard
                        (creditcard, balance)
                        VALUES ('""" + card + """', """ + str(saldo) + """);
             """
+            print(stmt)
             db_name = sqlalchemy.text(stmt)
 
             db_result = db_conn.execute(db_name)
-        
+
 
         #Insertamos en creditcard_client
         stmt = """ INSERT INTO client_creditcard
                        (creditcard, customerid)
                        VALUES ('""" + card + """', """ + str(next_id) + """);
             """
+        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
+
+        print("INSERT SUCCESFUL")
 
         db_conn.close()
 
@@ -576,12 +582,11 @@ def db_check_username(username):
         db_conn = None
         db_conn = db_engine.connect()
 
-        print("HEY HEY HEY")
         # Vemos si está en la BBDD
         stmt = """ SELECT COUNT(username)
                    FROM customers
                    WHERE username = '""" + username + """';"""
-
+        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
@@ -594,7 +599,7 @@ def db_check_username(username):
             db_conn.close()
         return 'Something is broken'
 
-def db_check_creditcard(username):
+def db_check_creditcard(ccard):
     try:
         # conexion a la base de datos
         db_conn = None
@@ -603,9 +608,10 @@ def db_check_creditcard(username):
         # Vemos si está en la BBDD
         stmt = """ SELECT COUNT(creditcard)
                    FROM creditcard
-                   WHERE username = '""" + creditcard + """';"""
+                   WHERE creditcard = '""" + ccard + """';
+                """
 
-
+        print(stmt)
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
