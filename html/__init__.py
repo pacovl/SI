@@ -440,7 +440,8 @@ def historial():
         compra = {
             'peliculas': pelis,
             'fecha': item[1],
-            'coste': item[2]
+            'coste': item[2],
+            'status': item[3]
         }
         compras.append(compra)
 
