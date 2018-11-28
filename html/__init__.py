@@ -48,9 +48,11 @@ def get_top_ventas():
     print(pelis)
     return pelis
 
+topVentas = get_top_ventas()
 # Obtencion de los distintos generos
 categorias = []
 categorias_listado = database.db_getCategories()
+categorias_listado = ["---"] + categorias_listado
 for item in categorias_listado:
     categorias.append(item[0])
 
@@ -160,7 +162,7 @@ def index():
                         session.modified = True
 
                 # Pasamos la lista de peliculas para obtener los datos en seleccion
-                return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
+                return render_template('index.html', seleccion=catalogo["peliculas"], top=topVentas, cats=categorias, user_id=getUserName())
             #return render_template('index.html', seleccion=catalogo["peliculas"], cats=categorias)
 
         if "fnombre" in type:
@@ -179,7 +181,7 @@ def index():
             if retorno[0][0] == 0:
                 database.db_insert_user(nombre, password, email, card, sex, saldo)
 
-            return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
+            return render_template('index.html', seleccion=catalogo["peliculas"], top=topVentas, cats=categorias, user_id=getUserName())
 
         if "buscar" in type:
             search = request.form['buscar']
@@ -197,7 +199,7 @@ def index():
             return render_template('index.html', seleccion=lista_filtrada, cats=categorias, user_id=getUserName())
 
     # Pasamos la lista de peliculas para obtener los datos en seleccion
-    return render_template('index.html', seleccion=catalogo["peliculas"], top=get_top_ventas(), cats=categorias, user_id=getUserName())
+    return render_template('index.html', seleccion=catalogo["peliculas"], top=topVentas, cats=categorias, user_id=getUserName())
 
 
 @app.route('/detalle', methods=['POST', 'GET'])
@@ -404,7 +406,7 @@ def tramitar():
             database.db_set_paid_order()
 
             print('Compra realizada')
-            flash("Has realizado tu compra exitosamente")
+            flash("Tu compra ha sido pagada existosamente")
 
         else:
             flash("No tienes suficiente saldo")

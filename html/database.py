@@ -68,6 +68,7 @@ def db_getMovieInfo():
         stmt = """select distinct on (movietitle) movietitle as titulo, M.movieid as id, year as anno, P.price as precio, G.genre as genero
                 from imdb_movies as M, products as P, imdb_moviegenres as G
                 where P.movieid = M.movieid and P.movieid = G.movieid
+                limit 100
                """
         db_name = sqlalchemy.text(stmt)
 
