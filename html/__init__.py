@@ -465,16 +465,18 @@ def visitas():
 def historial():
     nombre = getUserName()
     #TODO HISTORIAL CON BBDD
-    dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
-    if not nombre == None:
-        with open(dir_name + '/datos.json') as f:
-            datos = json.load(f)
+    # dir_name =  os.path.join(os.path.dirname(__file__), 'usuarios', nombre)
+    # if not nombre == None:
+    #     with open(dir_name + '/datos.json') as f:
+    #         datos = json.load(f)
 
-        with open(dir_name + '/historial.json') as f_historial:
-            historial = json.load(f_historial)
+    #     with open(dir_name + '/historial.json') as f_historial:
+    #         historial = json.load(f_historial)
 
-        saldo = datos['saldo']
-        return(render_template('historico.html', saldo = saldo, compras = historial['compras'], user_id=getUserName()))
+
+
+    saldo = datos['saldo']
+    return(render_template('historico.html', saldo = saldo, compras = historial['compras'], user_id=nombre))
 
 if __name__ == '__main__':
     app.run()
