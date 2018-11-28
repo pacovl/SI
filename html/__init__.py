@@ -403,8 +403,10 @@ def tramitar():
             # Ponemos la compra como pagada
             database.db_set_paid_order()
 
+            insert = database.db_check_alert()
+
             print('Compra realizada')
-            flash("Has realizado tu compra exitosamente")
+            flash("Tu compra ha sido pagada existosamente")
 
         else:
             flash("No tienes suficiente saldo")
