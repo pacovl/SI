@@ -267,8 +267,6 @@ def detalle():
 
     pelicula = request.args.get('pelicula')
 
-    print("entro en detalle")
-
     movies = database.db_getMovieById(pelicula)
     movie = movies[0]
     movie_dict = {
@@ -294,33 +292,36 @@ def adicion():
     #nombre = getUserName()
     nombre = 'alice'
 
-    if nombre == None:
+    if nombre == None: # Sesion no iniciada
         if session.get('carro'):
             session['carro'].append(id_peli)
             session.modified = True
         else:
             session['carro'] = []
             session['carro'].append(id_peli)
-    else: 
+    else: # Sesion iniciada
         num_ = database.db_getNumOrdersNull()
         num = num_[0][0]
-        print('# nulls:')
-        print(num)
+        #print('# nulls:')
+        #print(num)
 
-        if num == 0:
+        if num == 0: # Primera adicion
             customerid = database.db_getUserIdByUsername(nombre)
             customer_id = customerid[0]
             
             order_id = database.db_anadirCarrito(id_peli, customer_id[0])
-        else:
+        else: # El resto
+            order_id = database.db_getNullOrder()[0]
+            #print('El pedido con status null es:')
+            #print(order_id)
         ret = database.db_getProdIdFromMovieId(id_peli)
         prod_id = ret[0]
         prod_price = ret[1]
-        print('prod_id obtenido:')
-        print(prod_id)
-        print(prod_price)
+        #print('prod_id obtenido:')
+        #print(order_id)
+        #print(prod_id)
+        #print(prod_price)
         database.db_insertOrderDetail(order_id, prod_id, prod_price)
-
 
     return redirect(url_for('detalle', pelicula=peli_['id']))
 
@@ -355,29 +356,63 @@ def carrito():
 
             #resp = make_response(render_template('carrito.html', seleccion = catalogo["peliculas"], cats = categorias, user_id = datos_usuario["nombre"]))
 
-    if not session.get('carro'):
-        return render_template('carrito.html', seleccion=None, user_id=getUserName())
-    else:
-        ids = session['carro']
+    #nombre = getUserName()
+    nombre = 'alice'
+    if nombre == None: # sin inicio de sesion
+        if not session.get('carro'):
+            return render_template('carrito.html', seleccion=None, user_id=nombre)
+        else:
+            ids = session['carro']
 
-        total = 0
-        pelis_dict = {}
+            total = 0
+            pelis_dict = {}
 
-        for peli_id in ids:
-            peli = database.db_getMovieById(peli_id)[0]
-            print('peli carrito: ---')
-            print(peli)
-            print(peli['anno'])
-            print(peli['precio'])
+            for peli_id in ids:
+                peli = database.db_getMovieById(peli_id)[0]
+                print('peli carrito: ---')
+                print(peli)
+                print(peli['anno'])
+                print(peli['precio'])
 
-            if peli_id in pelis_dict:
-                pelis_dict[peli_id]["cant"] += 1
-            else:
-                pelis_dict[peli_id] = {"peli": peli, "cant": 1}
+                if peli_id in pelis_dict:
+                    pelis_dict[peli_id]["cant"] += 1
+                else:
+                    pelis_dict[peli_id] = {"peli": peli, "cant": 1}
 
-            total += peli['precio']
+                total += peli['precio']
 
-        return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id=getUserName())
+            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id=nombre)
+
+    else: # usuario logueado
+        if database.db_getNumOrdersNull()[0][0] == 0:
+            return render_template('carrito.html', seleccion=None, user_id=nombre)
+        else:
+            ids_ = database.db_getIdsCarrito()
+            ids = []
+            for item in ids_:
+                print(item)
+                print(item[0])
+                ids.append(item[0])
+
+            total = 0
+            pelis_dict = {}
+
+            for peli_id in ids:
+                peli = database.db_getMovieById(peli_id)[0]
+                print('peli carrito: ---')
+                print(peli)
+                print(peli['anno'])
+                print(peli['precio'])
+
+                if peli_id in pelis_dict:
+                    pelis_dict[peli_id]["cant"] += 1
+                else:
+                    pelis_dict[peli_id] = {"peli": peli, "cant": 1}
+
+                total += peli['precio']
+
+            return render_template('carrito.html', seleccion = pelis_dict, precio = total, user_id=nombre)
+
 
 @app.route('/tramitar', methods=['GET'])
 def tramitar():

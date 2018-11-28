@@ -285,9 +285,15 @@ def db_insertOrderDetail(order_id, prod_id, prod_price):
         db_conn = None
         db_conn = db_engine.connect()
 
-        stmt = "select count(*) from oderdetail where orderid = " + str(order_id) + " and prod_id = " + prod_id + ")"
+        stmt = "select count(*) from orderdetail where orderid = " + str(order_id) + " and prod_id = " + str(prod_id)
         db_name = sqlalchemy.text(stmt)
+
+        print('y aquiiiiiiiiiiiiiiiiiiiiii')
+        print(stmt)
+
         db_result = db_conn.execute(db_name)
+
+        print('aquiiiiiiiiiiiiiiiiiiiiii ya no')
 
         cont = list(db_result)[0][0]
         print('coincide con otro producto (0 no): ')
@@ -302,7 +308,7 @@ def db_insertOrderDetail(order_id, prod_id, prod_price):
             print('-')
             db_result = db_conn.execute(db_name)
         else: # hay coincidencias
-            stmt = "update orders set quantity = quantity + 1 where orderid = " + str(order_id) + " and prod_id = " + str(prod_id) 
+            stmt = "update orderdetail set quantity = quantity + 1 where orderid = " + str(order_id) + " and prod_id = " + str(prod_id) 
             db_name = sqlalchemy.text(stmt)
             print('-') 
             print('La consulta realizada es:')
@@ -365,13 +371,60 @@ def db_getProdIdFromMovieId(id):
         db_conn = db_engine.connect()
 
         # Obtencion ultimo id
-        stmt = "select prod_id, price from products where movieid = " + id + ")"
+        stmt = "select prod_id, price from products where movieid = " + str(id)
+        db_name = sqlalchemy.text(stmt)
+
+        print('-') 
+        print('La consulta realizada es:')
+        print(db_name)
+        print('-')
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)[0]
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+        
+def db_getNullOrder():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = "select orderid from orders where status is null"
         db_name = sqlalchemy.text(stmt)
 
         db_result = db_conn.execute(db_name)
         db_conn.close()
 
         return list(db_result)[0]
+    except:
+        if db_conn is not None:
+            db_conn.close()
+        return 'Something is broken'
+
+def db_getIdsCarrito():
+    try:
+        # conexion a la base de datos
+        db_conn = None
+        db_conn = db_engine.connect()
+
+        # Obtencion ultimo id
+        stmt = """select M.movieid as id 
+                from imdb_movies as M, products as P, orderdetail as O, orders as Os
+                where M.movieid = P.movieid and P.prod_id = O.prod_id and O.orderid = Os.orderid and Os.status is null
+        """
+        db_name = sqlalchemy.text(stmt)
+
+        db_result = db_conn.execute(db_name)
+        db_conn.close()
+
+        return list(db_result)
     except:
         if db_conn is not None:
             db_conn.close()
